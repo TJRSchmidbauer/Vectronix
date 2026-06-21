@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Vectronik – Schaltplandesigner (DIN EN 60617)</title>
+<title>Vectronix – Schaltplandesigner (DIN EN 60617)</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#eef0f2;--panel:#fff;--border:#c8ccd0;--text:#1e1e2e;--accent:#2563eb;--accent-hover:#1d4ed8;--accent-light:#3b82f620;--grid:#d0d0d0;--grid-fine:#eaeaea;--wire:#000;--sel:#3b82f680;--danger:#dc2626;--success:#16a34a}
@@ -82,7 +82,7 @@ body{font-family:Inter,'Segoe UI',system-ui,sans-serif;background:var(--bg);colo
     <button onclick="zoomIn()" title="Vergrößern">+</button>
     <button onclick="saveJSON()" title="Projekt speichern"><svg viewBox="0 0 16 16"><path d="M13 8v5H3V8M8 2v8"/><polyline points="5,7 8,10 11,7"/></svg></button>
     <button onclick="document.getElementById('load-input').click()" title="Projekt laden"><svg viewBox="0 0 16 16"><path d="M13 8v5H3V8M8 10V2"/><polyline points="5,5 8,2 11,5"/></svg></button>
-    <input type="file" id="load-input" accept=".vectronik,.json" style="display:none" onchange="loadJSON(event)">
+    <input type="file" id="load-input" accept=".vectronix,.json" style="display:none" onchange="loadJSON(event)">
   </div>
 </div>
 
@@ -118,7 +118,7 @@ body{font-family:Inter,'Segoe UI',system-ui,sans-serif;background:var(--bg);colo
 
 <div id="statusbar">
   <span><span id="cursor-pos">X: 0  Y: 0</span> | <span id="zoom-level">100%</span> | <span id="mode-info">Auswählen</span></span>
-  <span>Vectronik · DIN EN 60617</span>
+  <span>Vectronix · DIN EN 60617</span>
 </div>
 
 <div id="context-menu" class="context-menu" style="display:none"></div>
@@ -129,7 +129,7 @@ body{font-family:Inter,'Segoe UI',system-ui,sans-serif;background:var(--bg);colo
 
 <script>
 // ============================================================
-// VECTRONIK – Schaltplandesigner nach DIN EN 60617
+// VECTRONIX – Schaltplandesigner nach DIN EN 60617
 // ============================================================
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -1384,8 +1384,8 @@ function exportSVG() {
 
 function exportTikZ() {
   const b = getBounds();
-  let tikz = `% Vectronik – Schaltplan (DIN EN 60617)
-% Erstellt mit Vectronik (schmidbauer.io/vectronik/)
+  let tikz = `% Vectronix – Schaltplan (DIN EN 60617)
+% Erstellt mit Vectronix (schmidbauer.io/vectronix/)
 \\documentclass[border=2mm]{standalone}
 \\usepackage{tikz}
 \\usepackage[EFvoltages,straightvoltages,america]{european}
@@ -1496,7 +1496,7 @@ function saveJSON() {
     junctions: state.junctions,
     counter: state.counter,
   };
-  download(JSON.stringify(data, null, 2), 'schaltplan.vectronik', 'application/json');
+  download(JSON.stringify(data, null, 2), 'schaltplan.vectronix', 'application/json');
   showToast('Projekt gespeichert');
 }
 
@@ -1830,7 +1830,7 @@ function init() {
   toggleGrid();
   pushHistory();
   applyZoom();
-  showToast('Vectronik bereit – Bauteil aus Palette auf Leinwand ziehen');
+  showToast('Vectronix bereit – Bauteil aus Palette auf Leinwand ziehen');
 }
 
 document.addEventListener('DOMContentLoaded', init);

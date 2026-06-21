@@ -1,49 +1,65 @@
-# ⚡ Vectronik – Schaltplandesigner ⚡
+# ⚡ Vectronix – Schaltplandesigner ⚡
 
-Willkommen bei **Vectronik**, dem leichten und webbasierten Editor für Schaltpläne nach der Norm **DIN EN 60617**! 🛠️
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 
-Egal ob für die Schule, das Studium oder private Elektronik-Projekte – mit Vectronik lassen sich professionelle und normgerechte Schaltpläne direkt im Browser zeichnen, speichern und exportieren. 🚀
+Willkommen bei **Vectronix**, dem innovativen, leichten und vollständig webbasierten Editor für elektronische Schaltpläne. Entworfen nach der offiziellen Norm **DIN EN 60617**, ist Vectronix das perfekte Werkzeug für Schule, Studium, Lehre und private Elektronik-Projekte! 🛠️🔌
 
----
-
-## ✨ Features & Vorteile
-
-- **📐 Normgerecht:** Alle Bauteile entsprechen der DIN EN 60617.
-- **🖱️ Intuitive Bedienung:** Bauteile einfach per Drag & Drop auf die Arbeitsfläche ziehen.
-- **🔌 Intelligente Leitungen:** Einfaches Verbinden von Bauteilen und setzen von Knotenpunkten.
-- **💾 Speichern & Laden:** Projekte können lokal als `.vectronik` oder `.json` Datei gespeichert und jederzeit wieder geladen werden.
-- **📤 Export-Möglichkeiten:**
-  - **SVG-Export:** Perfekt für verlustfreie Vektorgrafiken in Präsentationen und Dokumenten.
-  - **LaTeX TikZ-Export:** Direkter Export als TikZ-Code für die nahtlose Integration in wissenschaftliche LaTeX-Dokumente.
-- **⚙️ Nützliche Werkzeuge:**
-  - Einblendbares Raster mit Snap-to-Grid (Einrasten) für saubere Layouts.
-  - Bauteile können rotiert, dupliziert und mit eigenen Labels/Werten versehen werden.
-  - Bereichsauswahl für den passgenauen Export.
-  - Undo/Redo Funktion.
-- **⚡ Komplett im Browser:** Keine Installation notwendig! Es läuft alles clientseitig in einer einzigen HTML-Datei.
+Egal ob Einsteiger oder Profi – mit Vectronix erstellst du im Handumdrehen professionelle Schaltpläne, speicherst deinen Fortschritt und exportierst die Ergebnisse in höchster Qualität. Und das Beste: **Alles läuft lokal in deinem Browser!** 🌍🔒
 
 ---
 
-## 🧩 Enthaltene Bauteile
+## 🚀 Warum Vectronix? (Vorteile)
 
-Vectronik bietet eine breite Palette an vorkonfigurierten Bauteilen:
-
-* **Passiv:** Widerstand, Potentiometer, Kondensator, Elko, Spule
-* **Halbleiter:** Diode, LED
-* **Schalter / Ausgänge:** Schalter, Lampe, Motor
-* **Quellen:** Batterie, Gleich-/Wechselspannungsquelle, Masse
-* **Logik / Sonstige:** Transformator, Operationsverstärker, AND/OR/NOT-Gatter, Messgeräte (V, A)
+* **Keine Installation, keine Cloud-Zwänge:** Lade einfach die `index.html` und leg los! Deine Daten verlassen niemals deinen Rechner. 🛡️
+* **Federleicht & Blitzschnell:** Das gesamte Programm besteht aus einer einzigen, hochoptimierten HTML-Datei. Kein Warten, keine Ladebalken. ⚡
+* **Normgerechtes Design:** Alle Bauteile sind strikt nach der **DIN EN 60617** gestaltet, perfekt für offizielle Dokumente und Abschlussarbeiten. 📐
+* **Wissenschaftlicher Export:** Nahtloser Export nach **LaTeX (TikZ)** und hochauflösendes **SVG**. Deine Dokumente sahen noch nie so gut aus! 🎓
 
 ---
 
-## 🚀 Loslegen
+## ✨ Features im Überblick
 
-Da Vectronik komplett im Browser läuft, musst du lediglich die `index.html` Datei in deinem Lieblingsbrowser öffnen.
-
-1. Lade das Repository herunter oder klone es.
-2. Öffne die `index.html` in deinem Browser (z.B. Chrome, Firefox, Edge).
-3. Leg direkt los und entwerfe deinen ersten Schaltplan! 🎉
+* **🖱️ Intuitive Drag & Drop Oberfläche:** Bauteile einfach aus der Seitenleiste auf die Arbeitsfläche ziehen.
+* **🔌 Intelligentes Leitungs-Routing:** Zeichne blitzschnell Verbindungen. Knotenpunkte werden automatisch und intelligent gesetzt!
+* **⚙️ Präzise Werkzeuge:** 
+  * Einrastendes Raster (Snap-to-Grid) für perfekte Ausrichtung 📏
+  * Bereichsauswahl für passgenauen Export ✂️
+  * Rotation, Duplizieren und individuelle Beschriftung von Bauteilen 🔄
+* **🕰️ Undo & Redo (Strg+Z / Strg+Y):** Fehler gemacht? Kein Problem! Springe einfach in der Zeit zurück.
+* **💾 Lokales Speichern & Laden:** Speichere dein Projekt als `.vectronix` oder `.json` Datei und arbeite später genau dort weiter, wo du aufgehört hast. 📁
 
 ---
 
-Viel Spaß beim Planen und Entwickeln! 💡
+## 🧩 Umfangreiche Bauteil-Bibliothek
+
+Vectronix kommt out-of-the-box mit allen wichtigen Bauteilen:
+
+* 🪫 **Passiv:** Widerstand, Potentiometer, Kondensator, Elko, Spule
+* 💡 **Halbleiter:** Diode, LED
+* 🕹️ **Schalter / Ausgänge:** Schalter, Lampe, Motor
+* 🔋 **Quellen:** Batterie, Gleichspannungsquelle, Wechselspannungsquelle, Masse
+* 🧠 **Logik / Sonstige:** Transformator (mit/ohne Eisenkern), Operationsverstärker, AND/OR/NOT-Gatter, Spannungsmesser (V), Strommesser (A)
+
+---
+
+## 🛠️ Loslegen (Installation & Nutzung)
+
+Es könnte nicht einfacher sein:
+
+1. **Herunterladen:** Lade dieses Repository herunter (als `.zip`) oder klone es via Git. 📦
+2. **Entpacken:** Öffne den Ordner auf deinem PC. 📂
+3. **Starten:** Doppelklick auf die `index.html` – sie öffnet sich in deinem Standardbrowser (Chrome, Firefox, Edge, Safari). 🌐
+4. **Zeichnen:** Wähle links ein Bauteil, platziere es auf der Arbeitsfläche und verbinde die Pins mit dem Leitungs-Werkzeug (Taste `W`)! 🎉
+
+---
+
+## 📤 Export-Möglichkeiten
+
+Perfekte Grafiken für jede Gelegenheit:
+
+* 🖼️ **SVG (Scalable Vector Graphics):** Verlustfreie Skalierung für Präsentationen (PowerPoint, Keynote) und Web.
+* 📜 **LaTeX TikZ:** Direkter Code-Export für deine LaTeX-Dokumente. Perfekt für wissenschaftliche Arbeiten!
+
+---
+
+**Viel Spaß beim Planen, Entwickeln und Konstruieren mit Vectronix!** 💡👨‍💻👩‍💻

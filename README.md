@@ -57,11 +57,34 @@ Es könnte nicht einfacher sein:
 
 ### 🌐 Online nutzen mit GitHub Pages
 
-Vectronix ist eine einzelne statische Datei und läuft direkt auf GitHub Pages:
+Vectronix ist eine einzelne statische Datei (`index.html`) und braucht weder Build noch Server. So bringst du es online:
 
-1. Änderungen in den `main`-Branch mergen.
-2. Im Repository **Settings → Pages → Build and deployment** als Quelle **Deploy from a branch** wählen, Branch `main`, Ordner `/ (root)`.
-3. Nach kurzer Zeit ist die App unter `https://<benutzer>.github.io/<repository>/` erreichbar.
+1. Öffne das Repository auf GitHub und gehe zu **Settings → Pages**.
+2. Wähle unter **Build and deployment → Source** den Eintrag **Deploy from a branch**.
+3. Wähle als Branch **`master`** (der Standard-Branch dieses Repositories) und als Ordner **`/ (root)`**. Klicke auf **Save**.
+4. Warte ein bis zwei Minuten. Oben auf der Pages-Seite erscheint dann der Link – bei diesem Repository:
+   **`https://tjrschmidbauer.github.io/Vectronix/`**
+5. Jede weitere Änderung an `index.html` im Branch `master` wird automatisch neu veröffentlicht.
+
+> 💡 Die Datei `.nojekyll` sorgt dafür, dass GitHub die Seite unverändert ausliefert. Deine Schaltpläne bleiben auch online **lokal in deinem Browser** – nichts wird hochgeladen.
+
+### 🧭 Kurzanleitung: Dein erster Schaltplan
+
+1. **Bauteil platzieren:** Ziehe ein Bauteil aus der linken Palette auf die Zeichenfläche. Oder klicke es an und setze danach mehrere Bauteile per Klick (mit `Esc` beenden).
+2. **Drehen:** Bauteil anklicken und `R` drücken (oder Rechtsklick → *Drehen*).
+3. **Leitungen ziehen:** `W` drücken, Startpunkt klicken, Zielpunkt klicken. Die Leitung rastet automatisch an den Anschlüssen (Pins) der Bauteile ein. Mit `Umschalt` entstehen diagonale Leitungen, mit `Esc` beendest du das Werkzeug.
+4. **Beschriften:** Doppelklick auf ein Bauteil, um Bezeichnung und Wert zu ändern, z. B. `$10\,\mathrm{k}\Omega$`. Die Beschriftung lässt sich separat verschieben.
+5. **Knotenpunkte:** Entstehen automatisch, wenn mindestens drei Leitungsenden zusammentreffen oder sich Leitungen kreuzen. Klicke auf einen Punkt, um ihn als „nicht verbunden“ zu markieren oder zu entfernen.
+6. **Text hinzufügen:** `T` drücken und auf die Fläche klicken.
+7. **Ansicht:** Mausrad zum Zoomen, leere Fläche ziehen zum Verschieben, `F` zeigt den ganzen Plan.
+8. **Speichern:** *Speichern* erzeugt eine `.vectronix`-Datei, *Laden* öffnet sie wieder. Zusätzlich sichert der Browser deinen Stand automatisch.
+9. **Exportieren:** *SVG* oder *TikZ*. Mit dem Werkzeug *Bereich* (`Umschalt+R`) exportierst du nur einen Ausschnitt.
+
+### 🛟 Häufige Fragen
+
+* **Mein Plan ist nach dem Neuladen weg?** Der Autosave nutzt den Browserspeicher. Im privaten Modus oder nach dem Löschen von Websitedaten geht er verloren – sichere wichtige Pläne zusätzlich als Datei.
+* **Die Seite zeigt auf GitHub Pages einen 404-Fehler?** Prüfe, ob in *Settings → Pages* der Branch `master` und `/ (root)` gewählt sind und ob `index.html` im Hauptordner liegt.
+* **Der LaTeX-Export kompiliert nicht?** Du brauchst das Paket `circuitikz`. Kontrolliere Polarität und Symbolgrößen im Ergebnis.
 
 ### ⌨️ Tastenkürzel
 

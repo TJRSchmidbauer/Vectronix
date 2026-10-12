@@ -78,7 +78,7 @@ Vectronix ist eine einzelne statische Datei (`index.html`) und braucht weder Bui
 6. **Text hinzufügen:** `T` drücken und auf die Fläche klicken.
 7. **Ansicht:** Mausrad zum Zoomen, leere Fläche ziehen zum Verschieben, `F` zeigt den ganzen Plan.
 8. **Speichern:** *Speichern* erzeugt eine `.vectronix`-Datei, *Laden* öffnet sie wieder. Zusätzlich sichert der Browser deinen Stand automatisch.
-9. **Exportieren:** *SVG* oder *TikZ*. Mit dem Werkzeug *Bereich* (`Umschalt+R`) exportierst du nur einen Ausschnitt.
+9. **Exportieren:** *SVG* lädt eine Datei herunter, *TikZ* öffnet ein Fenster mit dem LaTeX-Code zum direkten Kopieren (oder Speichern als `.tex`). Mit dem Werkzeug *Bereich* (`Umschalt+R`) exportierst du bei beiden nur den markierten Ausschnitt. Unten links steht jeweils die Signatur „Vectronix by Tobias Schmidbauer“.
 
 ### 🛟 Häufige Fragen
 

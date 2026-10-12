@@ -1359,7 +1359,7 @@ function getBounds() {
     return { x: state.selRect.x - pad, y: state.selRect.y - pad, w: state.selRect.w + pad * 2, h: state.selRect.h + pad * 2 };
   }
   const b = contentBounds(), pad = 16;
-  return { x: b.x - pad, y: b.y - pad, w: b.w + pad * 2, h: b.h + pad * 2 };
+  return { x: b.x - pad, y: b.y - pad, w: b.w + pad * 2, h: b.h + pad * 2 + 14 };
 }
 
 function clearArea() {
@@ -1372,6 +1372,8 @@ window.clearArea = clearArea;
 // ============================================================
 // EXPORT SVG
 // ============================================================
+
+const SIGNATURE = 'Vectronix by Tobias Schmidbauer';
 
 function exportSVG() {
   const b = getBounds();
@@ -1397,6 +1399,7 @@ function exportSVG() {
   }
   for(const l of state.labels) svg += `<g transform="translate(${l.x},${l.y})">${textSVG(l)}</g>\n`;
 
+  svg += `<text x="${r(b.x + 6)}" y="${r(b.y + b.h - 6)}" font-family="'Old Standard TT','Times New Roman',Georgia,serif" font-style="italic" font-size="10" fill="#000">${escapeXml(SIGNATURE)}</text>\n`;
   svg += '</g>\n</svg>\n';
   download(svg, 'schaltplan.svg', 'image/svg+xml');
   showToast('SVG exportiert (' + Math.round(b.w) + '×' + Math.round(b.h) + ' px)');
@@ -1424,7 +1427,9 @@ function exportTikZ() {
   const f = v => +(v / S).toFixed(3);
   const P = p => `(${f(p.x)},${f(-p.y)})`;
   const b = getBounds();
-  const inside = (x, y) => !state.selRect || (x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h);
+  // Objekte, die den Bereich berühren; der Rest wird per \clip abgeschnitten
+  const hits = (x1, y1, x2, y2) => x2 >= b.x && x1 <= b.x + b.w && y2 >= b.y && y1 <= b.y + b.h;
+  const inside = (x, y) => hits(x, y, x, y);
 
   let t = `% Vectronix – Schaltplan (DIN EN 60617)
 % Benötigt das Paket circuitikz. 32 Einheiten der Zeichenfläche = 1 TikZ-Einheit.
@@ -1434,11 +1439,16 @@ function exportTikZ() {
 
 \\begin{document}
 \\begin{circuitikz}[every node/.style={font=\\small}]
+\\useasboundingbox ${P({ x: b.x, y: b.y })} rectangle ${P({ x: b.x + b.w, y: b.y + b.h })};
+\\begin{scope}
+\\clip ${P({ x: b.x, y: b.y })} rectangle ${P({ x: b.x + b.w, y: b.y + b.h })};
 `;
 
   state.components.forEach((c, n) => {
     const def = C[c.type];
-    if(!def || !inside(c.x, c.y)) return;
+    if(!def) return;
+    const r = Math.max(def.w, def.h) / 2 + 4;
+    if(!hits(c.x - r, c.y - r, c.x + r, c.y + r)) return;
     const name = 'c' + n;
     const pw = i => P(pinWorld(c, i));
     const lbl = texText(latexToTexKeep(c.label));
@@ -1478,7 +1488,8 @@ function exportTikZ() {
 
   t += '\n% Leitungen\n';
   for(const w of state.wires) {
-    if(!w.points.some(p => inside(p.x, p.y))) continue;
+    const xs = w.points.map(p => p.x), ys = w.points.map(p => p.y);
+    if(!hits(Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys))) continue;
     t += `\\draw ${w.points.map(P).join(' -- ')};\n`;
   }
 
@@ -1494,10 +1505,39 @@ function exportTikZ() {
     t += `\\node[anchor=south west, align=left] at ${P(l)} {${String(l.text).split('\n').map(texText).join('\\\\')}};\n`;
   }
 
+  t += `\\end{scope}\n`;
+  t += `\\node[anchor=south west, inner sep=2pt, font=\\rmfamily\\itshape\\footnotesize] at ${P({ x: b.x, y: b.y + b.h })} {${SIGNATURE}};\n`;
   t += `\\end{circuitikz}\n\\end{document}\n`;
-  download(t, 'schaltplan.tex', 'text/plain');
-  showToast('LaTeX (circuitikz) exportiert');
+  showTikZDialog(t);
 }
+
+let tikzCode = '';
+
+function showTikZDialog(code) {
+  tikzCode = code;
+  openDialog(`
+    <h2>LaTeX-Code (circuitikz)</h2>
+    <div class="hint" style="margin:0 0 8px">${state.selRect ? 'Exportiert wird der markierte Bereich.' : 'Exportiert wird der gesamte Schaltplan.'} Benötigt das Paket <code>circuitikz</code>.</div>
+    <textarea id="tikz-out" readonly spellcheck="false" style="width:min(760px,80vw);height:min(420px,50vh);font-size:12px;white-space:pre;overflow:auto"></textarea>
+    <div class="btns">
+      <button onclick="downloadTikZ()">Als .tex speichern</button>
+      <button onclick="copyTikZ()" class="primary" id="tikz-copy">📋 Code kopieren</button>
+      <button onclick="closeDialog()">Schließen</button>
+    </div>`);
+  const ta = $('tikz-out');
+  ta.value = code;
+  ta.focus(); ta.select();
+}
+
+function copyTikZ() {
+  const ta = $('tikz-out');
+  const done = () => { $('tikz-copy').textContent = '✔ Kopiert'; showToast('LaTeX-Code kopiert'); };
+  const fallback = () => { ta.focus(); ta.select(); try { document.execCommand('copy') ? done() : showToast('Bitte mit Strg+C kopieren'); } catch(e) { showToast('Bitte mit Strg+C kopieren'); } };
+  if(navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(tikzCode).then(done, fallback);
+  else fallback();
+}
+
+function downloadTikZ() { download(tikzCode, 'schaltplan.tex', 'text/plain'); }
 
 // Beschriftungen wie "R_1" bleiben als Mathe-Text erhalten
 function latexToTexKeep(s) { return /^[A-Za-z]+_\{?\w+\}?$/.test(s) ? '$' + s + '$' : s; }

@@ -73,7 +73,7 @@ body{font-family:Inter,'Segoe UI',system-ui,sans-serif;background:var(--bg);colo
   #toolbar{padding:2px 4px}
   #toolbar .group{padding:0 3px}
   #toolbar small{display:none}
-  #statusbar span:last-child{display:none}
+  #statusbar .sb-brand{display:none}
 }
 </style>
 </head>
@@ -148,7 +148,7 @@ body{font-family:Inter,'Segoe UI',system-ui,sans-serif;background:var(--bg);colo
 
 <div id="statusbar">
   <span><span id="cursor-pos">X: 0  Y: 0</span> | <span id="zoom-level">100%</span> | <span id="mode-info">Auswählen</span></span>
-  <span>Vectronix · DIN EN 60617</span>
+  <span><span class="sb-brand">Vectronix · DIN EN 60617 · </span><a href="https://schmidbauer.jetzt/impressum/" target="_blank" rel="noopener" style="color:inherit">Impressum</a> · <a href="https://schmidbauer.jetzt/datenschutz/" target="_blank" rel="noopener" style="color:inherit">Datenschutz</a></span>
 </div>
 
 <div id="context-menu" class="context-menu" style="display:none"></div>

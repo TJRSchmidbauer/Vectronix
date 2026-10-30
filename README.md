@@ -20,6 +20,7 @@ Egal ob Einsteiger oder Profi – mit Vectronix erstellst du im Handumdrehen pro
 ## ✨ Features im Überblick
 
 * **🖱️ Intuitive Drag & Drop Oberfläche:** Bauteile einfach aus der Seitenleiste auf die Arbeitsfläche ziehen.
+* **📱 Tablet-tauglich:** Große Schaltflächen, Zwei-Finger-Zoom, Bauteil antippen und setzen, Leitungen direkt vom Anschluss ziehen, Aktionsleiste für Bearbeiten, Drehen, Duplizieren und Löschen – ganz ohne Tastatur und Rechtsklick.
 * **🔌 Intelligentes Leitungs-Routing:** Zeichne blitzschnell Verbindungen. Knotenpunkte werden automatisch und intelligent gesetzt!
 * **⚙️ Präzise Werkzeuge:** 
   * Einrastendes Raster (Snap-to-Grid) für perfekte Ausrichtung 📏

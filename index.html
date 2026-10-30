@@ -9,7 +9,7 @@
 <title>Vectronix – Schaltplandesigner (DIN EN 60617)</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#eef0f2;--panel:#fff;--border:#c8ccd0;--text:#1e1e2e;--accent:#2563eb;--accent-hover:#1d4ed8;--accent-light:#3b82f620;--grid:#d0d0d0;--grid-fine:#eaeaea;--sel:#3b82f640;--danger:#dc2626;--tb:40px}
+:root{--bg:#eef0f2;--panel:#fff;--border:#c8ccd0;--text:#1e1e2e;--accent:#2563eb;--accent-hover:#1d4ed8;--accent-light:#3b82f620;--sel:#3b82f640;--danger:#dc2626;--tb:40px}
 @media (pointer:coarse){:root{--tb:46px}}
 html,body{overscroll-behavior:none}
 body{font-family:Inter,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow:hidden;height:100vh;height:100dvh;display:flex;flex-direction:column;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
@@ -42,7 +42,7 @@ button{font-family:inherit;touch-action:manipulation}
 @media (hover:hover){#sidebar .part-btn:hover{background:#f0f4ff;border-color:var(--accent)}}
 #sidebar .part-btn.active{background:#e8efff;border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-light)}
 #sidebar .part-btn svg{display:block;width:48px;height:30px;flex-shrink:0}
-#canvas-wrap{flex:1;overflow:hidden;position:relative;background:var(--bg);min-width:0}
+#canvas-wrap{flex:1;overflow:hidden;position:relative;background:#fff;min-width:0}
 #canvas{display:block;width:100%;height:100%;touch-action:none}
 .floatbar{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:4px;padding:5px;background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 6px 24px #0000001f;z-index:10;max-width:calc(100% - 16px)}
 .floatbar[hidden]{display:none}
@@ -138,15 +138,23 @@ button{font-family:inherit;touch-action:manipulation}
   <div id="canvas-wrap">
     <svg id="canvas" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <pattern id="grid-fine" width="16" height="16" patternUnits="userSpaceOnUse">
-          <path d="M16 0L0 0 0 16" fill="none" stroke="#eaeaea" stroke-width=".5"/>
+        <!-- Karo: Punkte = Einrastpunkte (8), Linien alle 5 Schritte (40) und alle 25 Schritte (200).
+             Die Muster sind um einen halben Abstand versetzt, damit Punkte und Linien nicht am Kachelrand abgeschnitten werden. -->
+        <pattern id="grid-dot" x="-4" y="-4" width="8" height="8" patternUnits="userSpaceOnUse">
+          <circle cx="4" cy="4" r=".9" fill="#a9b3c1"/>
         </pattern>
-        <pattern id="grid-main" width="80" height="80" patternUnits="userSpaceOnUse">
-          <path d="M80 0L0 0 0 80" fill="none" stroke="#d0d0d0" stroke-width=".8"/>
+        <pattern id="grid-minor" x="-20" y="-20" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M20 0V40M0 20H40" fill="none" stroke="#dde3ea" stroke-width="1"/>
+        </pattern>
+        <pattern id="grid-major" x="-100" y="-100" width="200" height="200" patternUnits="userSpaceOnUse">
+          <path d="M100 0V200M0 100H200" fill="none" stroke="#b3bfcd" stroke-width="1"/>
         </pattern>
       </defs>
-      <rect id="grid-bg-fine" fill="url(#grid-fine)"/>
-      <rect id="grid-bg-main" fill="url(#grid-main)"/>
+      <g id="grid-layer" pointer-events="none">
+        <rect id="grid-bg-minor" fill="url(#grid-minor)"/>
+        <rect id="grid-bg-major" fill="url(#grid-major)"/>
+        <rect id="grid-bg-dot" fill="url(#grid-dot)"/>
+      </g>
       <g id="wires-layer"></g>
       <g id="junctions-layer"></g>
       <g id="components-layer"></g>
@@ -220,20 +228,20 @@ const C = {
   },
   capacitor: {
     name: 'Kondensator', prefix: 'C',
-    svg: `<line x1="0" y1="-20" x2="0" y2="-4" stroke="#000" stroke-width="1.0"/>
-      <line x1="0" y1="4" x2="0" y2="20" stroke="#000" stroke-width="1.0"/>
+    svg: `<line x1="0" y1="-24" x2="0" y2="-4" stroke="#000" stroke-width="1.0"/>
+      <line x1="0" y1="4" x2="0" y2="24" stroke="#000" stroke-width="1.0"/>
       <line x1="-16" y1="-4" x2="16" y2="-4" stroke="#000" stroke-width="2.5"/>
       <line x1="-16" y1="4" x2="16" y2="4" stroke="#000" stroke-width="2.5"/>`,
-    pins: [{x:0,y:-20},{x:0,y:20}], w:32, h:40
+    pins: [{x:0,y:-24},{x:0,y:24}], w:32, h:48
   },
   polarized_capacitor: {
     name: 'Elko', prefix: 'C',
-    svg: `<line x1="0" y1="-20" x2="0" y2="-4" stroke="#000" stroke-width="1.0"/>
-      <line x1="0" y1="4" x2="0" y2="20" stroke="#000" stroke-width="1.0"/>
+    svg: `<line x1="0" y1="-24" x2="0" y2="-4" stroke="#000" stroke-width="1.0"/>
+      <line x1="0" y1="4" x2="0" y2="24" stroke="#000" stroke-width="1.0"/>
       <line x1="-16" y1="-4" x2="16" y2="-4" stroke="#000" stroke-width="1.0"/>
       <rect x="-16" y="4" width="32" height="8" fill="#000"/>
       <text class="cap-plus" x="-22" y="-4" font-size="9" fill="#000" text-anchor="middle">+</text>`,
-    pins: [{x:0,y:-20},{x:0,y:20}], w:32, h:40
+    pins: [{x:0,y:-24},{x:0,y:24}], w:32, h:48
   },
   inductor: {
     name: 'Spule', prefix: 'L',
@@ -246,21 +254,21 @@ const C = {
     name: 'Diode', prefix: 'D',
     svg: `<polygon points="20,0 -20,-24 -20,24" fill="none" stroke="#000" stroke-width="1.0"/>
       <line x1="20" y1="-24" x2="20" y2="24" stroke="#000" stroke-width="1.0"/>
-      <line x1="-28" y1="0" x2="-20" y2="0" stroke="#000" stroke-width="1.0"/>
-      <line x1="28" y1="0" x2="20" y2="0" stroke="#000" stroke-width="1.0"/>`,
-    pins: [{x:-28,y:0},{x:28,y:0}], w:56, h:48
+      <line x1="-32" y1="0" x2="-20" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="32" y1="0" x2="20" y2="0" stroke="#000" stroke-width="1.0"/>`,
+    pins: [{x:-32,y:0},{x:32,y:0}], w:64, h:48
   },
   led: {
     name: 'LED', prefix: 'D',
     svg: `<polygon points="20,0 -20,-24 -20,24" fill="none" stroke="#000" stroke-width="1.0"/>
       <line x1="20" y1="-24" x2="20" y2="24" stroke="#000" stroke-width="1.0"/>
-      <line x1="-28" y1="0" x2="-20" y2="0" stroke="#000" stroke-width="1.0"/>
-      <line x1="28" y1="0" x2="20" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="-32" y1="0" x2="-20" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="32" y1="0" x2="20" y2="0" stroke="#000" stroke-width="1.0"/>
       <polygon points="12,-28 4,-28 8,-36" fill="#000"/>
       <line x1="8" y1="-36" x2="8" y2="-44" stroke="#000" stroke-width="1"/>
       <line x1="-4" y1="-32" x2="8" y2="-36" stroke="#000" stroke-width=".8"/>
       <line x1="8" y1="-36" x2="20" y2="-36" stroke="#000" stroke-width=".8"/>`,
-    pins: [{x:-28,y:0},{x:28,y:0}], w:56, h:72
+    pins: [{x:-32,y:0},{x:32,y:0}], w:64, h:72
   },
   fuse: {
     name: 'Sicherung', prefix: 'F',
@@ -275,19 +283,19 @@ const C = {
     name: 'Schalter', prefix: 'S',
     svg: `<line x1="-32" y1="0" x2="-4" y2="0" stroke="#000" stroke-width="1.0"/>
       <line x1="-4" y1="0" x2="28" y2="-24" stroke="#000" stroke-width="1.0"/>
-      <line x1="32" y1="0" x2="44" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="32" y1="0" x2="48" y2="0" stroke="#000" stroke-width="1.0"/>
       <circle cx="32" cy="0" r="3" fill="#000"/>`,
-    pins: [{x:-32,y:0},{x:44,y:0}], w:76, h:48
+    pins: [{x:-32,y:0},{x:48,y:0}], w:80, h:48
   },
   // Sources
   battery: {
     name: 'Batterie', prefix: 'G',
-    svg: `<line x1="0" y1="-28" x2="0" y2="-8" stroke="#000" stroke-width="1.0"/>
-      <line x1="0" y1="8" x2="0" y2="28" stroke="#000" stroke-width="1.0"/>
+    svg: `<line x1="0" y1="-32" x2="0" y2="-8" stroke="#000" stroke-width="1.0"/>
+      <line x1="0" y1="8" x2="0" y2="32" stroke="#000" stroke-width="1.0"/>
       <line x1="-20" y1="-8" x2="20" y2="-8" stroke="#000" stroke-width="1.0"/>
       <line x1="-10" y1="8" x2="10" y2="8" stroke="#000" stroke-width="4.5"/>
       <text class="bat-plus" x="-24" y="-8" font-size="10" fill="#000" text-anchor="middle">+</text>`,
-    pins: [{x:0,y:-28},{x:0,y:28}], w:40, h:56
+    pins: [{x:0,y:-32},{x:0,y:32}], w:40, h:64
   },
   dc_source: {
     name: 'Gleichspannungsquelle', prefix: 'V',
@@ -311,17 +319,17 @@ const C = {
     svg: `<line x1="-24" y1="0" x2="24" y2="0" stroke="#000" stroke-width="2.5"/>
       <line x1="-16" y1="8" x2="16" y2="8" stroke="#000" stroke-width="1.0"/>
       <line x1="-8" y1="16" x2="8" y2="16" stroke="#000" stroke-width="1"/>
-      <line x1="0" y1="-28" x2="0" y2="0" stroke="#000" stroke-width="1.0"/>`,
-    pins: [{x:0,y:-28}], w:48, h:44
+      <line x1="0" y1="-32" x2="0" y2="0" stroke="#000" stroke-width="1.0"/>`,
+    pins: [{x:0,y:-32}], w:48, h:48
   },
   lamp: {
     name: 'Lampe', prefix: 'H',
     svg: `<circle cx="0" cy="0" r="20" fill="none" stroke="#000" stroke-width="1.0"/>
       <line x1="-14" y1="-14" x2="14" y2="14" stroke="#000" stroke-width="1.3"/>
       <line x1="14" y1="-14" x2="-14" y2="14" stroke="#000" stroke-width="1.3"/>
-      <line x1="-28" y1="0" x2="-20" y2="0" stroke="#000" stroke-width="1.0"/>
-      <line x1="20" y1="0" x2="28" y2="0" stroke="#000" stroke-width="1.0"/>`,
-    pins: [{x:-28,y:0},{x:28,y:0}], w:56, h:40
+      <line x1="-32" y1="0" x2="-20" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="20" y1="0" x2="32" y2="0" stroke="#000" stroke-width="1.0"/>`,
+    pins: [{x:-32,y:0},{x:32,y:0}], w:64, h:40
   },
   motor: {
     name: 'Motor', prefix: 'M',
@@ -333,25 +341,25 @@ const C = {
   },
   transformer: {
     name: 'Trafo mit Eisenkern', prefix: 'T',
-    svg: `<path d="M-20-14 Q-8-14 -20-4 Q-8-4 -20 6 Q-8 6 -20 16" fill="none" stroke="#000" stroke-width="1.3"/>
-      <path d="M 20-14 Q 8-14 20-4 Q 8-4 20 6 Q 8 6 20 16" fill="none" stroke="#000" stroke-width="1.3"/>
-      <line x1="-36" y1="-14" x2="-20" y2="-14" stroke="#000" stroke-width="1.0"/>
-      <line x1="-20" y1="16" x2="-36" y2="16" stroke="#000" stroke-width="1.0"/>
-      <line x1="36" y1="-14" x2="20" y2="-14" stroke="#000" stroke-width="1.0"/>
-      <line x1="20" y1="16" x2="36" y2="16" stroke="#000" stroke-width="1.0"/>
-      <line x1="-5" y1="-2" x2="5" y2="-2" stroke="#000" stroke-width="2.5"/>
-      <line x1="-5" y1="4" x2="5" y2="4" stroke="#000" stroke-width="2.5"/>`,
-    pins: [{x:-36,y:-14},{x:-36,y:16},{x:36,y:-14},{x:36,y:16}], w:72, h:40
+    svg: `<path d="M-20-16 Q-8-16 -20-5.33 Q-8-5.33 -20 5.33 Q-8 5.33 -20 16" fill="none" stroke="#000" stroke-width="1.3"/>
+      <path d="M 20-16 Q 8-16 20-5.33 Q 8-5.33 20 5.33 Q 8 5.33 20 16" fill="none" stroke="#000" stroke-width="1.3"/>
+      <line x1="-40" y1="-16" x2="-20" y2="-16" stroke="#000" stroke-width="1.0"/>
+      <line x1="-20" y1="16" x2="-40" y2="16" stroke="#000" stroke-width="1.0"/>
+      <line x1="40" y1="-16" x2="20" y2="-16" stroke="#000" stroke-width="1.0"/>
+      <line x1="20" y1="16" x2="40" y2="16" stroke="#000" stroke-width="1.0"/>
+      <line x1="-5" y1="-3" x2="5" y2="-3" stroke="#000" stroke-width="2.5"/>
+      <line x1="-5" y1="3" x2="5" y2="3" stroke="#000" stroke-width="2.5"/>`,
+    pins: [{x:-40,y:-16},{x:-40,y:16},{x:40,y:-16},{x:40,y:16}], w:80, h:40
   },
   transformer_air: {
     name: 'Trafo ohne Eisenkern', prefix: 'T',
-    svg: `<path d="M-20-14 Q-8-14 -20-4 Q-8-4 -20 6 Q-8 6 -20 16" fill="none" stroke="#000" stroke-width="1.3"/>
-      <path d="M 20-14 Q 8-14 20-4 Q 8-4 20 6 Q 8 6 20 16" fill="none" stroke="#000" stroke-width="1.3"/>
-      <line x1="-36" y1="-14" x2="-20" y2="-14" stroke="#000" stroke-width="1.0"/>
-      <line x1="-20" y1="16" x2="-36" y2="16" stroke="#000" stroke-width="1.0"/>
-      <line x1="36" y1="-14" x2="20" y2="-14" stroke="#000" stroke-width="1.0"/>
-      <line x1="20" y1="16" x2="36" y2="16" stroke="#000" stroke-width="1.0"/>`,
-    pins: [{x:-36,y:-14},{x:-36,y:16},{x:36,y:-14},{x:36,y:16}], w:72, h:40
+    svg: `<path d="M-20-16 Q-8-16 -20-5.33 Q-8-5.33 -20 5.33 Q-8 5.33 -20 16" fill="none" stroke="#000" stroke-width="1.3"/>
+      <path d="M 20-16 Q 8-16 20-5.33 Q 8-5.33 20 5.33 Q 8 5.33 20 16" fill="none" stroke="#000" stroke-width="1.3"/>
+      <line x1="-40" y1="-16" x2="-20" y2="-16" stroke="#000" stroke-width="1.0"/>
+      <line x1="-20" y1="16" x2="-40" y2="16" stroke="#000" stroke-width="1.0"/>
+      <line x1="40" y1="-16" x2="20" y2="-16" stroke="#000" stroke-width="1.0"/>
+      <line x1="20" y1="16" x2="40" y2="16" stroke="#000" stroke-width="1.0"/>`,
+    pins: [{x:-40,y:-16},{x:-40,y:16},{x:40,y:-16},{x:40,y:16}], w:80, h:40
   },
   meter: {
     name: 'Spannungsmesser', prefix: 'P',
@@ -373,31 +381,31 @@ const C = {
   opamp: {
     name: 'Operationsverstärker', prefix: 'IC',
     svg: `<polygon points="-40,-32 24,0 -40,32" fill="none" stroke="#000" stroke-width="1.0"/>
-      <line x1="-40" y1="-16" x2="-52" y2="-16" stroke="#000" stroke-width="1.0"/>
-      <line x1="-40" y1="16" x2="-52" y2="16" stroke="#000" stroke-width="1.0"/>
-      <line x1="24" y1="0" x2="36" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="-40" y1="-16" x2="-56" y2="-16" stroke="#000" stroke-width="1.0"/>
+      <line x1="-40" y1="16" x2="-56" y2="16" stroke="#000" stroke-width="1.0"/>
+      <line x1="24" y1="0" x2="40" y2="0" stroke="#000" stroke-width="1.0"/>
       <text x="-33" y="-16" font-size="10" fill="#000" text-anchor="middle" dominant-baseline="middle">+</text>
       <text x="-33" y="16" font-size="10" fill="#000" text-anchor="middle" dominant-baseline="middle">−</text>`,
-    pins: [{x:-52,y:-16},{x:-52,y:16},{x:36,y:0}], w:88, h:64
+    pins: [{x:-56,y:-16},{x:-56,y:16},{x:40,y:0}], w:96, h:64
   },
   // Logic gates
   and_gate: {
     name: 'AND-Gatter', prefix: 'IC',
     svg: `<rect x="-24" y="-24" width="48" height="48" rx="3" fill="none" stroke="#000" stroke-width="1.0"/>
       <text x="0" y="6" font-size="20" fill="#000" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-weight="bold">&amp;</text>
-      <line x1="-24" y1="-12" x2="-40" y2="-12" stroke="#000" stroke-width="1.0"/>
-      <line x1="-24" y1="12" x2="-40" y2="12" stroke="#000" stroke-width="1.0"/>
+      <line x1="-24" y1="-16" x2="-40" y2="-16" stroke="#000" stroke-width="1.0"/>
+      <line x1="-24" y1="16" x2="-40" y2="16" stroke="#000" stroke-width="1.0"/>
       <line x1="24" y1="0" x2="40" y2="0" stroke="#000" stroke-width="1.0"/>`,
-    pins: [{x:-40,y:-12},{x:-40,y:12},{x:40,y:0}], w:80, h:48
+    pins: [{x:-40,y:-16},{x:-40,y:16},{x:40,y:0}], w:80, h:48
   },
   or_gate: {
     name: 'OR-Gatter', prefix: 'IC',
     svg: `<rect x="-24" y="-24" width="48" height="48" rx="3" fill="none" stroke="#000" stroke-width="1.0"/>
       <text x="0" y="6" font-size="18" fill="#000" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-weight="bold">≥1</text>
-      <line x1="-24" y1="-12" x2="-40" y2="-12" stroke="#000" stroke-width="1.0"/>
-      <line x1="-24" y1="12" x2="-40" y2="12" stroke="#000" stroke-width="1.0"/>
+      <line x1="-24" y1="-16" x2="-40" y2="-16" stroke="#000" stroke-width="1.0"/>
+      <line x1="-24" y1="16" x2="-40" y2="16" stroke="#000" stroke-width="1.0"/>
       <line x1="24" y1="0" x2="40" y2="0" stroke="#000" stroke-width="1.0"/>`,
-    pins: [{x:-40,y:-12},{x:-40,y:12},{x:40,y:0}], w:80, h:48
+    pins: [{x:-40,y:-16},{x:-40,y:16},{x:40,y:0}], w:80, h:48
   },
   not_gate: {
     name: 'NOT-Gatter', prefix: 'IC',
@@ -509,11 +517,12 @@ function applyView() {
   const v = state.view;
   const vw = w / v.k, vh = h / v.k;
   canvas.setAttribute('viewBox', `${v.x} ${v.y} ${vw} ${vh}`);
-  for(const id of ['grid-bg-fine', 'grid-bg-main']) {
+  for(const id of ['grid-bg-minor', 'grid-bg-major', 'grid-bg-dot']) {
     const r = $(id);
     r.setAttribute('x', v.x); r.setAttribute('y', v.y);
     r.setAttribute('width', vw); r.setAttribute('height', vh);
   }
+  updateGridDetail();
   $('zoom-level').textContent = Math.round(v.k * 100) + '%';
 }
 
@@ -692,8 +701,17 @@ function getWirePoint(e) {
 // ============================================================
 
 function applyGrid() {
-  $('grid-bg-fine').style.display = state.grid ? '' : 'none';
-  $('grid-bg-main').style.display = state.grid ? '' : 'none';
+  $('grid-layer').style.display = state.grid ? '' : 'none';
+}
+
+// Linien bleiben unabhängig vom Zoom 1 px breit; zu dichte Ebenen werden ausgeblendet,
+// damit das Karo beim Herauszoomen nicht zu einer grauen Fläche verschwimmt.
+function updateGridDetail() {
+  const k = state.view.k, px = 1 / k;
+  $('grid-bg-dot').style.display = 8 * k >= 7.5 ? '' : 'none';
+  $('grid-bg-minor').style.display = 40 * k >= 14 ? '' : 'none';
+  document.querySelector('#grid-dot circle').setAttribute('r', Math.min(1.6, 1.1 * px));
+  document.querySelectorAll('#grid-minor path, #grid-major path').forEach(p => p.setAttribute('stroke-width', px));
 }
 function toggleGrid() { state.grid = !state.grid; applyGrid(); }
 
@@ -1499,6 +1517,7 @@ function showHelp() {
       <tr><td><b>Verschieben</b></td><td>Bauteil ziehen (Leitungen folgen), Beschriftung separat ziehen, Eckpunkt einer gewählten Leitung ziehen</td></tr>
       <tr><td><b>Bearbeiten</b></td><td>Antippen wählt aus, die Leiste unten bietet Bearbeiten, Drehen, Duplizieren, Löschen. Doppeltippen/Doppelklick öffnet direkt den Dialog.</td></tr>
       <tr><td><b>Ansicht</b></td><td>Tablet: mit zwei Fingern verschieben und zoomen, leere Fläche mit einem Finger verschieben. Maus: Rad zoomt, leere Fläche ziehen verschiebt.</td></tr>
+      <tr><td><b>Raster</b></td><td>Jeder Punkt ist ein Einrastpunkt (8 Einheiten); feine Linien alle 5, kräftige alle 25 Punkte. Alle Anschlüsse liegen auf Rasterpunkten, so werden Leitungen gerade. Ein-/ausblenden im Menü „Datei“.</td></tr>
       <tr><td><b>Knoten</b></td><td>Entstehen automatisch; Antippen eines Knotens: als „nicht verbunden“ markieren oder entfernen</td></tr>
       <tr><td><b>Tastatur</b></td><td><kbd>V</kbd> Auswahl · <kbd>W</kbd> Leitung · <kbd>T</kbd> Text · <kbd>R</kbd> drehen · <kbd>Entf</kbd> löschen · <kbd>Strg+D</kbd> duplizieren · <kbd>Strg+Z</kbd>/<kbd>Strg+Y</kbd> Undo/Redo · <kbd>Strg+S</kbd> speichern · <kbd>Strg+O</kbd> laden · <kbd>+</kbd> <kbd>−</kbd> <kbd>0</kbd> <kbd>F</kbd> Zoom · <kbd>Esc</kbd> beenden</td></tr>
       <tr><td><b>Export</b></td><td>Menü „Export“: SVG und LaTeX (circuitikz). Mit „Export-Bereich wählen“ wird nur der markierte Ausschnitt exportiert.</td></tr>
@@ -1835,7 +1854,7 @@ function latexToTexKeep(s) { return /^[A-Za-z]+_\{?\w+\}?$/.test(s) ? '$' + s + 
 
 function projectData() {
   return {
-    version: 3,
+    version: 4,
     components: state.components,
     wires: state.wires.map(w => ({ id: w.id, points: w.points })),
     labels: state.labels,
@@ -1852,6 +1871,31 @@ function saveJSON() {
 const num = v => typeof v === 'number' && isFinite(v);
 
 // Setzt den kompletten Zustand aus Daten (Laden, Undo/Redo, Autosave)
+// Bis Version 3 lagen einige Anschlüsse zwischen den Rasterpunkten. Leitungsenden, die an
+// einem alten Anschluss hingen, wandern auf die neue Position im 8er-Raster.
+const OLD_PINS = {
+  capacitor: [[0,-20],[0,20]], polarized_capacitor: [[0,-20],[0,20]],
+  diode: [[-28,0],[28,0]], led: [[-28,0],[28,0]], lamp: [[-28,0],[28,0]],
+  switch: [[-32,0],[44,0]], battery: [[0,-28],[0,28]], gnd: [[0,-28]],
+  transformer: [[-36,-14],[-36,16],[36,-14],[36,16]], transformer_air: [[-36,-14],[-36,16],[36,-14],[36,16]],
+  opamp: [[-52,-16],[-52,16],[36,0]], and_gate: [[-40,-12],[-40,12],[40,0]], or_gate: [[-40,-12],[-40,12],[40,0]],
+};
+
+function migratePins() {
+  for(const c of state.components) {
+    const old = OLD_PINS[c.type];
+    if(!old) continue;
+    old.forEach(([x, y], i) => {
+      const r = rot(x, y, c.angle), from = { x: c.x + r.x, y: c.y + r.y }, to = pinWorld(c, i);
+      for(const w of state.wires)
+        w.points.forEach((p, idx) => {
+          if((idx === 0 || idx === w.points.length - 1) && Math.abs(p.x - from.x) <= 2 && Math.abs(p.y - from.y) <= 2)
+            moveWirePoint(w, idx, to.x, to.y);
+        });
+    });
+  }
+}
+
 function loadData(data) {
   clearAll();
   for(const c of (data.components || [])) {
@@ -1880,6 +1924,7 @@ function loadData(data) {
     const m = /^([A-Z]+)(\d+)$/.exec(c.label);
     if(m && (state.counter[m[1]] || 0) < +m[2]) state.counter[m[1]] = +m[2];
   }
+  if(!(data.version >= 4)) migratePins();
   state.components.forEach(renderComp);
   state.wires.forEach(renderWire);
   state.labels.forEach(renderText);

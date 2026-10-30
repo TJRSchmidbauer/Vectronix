@@ -307,11 +307,22 @@ const C = {
       <line x1="28" y1="0" x2="40" y2="0" stroke="#000" stroke-width="1.0"/>`,
     pins: [{x:-40,y:0},{x:40,y:0}], w:80, h:56
   },
+  // Typ-Schlüssel „gnd“ bleibt für gespeicherte Projekte erhalten
   gnd: {
-    name: 'Masse', prefix: 'E',
+    name: 'Erde', prefix: 'E',
     svg: `<line x1="-24" y1="0" x2="24" y2="0" stroke="#000" stroke-width="1.2"/>
       <line x1="-16" y1="8" x2="16" y2="8" stroke="#000" stroke-width="1.2"/>
       <line x1="-8" y1="16" x2="8" y2="16" stroke="#000" stroke-width="1.2"/>
+      <line x1="0" y1="-32" x2="0" y2="0" stroke="#000" stroke-width="1.0"/>`,
+    pins: [{x:0,y:-32}], w:48, h:48
+  },
+  // Masse (Gehäuse, Chassis): Strich mit Schraffur
+  chassis: {
+    name: 'Masse', prefix: 'E',
+    svg: `<line x1="-20" y1="0" x2="20" y2="0" stroke="#000" stroke-width="1.2"/>
+      <line x1="-12" y1="0" x2="-20" y2="10" stroke="#000" stroke-width="1.0"/>
+      <line x1="2" y1="0" x2="-6" y2="10" stroke="#000" stroke-width="1.0"/>
+      <line x1="16" y1="0" x2="8" y2="10" stroke="#000" stroke-width="1.0"/>
       <line x1="0" y1="-32" x2="0" y2="0" stroke="#000" stroke-width="1.0"/>`,
     pins: [{x:0,y:-32}], w:48, h:48
   },
@@ -835,7 +846,7 @@ function initPalette() {
     'parts-passive': ['resistor','potentiometer','capacitor','polarized_capacitor','inductor','fuse'],
     'parts-semi': ['diode','led'],
     'parts-switch': ['switch','lamp','motor'],
-    'parts-source': ['battery','dc_source','ac_source','gnd'],
+    'parts-source': ['battery','dc_source','ac_source','gnd','chassis'],
     'parts-other': ['transformer','transformer_air','meter','ammeter','opamp','and_gate','or_gate','not_gate'],
   };
   // Weiche Trennstellen für lange Namen in der schmalen Palette
@@ -1769,6 +1780,8 @@ function exportTikZ() {
         t += `\\draw ${pw(0)} to[pR, ${opts}, name=${name}] ${pw(1)};\n\\draw (${name}.wiper) -- ${pw(2)};\n`; break;
       case 'gnd':
         t += `\\node[ground${rotOpt}] at ${pw(0)} {};\n`; break;
+      case 'chassis':
+        t += `\\node[cground${rotOpt}] at ${pw(0)} {};\n`; break;
       case 'motor':
         t += `\\node[draw, circle, inner sep=2pt, minimum size=1.5cm] (${name}) at ${center} {M};\n\\draw ${pw(0)} -- (${name}) ${pw(1)} -- (${name});\n${labelNode}\n`; break;
       case 'transformer':

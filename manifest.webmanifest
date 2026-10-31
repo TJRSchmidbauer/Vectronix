@@ -1,0 +1,17 @@
+{
+  "name": "Vectronix – Schaltplandesigner",
+  "short_name": "Vectronix",
+  "description": "Schaltpläne nach DIN EN 60617 zeichnen, simulieren und exportieren – komplett lokal im Browser.",
+  "lang": "de",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

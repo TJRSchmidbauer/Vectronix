@@ -19,31 +19,38 @@ Egal ob Einsteiger oder Profi – mit Vectronix erstellst du im Handumdrehen pro
 
 ## ✨ Features im Überblick
 
-* **🖱️ Intuitive Drag & Drop Oberfläche:** Bauteile einfach aus der Seitenleiste auf die Arbeitsfläche ziehen.
 * **📱 Tablet-tauglich:** Große Schaltflächen, Zwei-Finger-Zoom, Bauteil antippen und setzen, Leitungen direkt vom Anschluss ziehen, Aktionsleiste für Bearbeiten, Drehen, Duplizieren und Löschen – ganz ohne Tastatur und Rechtsklick.
-* **🔌 Intelligentes Leitungs-Routing:** Zeichne blitzschnell Verbindungen. Knotenpunkte werden automatisch und intelligent gesetzt!
-* **⚙️ Präzise Werkzeuge:** 
-  * Einrastendes Raster (Snap-to-Grid) für perfekte Ausrichtung 📏
-  * Bereichsauswahl für passgenauen Export ✂️
-  * Rotation, Duplizieren und individuelle Beschriftung von Bauteilen 🔄
-* **🕰️ Undo & Redo (Strg+Z / Strg+Y):** Fehler gemacht? Kein Problem! Springe einfach in der Zeit zurück.
-* **🔍 Zoom & Verschieben:** Mausrad zoomt am Mauszeiger, leere Fläche ziehen verschiebt die Ansicht, `F` zeigt alles an.
-* **🧲 Pin-Magnet:** Leitungen rasten automatisch an Bauteil-Anschlüssen ein; beim Verschieben/Drehen folgen die Leitungen.
-* **📱 Touch-Unterstützung:** Bedienbar mit Maus, Stift und Touchscreen.
-* **💾 Autosave:** Der Arbeitsstand wird automatisch im Browser gesichert und beim nächsten Öffnen wiederhergestellt.
-* **💾 Lokales Speichern & Laden:** Speichere dein Projekt als `.vectronix` oder `.json` Datei und arbeite später genau dort weiter, wo du aufgehört hast. 📁
+* **🔌 Leitungen & Knoten:** Leitungen rasten an Anschlüssen ein, alle Anschlüsse liegen im 8er-Raster, Knotenpunkte entstehen automatisch.
+* **🔲 Mehrfachauswahl:** Werkzeug *Rahmen* (oder `Umschalt` + Ziehen) wählt ganze Schaltungsteile aus – gemeinsam verschieben, drehen, duplizieren, kopieren und einfügen (auch zwischen Projekten).
+* **📚 Vorlagen:** Reihen-, Parallel- und Wechselschaltung, Spannungsteiler, RC-Glied, Einweggleichrichter, Transistor als Schalter.
+* **➡️ Zählpfeile:** Spannungs- und Strompfeil mit Beschriftung wie `U_1` → U₁.
+* **📝 Arbeitsblatt-Modus:** Bauteile oder Leitungen als *Lücke* markieren. Export *Aufgabe* zeigt leere Kästen, *Lösung* die vollständige Schaltung.
+* **⚡ Simulation (Gleichstrom):** Lampen leuchten, LEDs glühen, Spannungs- und Strommesser zeigen Werte. Schalter, Taster, Fotowiderstand (hell/dunkel) und Heißleiter (kalt/warm) lassen sich antippen. Warnungen bei Kurzschluss, überlasteter LED und ausgelöster Sicherung.
+* **🖼️ Export:** PNG mit Druckauflösung (150/300/600 dpi, von Word korrekt erkannt), *Als Bild kopieren* zum direkten Einfügen, SVG und LaTeX (circuitikz). Signatur abschaltbar.
+* **🔗 Teilen per Link & QR-Code:** Die ganze Schaltung steckt im Link – nichts wird hochgeladen. Den QR-Code per Beamer zeigen, die Klasse öffnet die Schaltung auf ihren Tablets.
+* **📲 Als App installierbar:** Auf dem iPad *Zum Home-Bildschirm*, in Chrome/Edge über *Installieren*. Danach läuft Vectronix auch ohne Internet.
+* **🕰️ Undo & Redo, Autosave, Speichern & Laden** als `.vectronix`-Datei.
 
 ---
 
 ## 🧩 Umfangreiche Bauteil-Bibliothek
 
-Vectronix kommt out-of-the-box mit allen wichtigen Bauteilen:
+* 🔋 **Quellen:** Batterie, Gleichspannungsquelle, Netzgerät, Wechselspannungsquelle, Solarzelle, Erde, Masse
+* 🕹️ **Schalter:** Schalter, Taster, Wechselschalter, Relais
+* 💡 **Verbraucher:** Lampe, Motor, Klingel, Lautsprecher
+* 🪫 **Passiv:** Widerstand, Potentiometer, Fotowiderstand (LDR), Heißleiter (NTC), Kondensator, Elko, Spule, Spule mit Eisenkern, Sicherung
+* 🔬 **Halbleiter:** Diode, LED, Z-Diode, Transistor npn/pnp
+* 📏 **Messen & Pfeile:** Spannungsmesser, Strommesser, Spannungspfeil, Strompfeil
+* 🧠 **Sonstige:** Transformator (mit/ohne Eisenkern), Operationsverstärker, UND/ODER/NICHT-Gatter
 
-* 🪫 **Passiv:** Widerstand, Potentiometer, Kondensator, Elko, Spule, Sicherung
-* 💡 **Halbleiter:** Diode, LED
-* 🕹️ **Schalter / Ausgänge:** Schalter, Lampe, Motor
-* 🔋 **Quellen:** Batterie, Gleichspannungsquelle, Wechselspannungsquelle, Masse
-* 🧠 **Logik / Sonstige:** Transformator (mit/ohne Eisenkern), Operationsverstärker, AND/OR/NOT-Gatter, Spannungsmesser (V), Strommesser (A)
+---
+
+## 🍎 Für Lehrkräfte
+
+* **Arbeitsblatt in zwei Minuten:** Vorlage öffnen → Werte eintragen (Doppeltippen) → einzelne Bauteile als *Lücke* markieren → *Export* → PNG, Fassung *Aufgabe* und danach *Lösung*. Oder *Als Bild kopieren* und direkt in Word einfügen.
+* **Im Unterricht:** *Simulieren* starten und Schalter live umlegen. Mit *Export → Teilen* einen QR-Code an die Wand werfen; die Klasse arbeitet mit einer eigenen Kopie weiter.
+* **In mebis oder einer anderen Lernplattform:** Den Teilen-Link als *Link/URL* im Kurs anlegen. Wer ihn öffnet, bekommt genau diese Schaltung. Ohne Link genügt die Adresse `https://tjrschmidbauer.github.io/Vectronix/`.
+* **Datenschutz:** Keine Anmeldung, keine Cookies, kein Server. Schaltungen bleiben im Browser oder im Link.
 
 ---
 
@@ -58,28 +65,25 @@ Es könnte nicht einfacher sein:
 
 ### 🌐 Online nutzen mit GitHub Pages
 
-Vectronix ist eine einzelne statische Datei (`index.html`) und braucht weder Build noch Server. So bringst du es online:
+Vectronix besteht aus statischen Dateien (`index.html`, dazu `manifest.webmanifest`, `sw.js` und Icons für die App-Installation) und braucht weder Build noch Server. `index.html` funktioniert auch allein. So bringst du es online:
 
 1. Öffne das Repository auf GitHub und gehe zu **Settings → Pages**.
 2. Wähle unter **Build and deployment → Source** den Eintrag **Deploy from a branch**.
 3. Wähle als Branch **`master`** (der Standard-Branch dieses Repositories) und als Ordner **`/ (root)`**. Klicke auf **Save**.
 4. Warte ein bis zwei Minuten. Oben auf der Pages-Seite erscheint dann der Link – bei diesem Repository:
    **`https://tjrschmidbauer.github.io/Vectronix/`**
-5. Jede weitere Änderung an `index.html` im Branch `master` wird automatisch neu veröffentlicht.
+5. Jede weitere Änderung im Branch `master` wird automatisch neu veröffentlicht.
 
 > 💡 Die Datei `.nojekyll` sorgt dafür, dass GitHub die Seite unverändert ausliefert. Deine Schaltpläne bleiben auch online **lokal in deinem Browser** – nichts wird hochgeladen.
 
 ### 🧭 Kurzanleitung: Dein erster Schaltplan
 
-1. **Bauteil platzieren:** Ziehe ein Bauteil aus der linken Palette auf die Zeichenfläche. Oder klicke es an und setze danach mehrere Bauteile per Klick (mit `Esc` beenden).
-2. **Drehen:** Bauteil anklicken und `R` drücken (oder Rechtsklick → *Drehen*).
-3. **Leitungen ziehen:** `W` drücken, Startpunkt klicken, Zielpunkt klicken. Die Leitung rastet automatisch an den Anschlüssen (Pins) der Bauteile ein. Mit `Umschalt` entstehen diagonale Leitungen, mit `Esc` beendest du das Werkzeug.
-4. **Beschriften:** Doppelklick auf ein Bauteil, um Bezeichnung und Wert zu ändern, z. B. `$10\,\mathrm{k}\Omega$`. Die Beschriftung lässt sich separat verschieben.
-5. **Knotenpunkte:** Entstehen automatisch, wenn mindestens drei Leitungsenden zusammentreffen oder sich Leitungen kreuzen. Klicke auf einen Punkt, um ihn als „nicht verbunden“ zu markieren oder zu entfernen.
-6. **Text hinzufügen:** `T` drücken und auf die Fläche klicken.
-7. **Ansicht:** Mausrad zum Zoomen, leere Fläche ziehen zum Verschieben, `F` zeigt den ganzen Plan.
-8. **Speichern:** *Speichern* erzeugt eine `.vectronix`-Datei, *Laden* öffnet sie wieder. Zusätzlich sichert der Browser deinen Stand automatisch.
-9. **Exportieren:** *SVG* lädt eine Datei herunter, *TikZ* öffnet ein Fenster mit dem LaTeX-Code zum direkten Kopieren (oder Speichern als `.tex`). Mit dem Werkzeug *Bereich* (`Umschalt+R`) exportierst du bei beiden nur den markierten Ausschnitt. Unten links steht jeweils die Signatur „Vectronix by Tobias Schmidbauer“.
+1. **Bauteil platzieren:** In der Palette antippen und auf die Fläche tippen (mehrfach möglich, *Fertig* beendet) – oder direkt auf die Fläche ziehen. Schneller Start: *Datei → Vorlagen*.
+2. **Leitungen ziehen:** Vom Anschluss eines Bauteils aus ziehen, oder Werkzeug *Leitung* (`W`): Start und Ziel antippen.
+3. **Bearbeiten:** Antippen wählt aus; die Leiste unten bietet *Bearbeiten*, *Drehen*, *Duplizieren*, *Löschen*. Doppeltippen öffnet den Dialog für Bezeichnung und Wert, z. B. `4,5 V`, `1 kΩ` oder `3,5 V; 0,2 A` (diese Werte nutzt auch die Simulation).
+4. **Knotenpunkte:** Entstehen automatisch. Antippen, um einen Punkt als „nicht verbunden“ zu markieren oder zu entfernen.
+5. **Simulieren:** *Simulieren* (Leertaste) startet die Gleichstrom-Simulation, *Beenden* stoppt sie.
+6. **Exportieren:** *Export → Exportieren …* (PNG, SVG, LaTeX), *Als Bild kopieren* oder *Teilen*. Mit *Export-Bereich wählen* (`Umschalt+R`) nur einen Ausschnitt.
 
 ### 🛟 Häufige Fragen
 
@@ -91,12 +95,15 @@ Vectronix ist eine einzelne statische Datei (`index.html`) und braucht weder Bui
 
 | Taste | Funktion |
 |---|---|
-| `V` / `W` / `T` | Auswahl / Leitung / Text |
+| `V` / `W` / `T` / `M` | Auswahl / Leitung / Text / Rahmen |
+| `Leertaste` | Simulation starten/beenden |
 | `Umschalt+R` | Export-Bereich aufziehen |
-| `R` | Ausgewähltes Bauteil drehen |
+| `R` | Auswahl drehen |
 | `Entf` | Auswahl löschen |
-| `Strg+D` | Duplizieren |
+| `Strg+C` / `Strg+X` / `Strg+V` | Kopieren / Ausschneiden / Einfügen |
+| `Strg+A` / `Strg+D` | Alles auswählen / Duplizieren |
 | `Strg+Z` / `Strg+Y` | Rückgängig / Wiederholen |
+| `Strg+E` / `Strg+Umschalt+C` | Exportieren / Als Bild kopieren |
 | `Strg+S` / `Strg+O` | Speichern / Laden |
 | `F`, `+`, `-`, `0` | Alles anzeigen, Zoom |
 | `?` | Hilfe |
@@ -105,10 +112,11 @@ Vectronix ist eine einzelne statische Datei (`index.html`) und braucht weder Bui
 
 ## 📤 Export-Möglichkeiten
 
-Perfekte Grafiken für jede Gelegenheit:
-
-* 🖼️ **SVG (Scalable Vector Graphics):** Verlustfreie Skalierung für Präsentationen (PowerPoint, Keynote) und Web.
-* 📜 **LaTeX (circuitikz):** Direkter Code-Export für deine LaTeX-Dokumente, benötigt das Paket `circuitikz`. Bitte Polarität und Größe der Symbole im Ergebnis kurz prüfen.
+* 🖼️ **PNG:** Für Word, Pages, OneNote und Arbeitsblätter – mit eingebetteter Druckauflösung, optional transparent.
+* 📋 **Als Bild kopieren:** Direkt in die Zwischenablage (Chrome, Edge, Safari über https).
+* ✒️ **SVG:** Verlustfrei skalierbar für Präsentationen und Web.
+* 📜 **LaTeX (circuitikz):** Code zum Kopieren oder als `.tex`. Bauteile ohne circuitikz-Gegenstück werden originalgetreu aus Linien gezeichnet.
+* 📝 Jeweils als *Lösung* oder *Aufgabe* (Lücken leer), Signatur abschaltbar.
 
 ---
 

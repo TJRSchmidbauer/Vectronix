@@ -36,7 +36,7 @@ Egal ob Einsteiger oder Profi – mit Vectronix erstellst du im Handumdrehen pro
 
 ## 🧩 Umfangreiche Bauteil-Bibliothek
 
-* 🔋 **Quellen:** Batterie, Gleichspannungsquelle, Netzgerät, Wechselspannungsquelle, Solarzelle, Erde, Masse
+* 🔋 **Quellen:** Batterie (auch aus mehreren Zellen), Spannungsversorgung allgemein/Gleichspannung/Wechselspannung (wie im Schaltzeichenblatt des ISB Bayern), Gleichspannungsquelle nach DIN EN 60617-2, Netzgerät, Wechselspannungsquelle, Generator, Solarzelle, Solarmodul, Erde, Masse
 * 🕹️ **Schalter:** Schalter, Taster, Wechselschalter, Relais
 * 💡 **Verbraucher:** Lampe, Motor, Klingel, Lautsprecher
 * 🪫 **Passiv:** Widerstand, Potentiometer, Fotowiderstand (LDR), Heißleiter (NTC), Kondensator, Elko, Spule, Spule mit Eisenkern, Sicherung

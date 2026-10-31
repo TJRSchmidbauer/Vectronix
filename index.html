@@ -621,6 +621,63 @@ const C = {
       <polygon points="6,0 -4,-5 -4,5" fill="#000"/>`,
     pins: [{x:-16,y:0},{x:16,y:0}], w:32, h:16
   },
+  // ---------- Quellen wie im Schulunterricht (Schaltzeichen ISB Bayern) ----------
+  supply_dc: {
+    name: 'Spannungsversorgung (Gleichspannung)', prefix: 'G',
+    svg: `<line x1="-40" y1="0" x2="-15" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="15" y1="0" x2="40" y2="0" stroke="#000" stroke-width="1.0"/>
+      <circle cx="-12" cy="0" r="3" fill="#fff" stroke="#000" stroke-width="1.0"/>
+      <circle cx="12" cy="0" r="3" fill="#fff" stroke="#000" stroke-width="1.0"/>
+      <text x="-12" y="17" font-size="12" fill="#000" text-anchor="middle" font-family="sans-serif">+</text>
+      <text x="12" y="17" font-size="12" fill="#000" text-anchor="middle" font-family="sans-serif">−</text>`,
+    pins: [{x:-40,y:0},{x:40,y:0}], w:80, h:32
+  },
+  supply_ac: {
+    name: 'Spannungsversorgung (Wechselspannung)', prefix: 'G',
+    svg: `<line x1="-40" y1="0" x2="-15" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="15" y1="0" x2="40" y2="0" stroke="#000" stroke-width="1.0"/>
+      <circle cx="-12" cy="0" r="3" fill="#fff" stroke="#000" stroke-width="1.0"/>
+      <circle cx="12" cy="0" r="3" fill="#fff" stroke="#000" stroke-width="1.0"/>
+      <text x="0" y="4" font-size="13" fill="#000" text-anchor="middle" font-family="sans-serif">~</text>`,
+    pins: [{x:-40,y:0},{x:40,y:0}], w:80, h:32
+  },
+  supply: {
+    name: 'Spannungsversorgung (allgemein)', prefix: 'G',
+    svg: `<line x1="-40" y1="0" x2="-15" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="15" y1="0" x2="40" y2="0" stroke="#000" stroke-width="1.0"/>
+      <circle cx="-12" cy="0" r="3" fill="#fff" stroke="#000" stroke-width="1.0"/>
+      <circle cx="12" cy="0" r="3" fill="#fff" stroke="#000" stroke-width="1.0"/>`,
+    pins: [{x:-40,y:0},{x:40,y:0}], w:80, h:32
+  },
+  battery2: {
+    name: 'Batterie (mehrere Zellen)', prefix: 'G', labelOff: { x: 36, y: -8 },
+    svg: `<line x1="0" y1="-40" x2="0" y2="-16" stroke="#000" stroke-width="1.0"/>
+      <line x1="-16" y1="-16" x2="16" y2="-16" stroke="#000" stroke-width="1.0"/>
+      <line x1="-8" y1="-8" x2="8" y2="-8" stroke="#000" stroke-width="4.5"/>
+      <line x1="0" y1="-8" x2="0" y2="8" stroke="#000" stroke-width="1.0" stroke-dasharray="2 2"/>
+      <line x1="-16" y1="8" x2="16" y2="8" stroke="#000" stroke-width="1.0"/>
+      <line x1="-8" y1="16" x2="8" y2="16" stroke="#000" stroke-width="4.5"/>
+      <line x1="0" y1="16" x2="0" y2="40" stroke="#000" stroke-width="1.0"/>
+      <text class="bat-plus" x="-22" y="-16" font-size="10" fill="#000" text-anchor="middle">+</text>`,
+    pins: [{x:0,y:-40},{x:0,y:40}], w:40, h:80
+  },
+  generator: {
+    name: 'Generator', prefix: 'G',
+    svg: `<circle cx="0" cy="0" r="24" fill="none" stroke="#000" stroke-width="1.0"/>
+      <text x="0" y="1" font-size="24" fill="#000" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif">G</text>
+      <line x1="-32" y1="0" x2="-24" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="24" y1="0" x2="32" y2="0" stroke="#000" stroke-width="1.0"/>`,
+    pins: [{x:-32,y:0},{x:32,y:0}], w:64, h:48
+  },
+  solar_module: {
+    name: 'Solarmodul', prefix: 'G', plusPin: 1,
+    svg: `<rect x="-24" y="-16" width="48" height="32" fill="none" stroke="#000" stroke-width="1.0"/>
+      <polyline points="24,-16 8,0 24,16" fill="none" stroke="#000" stroke-width="1.0"/>
+      <line x1="-40" y1="0" x2="-24" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="24" y1="0" x2="40" y2="0" stroke="#000" stroke-width="1.0"/>
+      <text x="33" y="-6" font-size="11" fill="#000" text-anchor="middle" font-family="sans-serif">+</text>`,
+    pins: [{x:-40,y:0},{x:40,y:0}], w:80, h:32
+  },
   // ---------- Hausinstallation / Netzformen ----------
   grid3: {
     name: 'Drehstromquelle (Trafo, Stern)', prefix: 'T', labelOff: { x: -40, y: -36 },
@@ -1090,7 +1147,7 @@ function moveWirePoint(wire, idx, nx, ny) {
 
 // Palette: Gruppen in der Reihenfolge, in der sie im Unterricht gebraucht werden
 const PALETTE = [
-  ['Quellen', ['battery','dc_source','psu','ac_source','solar','gnd','chassis']],
+  ['Quellen', ['battery','battery2','supply_dc','supply_ac','supply','dc_source','psu','ac_source','generator','solar','solar_module','gnd','chassis']],
   ['Schalter', ['switch','button','switch2','relay']],
   ['Verbraucher', ['lamp','motor','bell','speaker']],
   ['Passiv', ['resistor','potentiometer','ldr','ntc','capacitor','polarized_capacitor','inductor','inductor_core','fuse']],
@@ -1106,6 +1163,7 @@ function initPalette() {
     potentiometer: 'Potentio\u00ADmeter', capacitor: 'Konden\u00ADsator', dc_source: 'Gleich\u00ADspannungs\u00ADquelle',
     ac_source: 'Wechsel\u00ADspannungs\u00ADquelle', meter: 'Spannungs\u00ADmesser', ammeter: 'Strom\u00ADmesser',
     opamp: 'Operations\u00ADverstärker', ldr: 'Foto\u00ADwiderstand', ntc: 'Heiß\u00ADleiter (NTC)',
+    supply_dc: 'Spannungs\u00ADversorgung =', supply_ac: 'Spannungs\u00ADversorgung ~', supply: 'Spannungs\u00ADversorgung', battery2: 'Batterie (Zellen)', solar_module: 'Solar\u00ADmodul',
     switch2: 'Wechsel\u00ADschalter', grid3: 'Drehstrom\u00ADquelle (Stern)', load1: 'Verbraucher mit Körper', load3: 'Drehstrom\u00ADverbraucher', speaker: 'Laut\u00ADsprecher', varrow: 'Spannungs\u00ADpfeil', iarrow: 'Strom\u00ADpfeil',
   };
   const sidebar = $('sidebar');
@@ -1955,7 +2013,7 @@ function openCompDialog(id) {
     <input type="text" id="dlg-label" value="${escapeXml(comp.label)}">
     <label for="dlg-value">Wert / Beschreibung (LaTeX: z. B. $10\\,\\Omega$)</label>
     <textarea id="dlg-value" rows="2">${escapeXml(comp.value)}</textarea>
-    ${['battery', 'polarized_capacitor', 'dc_source'].includes(comp.type) ? `
+    ${['battery', 'battery2', 'polarized_capacitor', 'dc_source'].includes(comp.type) ? `
     <label style="display:flex;align-items:center;gap:6px;margin-top:6px">
       <input type="checkbox" id="dlg-polarity" ${comp.showPolarity ? 'checked' : ''}> Polarität anzeigen (+/−)
     </label>` : ''}
@@ -2653,7 +2711,7 @@ function solveLinear(A, b) {
   return x;
 }
 
-const SIM_UNSUPPORTED = { grid3: 'Drehstromnetz', ac_source: 'Wechselspannungsquelle', transformer: 'Trafo', transformer_air: 'Trafo', opamp: 'Operationsverstärker', and_gate: 'Logikgatter', or_gate: 'Logikgatter', not_gate: 'Logikgatter' };
+const SIM_UNSUPPORTED = { supply_ac: 'Wechselspannung', supply: 'Spannungsversorgung ohne Angabe von Gleich-/Wechselspannung', generator: 'Generator', grid3: 'Drehstromnetz', ac_source: 'Wechselspannungsquelle', transformer: 'Trafo', transformer_air: 'Trafo', opamp: 'Operationsverstärker', and_gate: 'Logikgatter', or_gate: 'Logikgatter', not_gate: 'Logikgatter' };
 const OPEN = 1e-9;
 
 function simulate() {
@@ -2666,10 +2724,10 @@ function simulate() {
   const notes = new Set();
 
   // Bezugspunkt: Erde/Masse, sonst Minuspol der ersten Quelle
-  const sources = { battery: [4.5, 0.3], dc_source: [6, 0.05], psu: [12, 0.05], solar: [0.5, 2] };
+  const sources = { battery: [4.5, 0.3], battery2: [4.5, 0.3], dc_source: [6, 0.05], supply_dc: [6, 0.05], psu: [12, 0.05], solar: [0.5, 2], solar_module: [6, 5] };
   let ground = null;
   for(const c of comps) if(c.type === 'gnd' || c.type === 'chassis') { ground = ground ?? P(c)[0]; }
-  if(ground === null) { const s = comps.find(c => sources[c.type]); ground = s ? P(s)[1] : 0; }
+  if(ground === null) { const s = comps.find(c => sources[c.type]); ground = s ? P(s)[1 - (C[s.type].plusPin || 0)] : 0; }
   // Alle Erde/Masse-Anschlüsse liegen auf demselben Bezugspotenzial
   const groundNets = new Set(comps.filter(c => c.type === 'gnd' || c.type === 'chassis').map(c => P(c)[0]));
 
@@ -2710,7 +2768,8 @@ function simulate() {
       default:
         if(sources[c.type]) {
           const [u0, r0] = sources[c.type];
-          V.push({ c, p: n[0], m: n[1], u: parseQty(v, 'V') ?? u0, r: parseQty(v, 'Ω') ?? r0 });
+          const plus = C[c.type].plusPin || 0;
+          V.push({ c, p: n[plus], m: n[1 - plus], u: parseQty(v, 'V') ?? u0, r: parseQty(v, 'Ω') ?? r0 });
         }
     }
   }
@@ -2810,7 +2869,7 @@ function simulate() {
         if(sources[c.type]) {
           const s = V.find(e => e.c === c), i = (s.u - (pot(s.p) - pot(s.m))) / s.r;
           if(i > 0.8 * s.u / s.r) o.warn = 'Kurzschluss!';
-          else if(i < -1e-6 && c.type !== 'solar') o.text = 'wird geladen';
+          else if(i < -1e-6 && !c.type.startsWith('solar')) o.text = 'wird geladen';
         }
     }
     if(Object.keys(o).length) out.set(c.id, o);
@@ -3141,7 +3200,7 @@ const TIKZ_BIPOLE = {
 };
 
 // Zeichen aus Symbol-Texten nach LaTeX
-const TEX_SYM = { '3~': '3\\(\\sim\\)', '+': '$+$', '−': '$-$', '∞': '$\\infty$', '&': '\\&', '≥1': '$\\geq 1$', '1': '1', '−ϑ': '$-\\vartheta$', 'M': 'M', 'V': 'V', 'A': 'A' };
+const TEX_SYM = { 'G': 'G', '~': '$\\sim$', '3~': '3\\(\\sim\\)', '+': '$+$', '−': '$-$', '∞': '$\\infty$', '&': '\\&', '≥1': '$\\geq 1$', '1': '1', '−ϑ': '$-\\vartheta$', 'M': 'M', 'V': 'V', 'A': 'A' };
 
 // Bauteile ohne passendes circuitikz-Symbol: Linien, Rechtecke, Kreise, Polygone, Halbkreisbögen
 // und Texte des Symbols werden 1:1 als TikZ-Befehle ausgegeben (inkl. Drehung).

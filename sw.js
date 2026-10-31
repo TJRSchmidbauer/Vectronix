@@ -1,6 +1,6 @@
 // Vectronix – Service Worker: macht die App offline nutzbar (z. B. bei schlechtem Schul-WLAN).
 // Strategie: zuerst Netz (damit Updates sofort ankommen), bei fehlender Verbindung der Cache.
-const CACHE = 'vectronix-v3';
+const CACHE = 'vectronix-v4';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {

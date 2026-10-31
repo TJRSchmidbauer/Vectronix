@@ -2068,7 +2068,7 @@ function showHelp() {
       <tr><td><b>Karo</b></td><td>Ein Kästchen ist ein Einrastschritt. Bauteile, Anschlüsse und Leitungen liegen immer auf Kästchenlinien; kräftigere Linien alle 5 und 25 Kästchen. Ein-/ausblenden unter „Datei“.</td></tr>
       <tr><td><b>Ansicht</b></td><td>Zwei Finger verschieben und zoomen; Maus: Rad zoomt, leere Fläche ziehen verschiebt.</td></tr>
       <tr><td><b>Tastatur</b></td><td><kbd>V</kbd> Auswahl · <kbd>W</kbd> Leitung · <kbd>T</kbd> Text · <kbd>M</kbd> Rahmen · <kbd>Leertaste</kbd> Simulation · <kbd>R</kbd> drehen · <kbd>Entf</kbd> löschen · <kbd>Strg+C/X/V</kbd> kopieren/ausschneiden/einfügen · <kbd>Strg+A</kbd> alles · <kbd>Strg+D</kbd> duplizieren · <kbd>Strg+Z/Y</kbd> rückgängig/wiederholen · <kbd>Strg+E</kbd> exportieren · <kbd>Strg+Umschalt+C</kbd> als Bild kopieren · <kbd>Strg+S/O</kbd> speichern/laden</td></tr>
-      <tr><td><b>Datenschutz</b></td><td>Keine Cookies, kein Tracking, keine Werbung, keine fremden Server: Die Seite lädt nur ihre eigenen Dateien (eine Sicherheitsrichtlinie blockiert alles andere). Gespeichert wird nur nach Zustimmung beim Start und nur in diesem Browser. Teilen-Links enthalten die Schaltung selbst. Beim Aufruf über GitHub Pages gelten für den Server die Datenschutzbestimmungen von GitHub.</td></tr>
+      <tr><td><b>Datenschutz</b></td><td>Keine Cookies, kein Tracking, keine Werbung, keine fremden Server: Die Seite lädt nur ihre eigenen Dateien (eine Sicherheitsrichtlinie blockiert alles andere). Gespeichert wird nur nach Zustimmung beim Start und nur in diesem Browser. Teilen-Links enthalten die Schaltung selbst. Vectronix wird über GitHub Pages ausgeliefert; für den Server gelten die <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">Datenschutzbestimmungen von GitHub</a>.</td></tr>
     </table>
     <div class="btns"><button onclick="showIntro()">Einführung zeigen</button><button class="primary" onclick="closeDialog()">Schließen</button></div>`);
 }
@@ -3727,6 +3727,7 @@ function askConsent() {
       <li>die App-Dateien für die Nutzung ohne Internet.</li>
     </ul>
     <div class="hint">Bei „Ablehnen“ wird nichts gespeichert und bereits gespeicherte Vectronix-Daten werden gelöscht. Speichern als Datei (Strg+S), Export und Teilen per Link funktionieren trotzdem. Diese Frage erscheint bei jedem Start.</div>
+    <p class="consent-text" style="margin-top:10px">Vectronix wird über <b>GitHub Pages</b> ausgeliefert. Beim Aufruf der Seite verarbeitet GitHub technisch notwendige Verbindungsdaten (z. B. die IP-Adresse); dafür gelten die <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">Datenschutzbestimmungen von GitHub</a>.</p>
     <div class="btns">
       <button onclick="decideConsent(false)">Ablehnen</button>
       <button class="primary" onclick="decideConsent(true)">Speichern erlauben</button>

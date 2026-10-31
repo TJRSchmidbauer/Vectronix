@@ -22,7 +22,8 @@ Egal ob Einsteiger oder Profi – mit Vectronix erstellst du im Handumdrehen pro
 * **📱 Tablet-tauglich:** Große Schaltflächen, Zwei-Finger-Zoom, Bauteil antippen und setzen, Leitungen direkt vom Anschluss ziehen, Aktionsleiste für Bearbeiten, Drehen, Duplizieren und Löschen – ganz ohne Tastatur und Rechtsklick.
 * **🔌 Leitungen & Knoten:** Leitungen rasten an Anschlüssen ein, alle Anschlüsse liegen im 8er-Raster, Knotenpunkte entstehen automatisch.
 * **🔲 Mehrfachauswahl:** Werkzeug *Rahmen* (oder `Umschalt` + Ziehen) wählt ganze Schaltungsteile aus – gemeinsam verschieben, drehen, duplizieren, kopieren und einfügen (auch zwischen Projekten).
-* **📚 Vorlagen:** Reihen-, Parallel- und Wechselschaltung, Spannungsteiler, RC-Glied, Einweggleichrichter, Transistor als Schalter.
+* **📚 Vorlagen:** Reihen-, Parallel- und Wechselschaltung, Spannungsteiler, RC-Glied, Einweggleichrichter, Transistor als Schalter sowie die Netzformen TN-C, TN-S, TN-C-S, TT und IT.
+* **📐 Karo:** Ein Kästchen ist ein Einrastschritt; Bauteile, Anschlüsse und Leitungen liegen immer auf Kästchenlinien.
 * **➡️ Zählpfeile:** Spannungs- und Strompfeil mit Beschriftung wie `U_1` → U₁.
 * **📝 Arbeitsblatt-Modus:** Bauteile oder Leitungen als *Lücke* markieren. Export *Aufgabe* zeigt leere Kästen, *Lösung* die vollständige Schaltung.
 * **⚡ Simulation (Gleichstrom):** Lampen leuchten, LEDs glühen, Spannungs- und Strommesser zeigen Werte. Schalter, Taster, Fotowiderstand (hell/dunkel) und Heißleiter (kalt/warm) lassen sich antippen. Warnungen bei Kurzschluss, überlasteter LED und ausgelöster Sicherung.
@@ -41,6 +42,7 @@ Egal ob Einsteiger oder Profi – mit Vectronix erstellst du im Handumdrehen pro
 * 🪫 **Passiv:** Widerstand, Potentiometer, Fotowiderstand (LDR), Heißleiter (NTC), Kondensator, Elko, Spule, Spule mit Eisenkern, Sicherung
 * 🔬 **Halbleiter:** Diode, LED, Z-Diode, Transistor npn/pnp
 * 📏 **Messen & Pfeile:** Spannungsmesser, Strommesser, Spannungspfeil, Strompfeil
+* 🏠 **Hausinstallation:** Drehstromquelle (Trafo in Sternschaltung), Verbraucher und Drehstromverbraucher mit Körper
 * 🧠 **Sonstige:** Transformator (mit/ohne Eisenkern), Operationsverstärker, UND/ODER/NICHT-Gatter
 
 ---
@@ -50,7 +52,17 @@ Egal ob Einsteiger oder Profi – mit Vectronix erstellst du im Handumdrehen pro
 * **Arbeitsblatt in zwei Minuten:** Vorlage öffnen → Werte eintragen (Doppeltippen) → einzelne Bauteile als *Lücke* markieren → *Export* → PNG, Fassung *Aufgabe* und danach *Lösung*. Oder *Als Bild kopieren* und direkt in Word einfügen.
 * **Im Unterricht:** *Simulieren* starten und Schalter live umlegen. Mit *Export → Teilen* einen QR-Code an die Wand werfen; die Klasse arbeitet mit einer eigenen Kopie weiter.
 * **In mebis oder einer anderen Lernplattform:** Den Teilen-Link als *Link/URL* im Kurs anlegen. Wer ihn öffnet, bekommt genau diese Schaltung. Ohne Link genügt die Adresse `https://tjrschmidbauer.github.io/Vectronix/`.
-* **Datenschutz:** Keine Anmeldung, keine Cookies, kein Server. Schaltungen bleiben im Browser oder im Link.
+* **Datenschutz:** Keine Anmeldung, keine Cookies, keine fremden Server, Speichern nur nach Zustimmung (siehe unten).
+
+---
+
+## 🔒 Datenschutz
+
+* **Keine Cookies**, kein Tracking, keine Analyse- oder Werbedienste, keine Anmeldung.
+* **Keine Daten an Dritte:** Vectronix lädt ausschließlich eigene Dateien. Eine Content-Security-Policy blockiert alle Verbindungen zu fremden Servern (keine CDNs, keine Google Fonts, keine eingebetteten Fremdinhalte). Links geben keine Herkunftsadresse (Referrer) weiter.
+* **Speichern nur mit Zustimmung:** Bei jedem Start fragt Vectronix, ob Schaltplan, Einstellungen, Zwischenablage (`localStorage`) und die App-Dateien für den Offline-Betrieb (Service-Worker-Cache) lokal im Browser gespeichert werden dürfen. Vor der Entscheidung wird nichts gelesen oder gespeichert. Bei „Ablehnen“ werden vorhandene Vectronix-Daten gelöscht und Vectronix arbeitet nur im Arbeitsspeicher; Speichern als Datei, Export und Teilen per Link funktionieren weiterhin.
+* **Teilen ohne Server:** Ein Teilen-Link enthält die Schaltung selbst (hinter dem `#`, das der Browser nicht an den Server schickt). Der QR-Code entsteht im Browser.
+* Beim Aufruf über GitHub Pages gelten für den Server die [Datenschutzbestimmungen von GitHub](https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement).
 
 ---
 

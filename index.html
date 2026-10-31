@@ -2,6 +2,9 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
+<!-- Datenschutz: nur Dateien von dieser Seite selbst; keine Verbindungen zu fremden Servern -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="description" content="Vectronix – webbasierter Schaltplan-Editor nach DIN EN 60617 mit SVG- und LaTeX-TikZ-Export. Läuft komplett lokal im Browser.">
 <meta name="theme-color" content="#2563eb">
@@ -91,6 +94,7 @@ button{font-family:inherit;touch-action:manipulation}
 .blank-mark{fill:#fff7ed99;stroke:#d97706;stroke-width:1.2;stroke-dasharray:4 3;pointer-events:none}
 .comp-blank .comp-body>:not(.comp-hit):not(.pin-handle):not(.blank-mark){opacity:.45}
 .wire-blank .wire{stroke:#d97706;stroke-dasharray:6 4}
+.tpl-group{font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:#888;margin:14px 0 8px}
 .tpl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
 .tpl{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px;cursor:pointer;font-size:13px;color:#555}
 .tpl:hover,.tpl:active{border-color:var(--accent);background:#f5f8ff}
@@ -101,6 +105,8 @@ button{font-family:inherit;touch-action:manipulation}
 .qr-full{position:fixed;inset:0;z-index:4000;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;cursor:zoom-out}
 .qr-full svg{width:min(88vh,92vw);height:min(88vh,92vw)}
 .qr-full p{font-size:16px;color:#555}
+.consent-text{font-size:14px;line-height:1.5;margin-bottom:6px}
+.consent-list{font-size:14px;line-height:1.6;margin:0 0 10px 20px}
 .intro-step{display:flex;gap:14px;align-items:flex-start;margin:14px 0}
 .intro-step>span{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center}
 .intro-step b{font-size:15px}
@@ -163,22 +169,23 @@ button{font-family:inherit;touch-action:manipulation}
   <div id="canvas-wrap">
     <svg id="canvas" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <!-- Karo: Punkte = Einrastpunkte (8), Linien alle 5 Schritte (40) und alle 25 Schritte (200).
-             Die Muster sind um einen halben Abstand versetzt, damit Punkte und Linien nicht am Kachelrand abgeschnitten werden. -->
-        <pattern id="grid-dot" x="-4" y="-4" width="8" height="8" patternUnits="userSpaceOnUse">
-          <circle cx="4" cy="4" r=".9" fill="#a9b3c1"/>
+        <!-- Karo: ein Kästchen = ein Einrastschritt (8). Kräftigere Linien alle 5 und alle 25 Kästchen.
+             Alle Anschlüsse und Symbolkanten liegen auf Kästchenlinien. Die Muster sind um einen halben
+             Abstand versetzt, damit die Linien nicht am Kachelrand abgeschnitten werden. -->
+        <pattern id="grid-fine" x="-4" y="-4" width="8" height="8" patternUnits="userSpaceOnUse">
+          <path d="M4 0V8M0 4H8" fill="none" stroke="#e8ecf1" stroke-width="1"/>
         </pattern>
         <pattern id="grid-minor" x="-20" y="-20" width="40" height="40" patternUnits="userSpaceOnUse">
-          <path d="M20 0V40M0 20H40" fill="none" stroke="#dde3ea" stroke-width="1"/>
+          <path d="M20 0V40M0 20H40" fill="none" stroke="#cdd5df" stroke-width="1"/>
         </pattern>
         <pattern id="grid-major" x="-100" y="-100" width="200" height="200" patternUnits="userSpaceOnUse">
-          <path d="M100 0V200M0 100H200" fill="none" stroke="#b3bfcd" stroke-width="1"/>
+          <path d="M100 0V200M0 100H200" fill="none" stroke="#a9b6c6" stroke-width="1"/>
         </pattern>
       </defs>
       <g id="grid-layer" pointer-events="none">
+        <rect id="grid-bg-fine" fill="url(#grid-fine)"/>
         <rect id="grid-bg-minor" fill="url(#grid-minor)"/>
         <rect id="grid-bg-major" fill="url(#grid-major)"/>
-        <rect id="grid-bg-dot" fill="url(#grid-dot)"/>
       </g>
       <g id="wires-layer"></g>
       <g id="junctions-layer"></g>
@@ -196,7 +203,7 @@ button{font-family:inherit;touch-action:manipulation}
 
 <div id="statusbar">
   <span><span class="fine-only"><span id="cursor-pos">X: 0  Y: 0</span> | </span><span id="zoom-level">100%</span> | <span id="mode-info">Auswählen</span></span>
-  <span><span class="sb-brand">Vectronix · DIN EN 60617 · </span><a href="https://schmidbauer.io/impressum/" target="_blank" rel="noopener" style="color:inherit">Impressum</a> · <a href="https://schmidbauer.io/datenschutz/" target="_blank" rel="noopener" style="color:inherit">Datenschutz</a></span>
+  <span><span class="sb-brand">Vectronix · DIN EN 60617 · </span><a href="https://schmidbauer.io/impressum/" target="_blank" rel="noopener noreferrer" style="color:inherit">Impressum</a> · <a href="https://schmidbauer.io/datenschutz/" target="_blank" rel="noopener noreferrer" style="color:inherit">Datenschutz</a></span>
 </div>
 
 <div id="context-menu" class="context-menu" style="display:none"></div>
@@ -209,6 +216,15 @@ button{font-family:inherit;touch-action:manipulation}
 <script>
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
+
+// Lokaler Speicher nur nach Zustimmung (Hinweis bei jedem Start, wie bei Plotoria).
+// Vorher wird nichts gelesen oder geschrieben; bei „Ablehnen“ läuft alles nur im Arbeitsspeicher.
+const store = {
+  ok: false,
+  get(k) { if(!this.ok) return null; try { return localStorage.getItem(k); } catch(e) { return null; } },
+  set(k, v) { if(!this.ok) return; try { localStorage.setItem(k, v); } catch(e) { /* voll oder gesperrt */ } },
+  wipe() { try { Object.keys(localStorage).filter(k => k.startsWith('vectronix-')).forEach(k => localStorage.removeItem(k)); } catch(e) {} },
+};
 
 const state = {
   tool: 'select',
@@ -251,33 +267,33 @@ function arrowSVG(x1, y1, x2, y2, head = 5, half = 2.5) {
 
 // Bipolartransistor: Kreis, Basisbalken, Kollektor oben, Emitter unten mit Pfeil
 function bjtSVG(pnp) {
-  // Emitterlinie von (-8,6) nach (16,18): npn-Pfeil zeigt nach außen, pnp-Pfeil zur Basis
-  const ux = 24 / Math.hypot(24, 12), uy = 12 / Math.hypot(24, 12);
-  const tip = pnp ? { x: -8 + 24 * 0.3, y: 6 + 12 * 0.3, dx: -ux, dy: -uy } : { x: 10, y: 15, dx: ux, dy: uy };
+  // Emitterlinie von (-8,6) nach (16,16): npn-Pfeil zeigt nach außen, pnp-Pfeil zur Basis
+  const len = Math.hypot(24, 10), ux = 24 / len, uy = 10 / len;
+  const tip = pnp ? { x: -8 + 24 * 0.3, y: 6 + 10 * 0.3, dx: -ux, dy: -uy } : { x: 10, y: 13.5, dx: ux, dy: uy };
   const bx = tip.x - tip.dx * 7, by = tip.y - tip.dy * 7, px = -tip.dy * 3.2, py = tip.dx * 3.2;
   const f = v => +v.toFixed(2);
-  return `<circle cx="2" cy="0" r="24" fill="none" stroke="#000" stroke-width="1.0"/>
+  return `<circle cx="0" cy="0" r="24" fill="none" stroke="#000" stroke-width="1.0"/>
       <line x1="-32" y1="0" x2="-8" y2="0" stroke="#000" stroke-width="1.0"/>
-      <line x1="-8" y1="-14" x2="-8" y2="14" stroke="#000" stroke-width="2"/>
-      <path d="M-8-6L16-18V-32M-8 6L16 18V32" fill="none" stroke="#000" stroke-width="1.0"/>
+      <line x1="-8" y1="-16" x2="-8" y2="16" stroke="#000" stroke-width="2"/>
+      <path d="M-8-6L16-16V-32M-8 6L16 16V32" fill="none" stroke="#000" stroke-width="1.0"/>
       <polygon points="${f(tip.x)},${f(tip.y)} ${f(bx + px)},${f(by + py)} ${f(bx - px)},${f(by - py)}" fill="#000"/>`;
 }
 
 const C = {
   resistor: {
     name: 'Widerstand', prefix: 'R',
-    svg: `<rect x="-30" y="-10" width="60" height="20" rx="1" fill="none" stroke="#000" stroke-width="1.0"/>
-      <line x1="-40" y1="0" x2="-30" y2="0" stroke="#000" stroke-width="1.0"/>
-      <line x1="30" y1="0" x2="40" y2="0" stroke="#000" stroke-width="1.0"/>`,
-    pins: [{x:-40,y:0},{x:40,y:0}], w:80, h:20
+    svg: `<rect x="-24" y="-8" width="48" height="16" fill="none" stroke="#000" stroke-width="1.0"/>
+      <line x1="-40" y1="0" x2="-24" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="24" y1="0" x2="40" y2="0" stroke="#000" stroke-width="1.0"/>`,
+    pins: [{x:-40,y:0},{x:40,y:0}], w:80, h:16
   },
   potentiometer: {
     name: 'Potentiometer', prefix: 'R',
-    svg: `<rect x="-30" y="-10" width="60" height="20" fill="none" stroke="#000" stroke-width="1.0"/>
-      <line x1="-40" y1="0" x2="-30" y2="0" stroke="#000" stroke-width="1.0"/>
-      <line x1="30" y1="0" x2="40" y2="0" stroke="#000" stroke-width="1.0"/>
-      <line x1="0" y1="24" x2="0" y2="17" stroke="#000" stroke-width="1.0"/>
-      <polygon points="0,10 -4,18 4,18" fill="#000"/>`,
+    svg: `<rect x="-24" y="-8" width="48" height="16" fill="none" stroke="#000" stroke-width="1.0"/>
+      <line x1="-40" y1="0" x2="-24" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="24" y1="0" x2="40" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="0" y1="24" x2="0" y2="15" stroke="#000" stroke-width="1.0"/>
+      <polygon points="0,8 -4,16 4,16" fill="#000"/>`,
     pins: [{x:-40,y:0},{x:40,y:0},{x:0,y:24}], w:80, h:48
   },
   capacitor: {
@@ -290,11 +306,11 @@ const C = {
   },
   polarized_capacitor: {
     name: 'Elko', prefix: 'C',
-    svg: `<line x1="0" y1="-24" x2="0" y2="-6" stroke="#000" stroke-width="1.0"/>
-      <line x1="0" y1="6" x2="0" y2="24" stroke="#000" stroke-width="1.0"/>
-      <rect x="-16" y="-6" width="32" height="4" fill="none" stroke="#000" stroke-width="1.0"/>
-      <rect x="-16" y="2" width="32" height="4" fill="#000"/>
-      <text class="cap-plus" x="-22" y="-6" font-size="9" fill="#000" text-anchor="middle">+</text>`,
+    svg: `<line x1="0" y1="-24" x2="0" y2="-8" stroke="#000" stroke-width="1.0"/>
+      <line x1="0" y1="8" x2="0" y2="24" stroke="#000" stroke-width="1.0"/>
+      <rect x="-16" y="-8" width="32" height="4" fill="none" stroke="#000" stroke-width="1.0"/>
+      <rect x="-16" y="4" width="32" height="4" fill="#000"/>
+      <text class="cap-plus" x="-22" y="-8" font-size="9" fill="#000" text-anchor="middle">+</text>`,
     pins: [{x:0,y:-24},{x:0,y:24}], w:32, h:48
   },
   inductor: {
@@ -304,63 +320,63 @@ const C = {
   },
   diode: {
     name: 'Diode', prefix: 'D',
-    svg: `<polygon points="14,0 -14,-16 -14,16" fill="none" stroke="#000" stroke-width="1.0"/>
-      <line x1="14" y1="-16" x2="14" y2="16" stroke="#000" stroke-width="1.0"/>
-      <line x1="-32" y1="0" x2="-14" y2="0" stroke="#000" stroke-width="1.0"/>
-      <line x1="14" y1="0" x2="32" y2="0" stroke="#000" stroke-width="1.0"/>`,
+    svg: `<polygon points="16,0 -16,-16 -16,16" fill="none" stroke="#000" stroke-width="1.0"/>
+      <line x1="16" y1="-16" x2="16" y2="16" stroke="#000" stroke-width="1.0"/>
+      <line x1="-32" y1="0" x2="-16" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="16" y1="0" x2="32" y2="0" stroke="#000" stroke-width="1.0"/>`,
     pins: [{x:-32,y:0},{x:32,y:0}], w:64, h:32
   },
   led: {
     name: 'LED', prefix: 'D',
-    svg: `<polygon points="14,0 -14,-16 -14,16" fill="none" stroke="#000" stroke-width="1.0"/>
-      <line x1="14" y1="-16" x2="14" y2="16" stroke="#000" stroke-width="1.0"/>
-      <line x1="-32" y1="0" x2="-14" y2="0" stroke="#000" stroke-width="1.0"/>
-      <line x1="14" y1="0" x2="32" y2="0" stroke="#000" stroke-width="1.0"/>
-      <line x1="-10" y1="-18" x2="-1.54" y2="-26.46" stroke="#000" stroke-width=".9"/><polygon points="2,-30 0.23,-24.7 -3.3,-28.23" fill="#000"/>
-      <line x1="0" y1="-14" x2="8.46" y2="-22.46" stroke="#000" stroke-width=".9"/><polygon points="12,-26 10.23,-20.7 6.7,-24.23" fill="#000"/>`,
-    pins: [{x:-32,y:0},{x:32,y:0}], w:64, h:56
+    svg: `<polygon points="16,0 -16,-16 -16,16" fill="none" stroke="#000" stroke-width="1.0"/>
+      <line x1="16" y1="-16" x2="16" y2="16" stroke="#000" stroke-width="1.0"/>
+      <line x1="-32" y1="0" x2="-16" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="16" y1="0" x2="32" y2="0" stroke="#000" stroke-width="1.0"/>
+      ${arrowSVG(-10, -20, 2, -32)}
+      ${arrowSVG(2, -16, 14, -28)}`,
+    pins: [{x:-32,y:0},{x:32,y:0}], w:64, h:64
   },
   fuse: {
     name: 'Sicherung', prefix: 'F',
-    svg: `<rect x="-30" y="-8" width="60" height="16" rx="1" fill="none" stroke="#000" stroke-width="1.0"/>
-      <line x1="-30" y1="0" x2="30" y2="0" stroke="#000" stroke-width="1.0"/>
-      <line x1="-40" y1="0" x2="-30" y2="0" stroke="#000" stroke-width="1.0"/>
-      <line x1="30" y1="0" x2="40" y2="0" stroke="#000" stroke-width="1.0"/>`,
+    svg: `<rect x="-24" y="-8" width="48" height="16" fill="none" stroke="#000" stroke-width="1.0"/>
+      <line x1="-24" y1="0" x2="24" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="-40" y1="0" x2="-24" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="24" y1="0" x2="40" y2="0" stroke="#000" stroke-width="1.0"/>`,
     pins: [{x:-40,y:0},{x:40,y:0}], w:80, h:16
   },
   // Switches
   switch: {
     name: 'Schalter', prefix: 'S',
     svg: c => `<line x1="-32" y1="0" x2="-16" y2="0" stroke="#000" stroke-width="1.0"/>
-      <line x1="-16" y1="0" x2="20" y2="${c && c.closed ? -4 : -18}" stroke="#000" stroke-width="1.0"/>
+      <line x1="-16" y1="0" x2="18" y2="${c && c.closed ? -3 : -16}" stroke="#000" stroke-width="1.0"/>
       <line x1="16" y1="0" x2="48" y2="0" stroke="#000" stroke-width="1.0"/>`,
-    pins: [{x:-32,y:0},{x:48,y:0}], w:80, h:48
+    pins: [{x:-32,y:0},{x:48,y:0}], w:80, h:40
   },
   // Sources
   battery: {
     name: 'Batterie', prefix: 'G',
     svg: `<line x1="0" y1="-32" x2="0" y2="-8" stroke="#000" stroke-width="1.0"/>
       <line x1="0" y1="8" x2="0" y2="32" stroke="#000" stroke-width="1.0"/>
-      <line x1="-20" y1="-8" x2="20" y2="-8" stroke="#000" stroke-width="1.0"/>
-      <line x1="-10" y1="8" x2="10" y2="8" stroke="#000" stroke-width="4.5"/>
-      <text class="bat-plus" x="-24" y="-8" font-size="10" fill="#000" text-anchor="middle">+</text>`,
+      <line x1="-16" y1="-8" x2="16" y2="-8" stroke="#000" stroke-width="1.0"/>
+      <line x1="-8" y1="8" x2="8" y2="8" stroke="#000" stroke-width="4.5"/>
+      <text class="bat-plus" x="-22" y="-8" font-size="10" fill="#000" text-anchor="middle">+</text>`,
     pins: [{x:0,y:-32},{x:0,y:32}], w:40, h:64
   },
   dc_source: {
-    name: 'Gleichspannungsquelle', prefix: 'V',
-    svg: `<circle cx="0" cy="0" r="28" fill="none" stroke="#000" stroke-width="1.0"/>
+    name: 'Gleichspannungsquelle', prefix: 'V', defaults: { showPolarity: true },
+    svg: `<circle cx="0" cy="0" r="24" fill="none" stroke="#000" stroke-width="1.0"/>
       <line x1="-40" y1="0" x2="40" y2="0" stroke="#000" stroke-width="1.0"/>
-      <text x="-14" y="-9" font-size="14" fill="#000" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif">+</text>
-      <text x="14" y="-9" font-size="14" fill="#000" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif">−</text>`,
-    pins: [{x:-40,y:0},{x:40,y:0}], w:80, h:56
+      <text class="pol" x="-34" y="-5" font-size="11" fill="#000" text-anchor="middle" font-family="sans-serif">+</text>
+      <text class="pol" x="34" y="-5" font-size="11" fill="#000" text-anchor="middle" font-family="sans-serif">−</text>`,
+    pins: [{x:-40,y:0},{x:40,y:0}], w:80, h:48
   },
   ac_source: {
     name: 'Wechselspannungsquelle', prefix: 'G',
-    svg: `<circle cx="0" cy="0" r="28" fill="none" stroke="#000" stroke-width="1.0"/>
-      <path d="M-14 0C-10-12 -4-12 0 0S10 12 14 0" fill="none" stroke="#000" stroke-width="1.2"/>
-      <line x1="-40" y1="0" x2="-28" y2="0" stroke="#000" stroke-width="1.0"/>
-      <line x1="28" y1="0" x2="40" y2="0" stroke="#000" stroke-width="1.0"/>`,
-    pins: [{x:-40,y:0},{x:40,y:0}], w:80, h:56
+    svg: `<circle cx="0" cy="0" r="24" fill="none" stroke="#000" stroke-width="1.0"/>
+      <path d="M-12 0C-8-10 -4-10 0 0S8 10 12 0" fill="none" stroke="#000" stroke-width="1.2"/>
+      <line x1="-40" y1="0" x2="-24" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="24" y1="0" x2="40" y2="0" stroke="#000" stroke-width="1.0"/>`,
+    pins: [{x:-40,y:0},{x:40,y:0}], w:80, h:48
   },
   // Typ-Schlüssel „gnd“ bleibt für gespeicherte Projekte erhalten
   gnd: {
@@ -374,21 +390,21 @@ const C = {
   // Masse (Gehäuse, Chassis): Strich mit Schraffur
   chassis: {
     name: 'Masse', prefix: 'E',
-    svg: `<line x1="-20" y1="0" x2="20" y2="0" stroke="#000" stroke-width="1.2"/>
-      <line x1="-12" y1="0" x2="-20" y2="10" stroke="#000" stroke-width="1.0"/>
-      <line x1="2" y1="0" x2="-6" y2="10" stroke="#000" stroke-width="1.0"/>
-      <line x1="16" y1="0" x2="8" y2="10" stroke="#000" stroke-width="1.0"/>
+    svg: `<line x1="-24" y1="0" x2="24" y2="0" stroke="#000" stroke-width="1.2"/>
+      <line x1="-16" y1="0" x2="-24" y2="8" stroke="#000" stroke-width="1.0"/>
+      <line x1="0" y1="0" x2="-8" y2="8" stroke="#000" stroke-width="1.0"/>
+      <line x1="16" y1="0" x2="8" y2="8" stroke="#000" stroke-width="1.0"/>
       <line x1="0" y1="-32" x2="0" y2="0" stroke="#000" stroke-width="1.0"/>`,
     pins: [{x:0,y:-32}], w:48, h:48
   },
   lamp: {
     name: 'Lampe', prefix: 'H',
-    svg: `<circle cx="0" cy="0" r="20" fill="none" stroke="#000" stroke-width="1.0"/>
-      <line x1="-14" y1="-14" x2="14" y2="14" stroke="#000" stroke-width="1.3"/>
-      <line x1="14" y1="-14" x2="-14" y2="14" stroke="#000" stroke-width="1.3"/>
-      <line x1="-32" y1="0" x2="-20" y2="0" stroke="#000" stroke-width="1.0"/>
-      <line x1="20" y1="0" x2="32" y2="0" stroke="#000" stroke-width="1.0"/>`,
-    pins: [{x:-32,y:0},{x:32,y:0}], w:64, h:40
+    svg: `<circle cx="0" cy="0" r="16" fill="none" stroke="#000" stroke-width="1.0"/>
+      <line x1="-11.3" y1="-11.3" x2="11.3" y2="11.3" stroke="#000" stroke-width="1.0"/>
+      <line x1="11.3" y1="-11.3" x2="-11.3" y2="11.3" stroke="#000" stroke-width="1.0"/>
+      <line x1="-32" y1="0" x2="-16" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="16" y1="0" x2="32" y2="0" stroke="#000" stroke-width="1.0"/>`,
+    pins: [{x:-32,y:0},{x:32,y:0}], w:64, h:32
   },
   motor: {
     name: 'Motor', prefix: 'M',
@@ -401,24 +417,24 @@ const C = {
   // Zwei Wicklungen aus je vier Halbkreisen, Bögen zur Mitte; Eisenkern = zwei Linien parallel zu den Wicklungen
   transformer: {
     name: 'Trafo mit Eisenkern', prefix: 'T',
-    svg: `<path d="M-12-16A4 4 0 0 1 -12-8A4 4 0 0 1 -12 0A4 4 0 0 1 -12 8A4 4 0 0 1 -12 16" fill="none" stroke="#000" stroke-width="1.0"/>
-      <path d="M12-16A4 4 0 0 0 12-8A4 4 0 0 0 12 0A4 4 0 0 0 12 8A4 4 0 0 0 12 16" fill="none" stroke="#000" stroke-width="1.0"/>
-      <line x1="-40" y1="-16" x2="-12" y2="-16" stroke="#000" stroke-width="1.0"/>
-      <line x1="-40" y1="16" x2="-12" y2="16" stroke="#000" stroke-width="1.0"/>
-      <line x1="40" y1="-16" x2="12" y2="-16" stroke="#000" stroke-width="1.0"/>
-      <line x1="40" y1="16" x2="12" y2="16" stroke="#000" stroke-width="1.0"/>
-      <line x1="-3" y1="-18" x2="-3" y2="18" stroke="#000" stroke-width="1.0"/>
-      <line x1="3" y1="-18" x2="3" y2="18" stroke="#000" stroke-width="1.0"/>`,
+    svg: `<path d="M-16-16A4 4 0 0 1 -16-8A4 4 0 0 1 -16 0A4 4 0 0 1 -16 8A4 4 0 0 1 -16 16" fill="none" stroke="#000" stroke-width="1.0"/>
+      <path d="M16-16A4 4 0 0 0 16-8A4 4 0 0 0 16 0A4 4 0 0 0 16 8A4 4 0 0 0 16 16" fill="none" stroke="#000" stroke-width="1.0"/>
+      <line x1="-40" y1="-16" x2="-16" y2="-16" stroke="#000" stroke-width="1.0"/>
+      <line x1="-40" y1="16" x2="-16" y2="16" stroke="#000" stroke-width="1.0"/>
+      <line x1="40" y1="-16" x2="16" y2="-16" stroke="#000" stroke-width="1.0"/>
+      <line x1="40" y1="16" x2="16" y2="16" stroke="#000" stroke-width="1.0"/>
+      <line x1="-4" y1="-20" x2="-4" y2="20" stroke="#000" stroke-width="1.0"/>
+      <line x1="4" y1="-20" x2="4" y2="20" stroke="#000" stroke-width="1.0"/>`,
     pins: [{x:-40,y:-16},{x:-40,y:16},{x:40,y:-16},{x:40,y:16}], w:80, h:40
   },
   transformer_air: {
     name: 'Trafo ohne Eisenkern', prefix: 'T',
-    svg: `<path d="M-12-16A4 4 0 0 1 -12-8A4 4 0 0 1 -12 0A4 4 0 0 1 -12 8A4 4 0 0 1 -12 16" fill="none" stroke="#000" stroke-width="1.0"/>
-      <path d="M12-16A4 4 0 0 0 12-8A4 4 0 0 0 12 0A4 4 0 0 0 12 8A4 4 0 0 0 12 16" fill="none" stroke="#000" stroke-width="1.0"/>
-      <line x1="-40" y1="-16" x2="-12" y2="-16" stroke="#000" stroke-width="1.0"/>
-      <line x1="-40" y1="16" x2="-12" y2="16" stroke="#000" stroke-width="1.0"/>
-      <line x1="40" y1="-16" x2="12" y2="-16" stroke="#000" stroke-width="1.0"/>
-      <line x1="40" y1="16" x2="12" y2="16" stroke="#000" stroke-width="1.0"/>`,
+    svg: `<path d="M-16-16A4 4 0 0 1 -16-8A4 4 0 0 1 -16 0A4 4 0 0 1 -16 8A4 4 0 0 1 -16 16" fill="none" stroke="#000" stroke-width="1.0"/>
+      <path d="M16-16A4 4 0 0 0 16-8A4 4 0 0 0 16 0A4 4 0 0 0 16 8A4 4 0 0 0 16 16" fill="none" stroke="#000" stroke-width="1.0"/>
+      <line x1="-40" y1="-16" x2="-16" y2="-16" stroke="#000" stroke-width="1.0"/>
+      <line x1="-40" y1="16" x2="-16" y2="16" stroke="#000" stroke-width="1.0"/>
+      <line x1="40" y1="-16" x2="16" y2="-16" stroke="#000" stroke-width="1.0"/>
+      <line x1="40" y1="16" x2="16" y2="16" stroke="#000" stroke-width="1.0"/>`,
     pins: [{x:-40,y:-16},{x:-40,y:16},{x:40,y:-16},{x:40,y:16}], w:80, h:40
   },
   meter: {
@@ -471,45 +487,45 @@ const C = {
   },
   not_gate: {
     name: 'NOT-Gatter', prefix: 'IC',
-    svg: `<rect x="-20" y="-20" width="40" height="40" fill="none" stroke="#000" stroke-width="1.0"/>
+    svg: `<rect x="-16" y="-16" width="32" height="32" fill="none" stroke="#000" stroke-width="1.0"/>
       <text x="0" y="1" font-size="16" fill="#000" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif">1</text>
-      <circle cx="24" cy="0" r="4" fill="none" stroke="#000" stroke-width="1.0"/>
-      <line x1="-20" y1="0" x2="-40" y2="0" stroke="#000" stroke-width="1.0"/>
-      <line x1="28" y1="0" x2="40" y2="0" stroke="#000" stroke-width="1.0"/>`,
-    pins: [{x:-40,y:0},{x:40,y:0}], w:80, h:40
+      <circle cx="20" cy="0" r="4" fill="none" stroke="#000" stroke-width="1.0"/>
+      <line x1="-16" y1="0" x2="-40" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="24" y1="0" x2="40" y2="0" stroke="#000" stroke-width="1.0"/>`,
+    pins: [{x:-40,y:0},{x:40,y:0}], w:80, h:32
   },
   // ---------- Ergänzungen für den Unterricht ----------
   // Zustandsabhängige Symbole (Schalter, Relais) sind Funktionen des Bauteils.
   inductor_core: {
     name: 'Spule mit Eisenkern', prefix: 'L',
     svg: `<path d="M-40 0H-32A8 8 0 0 1 -16 0A8 8 0 0 1 0 0A8 8 0 0 1 16 0A8 8 0 0 1 32 0H40" fill="none" stroke="#000" stroke-width="1.0"/>
-      <line x1="-32" y1="-14" x2="32" y2="-14" stroke="#000" stroke-width="1.0"/>`,
+      <line x1="-32" y1="-16" x2="32" y2="-16" stroke="#000" stroke-width="1.0"/>`,
     pins: [{x:-40,y:0},{x:40,y:0}], w:80, h:32
   },
   ldr: {
     name: 'Fotowiderstand (LDR)', prefix: 'R',
-    svg: `<rect x="-30" y="-10" width="60" height="20" fill="none" stroke="#000" stroke-width="1.0"/>
-      <line x1="-40" y1="0" x2="-30" y2="0" stroke="#000" stroke-width="1.0"/>
-      <line x1="30" y1="0" x2="40" y2="0" stroke="#000" stroke-width="1.0"/>
-      ${arrowSVG(-28, -32, -14, -16)}
-      ${arrowSVG(-14, -32, 0, -16)}`,
+    svg: `<rect x="-24" y="-8" width="48" height="16" fill="none" stroke="#000" stroke-width="1.0"/>
+      <line x1="-40" y1="0" x2="-24" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="24" y1="0" x2="40" y2="0" stroke="#000" stroke-width="1.0"/>
+      ${arrowSVG(-28, -32, -14, -12)}
+      ${arrowSVG(-14, -32, 0, -12)}`,
     pins: [{x:-40,y:0},{x:40,y:0}], w:80, h:64
   },
   ntc: {
     name: 'Heißleiter (NTC)', prefix: 'R',
-    svg: `<rect x="-30" y="-10" width="60" height="20" fill="none" stroke="#000" stroke-width="1.0"/>
-      <line x1="-40" y1="0" x2="-30" y2="0" stroke="#000" stroke-width="1.0"/>
-      <line x1="30" y1="0" x2="40" y2="0" stroke="#000" stroke-width="1.0"/>
-      <path d="M-30 18H-22L22-18" fill="none" stroke="#000" stroke-width="1.0"/>
-      <text x="22" y="24" font-size="10" fill="#000" text-anchor="middle" font-family="sans-serif">−ϑ</text>`,
+    svg: `<rect x="-24" y="-8" width="48" height="16" fill="none" stroke="#000" stroke-width="1.0"/>
+      <line x1="-40" y1="0" x2="-24" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="24" y1="0" x2="40" y2="0" stroke="#000" stroke-width="1.0"/>
+      <path d="M-32 16H-24L24-16" fill="none" stroke="#000" stroke-width="1.0"/>
+      <text x="24" y="26" font-size="10" fill="#000" text-anchor="middle" font-family="sans-serif">−ϑ</text>`,
     pins: [{x:-40,y:0},{x:40,y:0}], w:80, h:48
   },
   zener: {
     name: 'Z-Diode', prefix: 'D',
-    svg: `<polygon points="14,0 -14,-16 -14,16" fill="none" stroke="#000" stroke-width="1.0"/>
-      <path d="M20 16H14V-16H8" fill="none" stroke="#000" stroke-width="1.0"/>
-      <line x1="-32" y1="0" x2="-14" y2="0" stroke="#000" stroke-width="1.0"/>
-      <line x1="14" y1="0" x2="32" y2="0" stroke="#000" stroke-width="1.0"/>`,
+    svg: `<polygon points="16,0 -16,-16 -16,16" fill="none" stroke="#000" stroke-width="1.0"/>
+      <path d="M22 16H16V-16H10" fill="none" stroke="#000" stroke-width="1.0"/>
+      <line x1="-32" y1="0" x2="-16" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="16" y1="0" x2="32" y2="0" stroke="#000" stroke-width="1.0"/>`,
     pins: [{x:-32,y:0},{x:32,y:0}], w:64, h:32
   },
   npn: {
@@ -524,10 +540,10 @@ const C = {
   },
   solar: {
     name: 'Solarzelle', prefix: 'G',
-    svg: `<line x1="0" y1="-32" x2="0" y2="-6" stroke="#000" stroke-width="1.0"/>
-      <line x1="0" y1="6" x2="0" y2="32" stroke="#000" stroke-width="1.0"/>
-      <line x1="-16" y1="-6" x2="16" y2="-6" stroke="#000" stroke-width="1.0"/>
-      <line x1="-8" y1="6" x2="8" y2="6" stroke="#000" stroke-width="4"/>
+    svg: `<line x1="0" y1="-32" x2="0" y2="-8" stroke="#000" stroke-width="1.0"/>
+      <line x1="0" y1="8" x2="0" y2="32" stroke="#000" stroke-width="1.0"/>
+      <line x1="-16" y1="-8" x2="16" y2="-8" stroke="#000" stroke-width="1.0"/>
+      <line x1="-8" y1="8" x2="8" y2="8" stroke="#000" stroke-width="4"/>
       ${arrowSVG(-36, -26, -22, -12)}
       ${arrowSVG(-36, -12, -22, 2)}`,
     pins: [{x:0,y:-32},{x:0,y:32}], w:48, h:64
@@ -556,9 +572,9 @@ const C = {
     name: 'Relais', prefix: 'K',
     svg: c => {
       const ex = c && c.closed ? 30 : 18, ey = c && c.closed ? -12 : -14;
-      return `<rect x="-40" y="-12" width="16" height="24" fill="none" stroke="#000" stroke-width="1.0"/>
-      <line x1="-32" y1="-32" x2="-32" y2="-12" stroke="#000" stroke-width="1.0"/>
-      <line x1="-32" y1="12" x2="-32" y2="32" stroke="#000" stroke-width="1.0"/>
+      return `<rect x="-40" y="-16" width="16" height="32" fill="none" stroke="#000" stroke-width="1.0"/>
+      <line x1="-32" y1="-32" x2="-32" y2="-16" stroke="#000" stroke-width="1.0"/>
+      <line x1="-32" y1="16" x2="-32" y2="32" stroke="#000" stroke-width="1.0"/>
       <line x1="32" y1="32" x2="32" y2="12" stroke="#000" stroke-width="1.0"/>
       <line x1="32" y1="-32" x2="32" y2="-12" stroke="#000" stroke-width="1.0"/>
       <line x1="32" y1="12" x2="${ex}" y2="${ey}" stroke="#000" stroke-width="1.0"/>
@@ -568,18 +584,18 @@ const C = {
   },
   bell: {
     name: 'Klingel', prefix: 'H',
-    svg: `<path d="M-20 4A20 20 0 0 1 20 4Z" fill="none" stroke="#000" stroke-width="1.0"/>
-      <line x1="-8" y1="4" x2="-8" y2="32" stroke="#000" stroke-width="1.0"/>
-      <line x1="8" y1="4" x2="8" y2="32" stroke="#000" stroke-width="1.0"/>`,
+    svg: `<path d="M-16 8A16 16 0 0 1 16 8Z" fill="none" stroke="#000" stroke-width="1.0"/>
+      <line x1="-8" y1="8" x2="-8" y2="32" stroke="#000" stroke-width="1.0"/>
+      <line x1="8" y1="8" x2="8" y2="32" stroke="#000" stroke-width="1.0"/>`,
     pins: [{x:-8,y:32},{x:8,y:32}], w:48, h:64
   },
   speaker: {
     name: 'Lautsprecher', prefix: 'B',
-    svg: `<rect x="-16" y="-12" width="12" height="24" fill="none" stroke="#000" stroke-width="1.0"/>
-      <polygon points="-4,-12 12,-26 12,26 -4,12" fill="none" stroke="#000" stroke-width="1.0"/>
+    svg: `<rect x="-16" y="-8" width="8" height="16" fill="none" stroke="#000" stroke-width="1.0"/>
+      <polygon points="-8,-8 8,-24 8,24 -8,8" fill="none" stroke="#000" stroke-width="1.0"/>
       <line x1="-32" y1="-8" x2="-16" y2="-8" stroke="#000" stroke-width="1.0"/>
       <line x1="-32" y1="8" x2="-16" y2="8" stroke="#000" stroke-width="1.0"/>`,
-    pins: [{x:-32,y:-8},{x:-32,y:8}], w:64, h:56
+    pins: [{x:-32,y:-8},{x:-32,y:8}], w:64, h:48
   },
   psu: {
     name: 'Netzgerät', prefix: 'G',
@@ -604,6 +620,39 @@ const C = {
     svg: `<line x1="-16" y1="0" x2="16" y2="0" stroke="#000" stroke-width="1.0"/>
       <polygon points="6,0 -4,-5 -4,5" fill="#000"/>`,
     pins: [{x:-16,y:0},{x:16,y:0}], w:32, h:16
+  },
+  // ---------- Hausinstallation / Netzformen ----------
+  grid3: {
+    name: 'Drehstromquelle (Trafo, Stern)', prefix: 'T', labelOff: { x: -40, y: -36 },
+    svg: `<path d="M-16-24A4 4 0 0 1 -8-24A4 4 0 0 1 0-24A4 4 0 0 1 8-24M-16-8A4 4 0 0 1 -8-8A4 4 0 0 1 0-8A4 4 0 0 1 8-8M-16 8A4 4 0 0 1 -8 8A4 4 0 0 1 0 8A4 4 0 0 1 8 8" fill="none" stroke="#000" stroke-width="1.0"/>
+      <line x1="8" y1="-24" x2="16" y2="-24" stroke="#000" stroke-width="1.0"/>
+      <line x1="8" y1="-8" x2="16" y2="-8" stroke="#000" stroke-width="1.0"/>
+      <line x1="8" y1="8" x2="16" y2="8" stroke="#000" stroke-width="1.0"/>
+      <line x1="-16" y1="-24" x2="-16" y2="24" stroke="#000" stroke-width="1.0"/>`,
+    pins: [{x:16,y:-24},{x:16,y:-8},{x:16,y:8},{x:-16,y:24}], w:48, h:64   // L1, L2, L3, Sternpunkt
+  },
+  load1: {
+    name: 'Verbraucher mit Körper', prefix: 'E',
+    svg: `<rect x="-24" y="-8" width="48" height="32" fill="none" stroke="#000" stroke-width="1.0"/>
+      <rect x="-20" y="0" width="24" height="16" fill="none" stroke="#000" stroke-width="1.0"/>
+      <line x1="-16" y1="-24" x2="-16" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="0" y1="-24" x2="0" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="16" y1="-24" x2="16" y2="-8" stroke="#000" stroke-width="1.0"/>
+      <circle cx="16" cy="-8" r="2" fill="#000"/>`,
+    pins: [{x:-16,y:-24},{x:0,y:-24},{x:16,y:-24}], w:48, h:48   // L, N, PE (Körper)
+  },
+  load3: {
+    name: 'Drehstromverbraucher mit Körper', prefix: 'M',
+    svg: `<rect x="-32" y="-8" width="64" height="40" fill="none" stroke="#000" stroke-width="1.0"/>
+      <rect x="-28" y="0" width="40" height="24" fill="none" stroke="#000" stroke-width="1.0"/>
+      <line x1="-24" y1="-24" x2="-24" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="-8" y1="-24" x2="-8" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="8" y1="-24" x2="8" y2="0" stroke="#000" stroke-width="1.0"/>
+      <line x1="24" y1="-24" x2="24" y2="-8" stroke="#000" stroke-width="1.0"/>
+      <circle cx="24" cy="-8" r="2" fill="#000"/>
+      <text x="-8" y="11" font-size="11" fill="#000" text-anchor="middle" font-family="sans-serif">M</text>
+      <text x="-8" y="21" font-size="9" fill="#000" text-anchor="middle" font-family="sans-serif">3~</text>`,
+    pins: [{x:-24,y:-24},{x:-8,y:-24},{x:8,y:-24},{x:24,y:-24}], w:64, h:64   // L1, L2, L3, PE (Körper)
   }
 };
 
@@ -714,7 +763,7 @@ function applyView() {
   const v = state.view;
   const vw = w / v.k, vh = h / v.k;
   canvas.setAttribute('viewBox', `${v.x} ${v.y} ${vw} ${vh}`);
-  for(const id of ['grid-bg-minor', 'grid-bg-major', 'grid-bg-dot']) {
+  for(const id of ['grid-bg-fine', 'grid-bg-minor', 'grid-bg-major']) {
     const r = $(id);
     r.setAttribute('x', v.x); r.setAttribute('y', v.y);
     r.setAttribute('width', vw); r.setAttribute('height', vh);
@@ -905,17 +954,16 @@ function applyGrid() {
 // damit das Karo beim Herauszoomen nicht zu einer grauen Fläche verschwimmt.
 function updateGridDetail() {
   const k = state.view.k, px = 1 / k;
-  $('grid-bg-dot').style.display = 8 * k >= 7.5 ? '' : 'none';
-  $('grid-bg-minor').style.display = 40 * k >= 14 ? '' : 'none';
-  document.querySelector('#grid-dot circle').setAttribute('r', Math.min(1.6, 1.1 * px));
-  document.querySelectorAll('#grid-minor path, #grid-major path').forEach(p => p.setAttribute('stroke-width', px));
+  $('grid-bg-fine').style.display = 8 * k >= 6 ? '' : 'none';
+  $('grid-bg-minor').style.display = 40 * k >= 12 ? '' : 'none';
+  document.querySelectorAll('#grid-fine path, #grid-minor path, #grid-major path').forEach(p => p.setAttribute('stroke-width', px));
 }
 function toggleGrid() { state.grid = !state.grid; applyGrid(); }
 
 function toggleSidebar(show) {
   const hidden = $('main').classList.toggle('no-sidebar', show === undefined ? undefined : !show);
   $('btn-parts').classList.toggle('on', !hidden);
-  try { localStorage.setItem('vectronix-sidebar', hidden ? '0' : '1'); } catch(e) {}
+  store.set('vectronix-sidebar', hidden ? '0' : '1');
 }
 
 function toggleDiagonal() { state.diagonal = !state.diagonal; updateHint(); }
@@ -1048,6 +1096,7 @@ const PALETTE = [
   ['Passiv', ['resistor','potentiometer','ldr','ntc','capacitor','polarized_capacitor','inductor','inductor_core','fuse']],
   ['Halbleiter', ['diode','led','zener','npn','pnp']],
   ['Messen & Pfeile', ['meter','ammeter','varrow','iarrow']],
+  ['Hausinstallation', ['grid3','load1','load3','fuse','gnd']],
   ['Sonstige', ['transformer','transformer_air','opamp','and_gate','or_gate','not_gate']],
 ];
 
@@ -1057,7 +1106,7 @@ function initPalette() {
     potentiometer: 'Potentio\u00ADmeter', capacitor: 'Konden\u00ADsator', dc_source: 'Gleich\u00ADspannungs\u00ADquelle',
     ac_source: 'Wechsel\u00ADspannungs\u00ADquelle', meter: 'Spannungs\u00ADmesser', ammeter: 'Strom\u00ADmesser',
     opamp: 'Operations\u00ADverstärker', ldr: 'Foto\u00ADwiderstand', ntc: 'Heiß\u00ADleiter (NTC)',
-    switch2: 'Wechsel\u00ADschalter', speaker: 'Laut\u00ADsprecher', varrow: 'Spannungs\u00ADpfeil', iarrow: 'Strom\u00ADpfeil',
+    switch2: 'Wechsel\u00ADschalter', grid3: 'Drehstrom\u00ADquelle (Stern)', load1: 'Verbraucher mit Körper', load3: 'Drehstrom\u00ADverbraucher', speaker: 'Laut\u00ADsprecher', varrow: 'Spannungs\u00ADpfeil', iarrow: 'Strom\u00ADpfeil',
   };
   const sidebar = $('sidebar');
   for(const [title, keys] of PALETTE) {
@@ -1145,7 +1194,7 @@ function newComp(type, x, y, extra) {
 function addComponent(type, x, y) {
   const def = C[type];
   if(!def) return null;
-  const comp = newComp(type, x, y, { label: getNextId(def.prefix, def.subLabel), labelOff: { ...(def.labelOff || { x: 0, y: 32 }) } });
+  const comp = newComp(type, x, y, { ...(def.defaults || {}), label: getNextId(def.prefix, def.subLabel), labelOff: { ...(def.labelOff || { x: 0, y: 32 }) } });
   state.components.push(comp);
   renderComp(comp);
   return comp;
@@ -1158,7 +1207,7 @@ function compBodySVG(comp) {
   // Schrift im Symbol (V, A, M, +, −, &, ≥1 …) bleibt beim Drehen aufrecht
   const a = comp.angle || 0;
   if(a) s = s.replace(/<text([^>]*?) x="(-?[\d.]+)" y="(-?[\d.]+)"/g, (m, pre, x, y) => `<text${pre} x="${x}" y="${y}" transform="rotate(${-a} ${x} ${y})"`);
-  if(!comp.showPolarity) s = s.replace(/<text class="(?:bat|cap)-plus"[^>]*>[^<]*<\/text>/, '');
+  if(!comp.showPolarity) s = s.replace(/<text class="(?:bat-plus|cap-plus|pol)"[^>]*>[^<]*<\/text>/g, '');
   return s;
 }
 
@@ -1706,6 +1755,21 @@ function toggleBlankSelected() {
   showToast(on ? 'Als Lücke markiert – im Export „Aufgabe“ bleibt sie leer' : 'Lücke aufgehoben');
 }
 
+// Echte Kreuzungen (keine Leitung endet dort) als „nicht verbunden, ohne Punkt“ markieren
+function markPlainCrossings(wires) {
+  const segs = wires.flatMap(w => w.points.slice(1).map((p, i) => [w.points[i], p]));
+  const isEnd = (p, a, b) => (Math.abs(p.x - a.x) < 1 && Math.abs(p.y - a.y) < 1) || (Math.abs(p.x - b.x) < 1 && Math.abs(p.y - b.y) < 1);
+  const ends = state.wires.flatMap(w => [w.points[0], w.points[w.points.length - 1]]);
+  for(let i = 0; i < segs.length; i++) for(let k = i + 1; k < segs.length; k++) {
+    const x = segIntersect(segs[i][0], segs[i][1], segs[k][0], segs[k][1]);
+    if(!x || isEnd(x, ...segs[i]) || isEnd(x, ...segs[k])) continue;
+    if(ends.some(e => Math.abs(e.x - x.x) < 1 && Math.abs(e.y - x.y) < 1)) continue;
+    const j = state.junctions.find(j => Math.abs(j.x - x.x) < 1 && Math.abs(j.y - x.y) < 1);
+    if(j) j.removed = true;
+  }
+  renderJunctions();
+}
+
 function selectAll() {
   selectMany([
     ...state.components.map(c => ({ type: 'c', id: c.id })),
@@ -1805,7 +1869,7 @@ function rotateGroup() {
   pushHistory();
 }
 
-// Zwischenablage: liegt in localStorage, damit Einfügen auch in einem anderen Tab/Projekt klappt
+// Zwischenablage: mit Zustimmung in localStorage (Einfügen auch in einem anderen Tab), sonst nur im Arbeitsspeicher
 const CLIP_KEY = 'vectronix-clipboard-v1';
 
 function clipFromSelection() {
@@ -1817,7 +1881,7 @@ function clipFromSelection() {
 function copySelection() {
   const clip = clipFromSelection();
   if(!clip) { showToast('Nichts ausgewählt'); return; }
-  try { localStorage.setItem(CLIP_KEY, JSON.stringify(clip)); } catch(e) {}
+  store.set(CLIP_KEY, JSON.stringify(clip));
   state.clip = clip;
   state.pasteCount = 0;
   const n = clip.components.length + clip.wires.length + clip.labels.length;
@@ -1826,7 +1890,7 @@ function copySelection() {
 
 function pasteClipboard() {
   let clip = state.clip;
-  try { const s = localStorage.getItem(CLIP_KEY); if(s) clip = JSON.parse(s); } catch(e) {}
+  try { const s = store.get(CLIP_KEY); if(s) clip = JSON.parse(s); } catch(e) {}
   if(!clip) { showToast('Zwischenablage ist leer'); return; }
   state.pasteCount = (state.pasteCount || 0) + 1;
   pasteClip(clip, 24 * state.pasteCount, 24 * state.pasteCount);
@@ -1861,6 +1925,7 @@ function pasteClip(clip, dx, dy) {
   }
   if(!items.length) return;
   updateJunctions();
+  if(clip.plainCrossings) markPlainCrossings(items.filter(it => it.type === 'w').map(it => state.wires.find(w => w.id === it.id)));
   selectMany(items);
   pushHistory();
 }
@@ -1875,7 +1940,7 @@ function openDialog(html, focusId) {
   if(focusId) { const f = $(focusId); if(f) { f.focus(); f.select && f.select(); } }
 }
 
-function closeDialog() { $('modal-overlay').style.display = 'none'; }
+function closeDialog() { if(state.dialogLocked) return; $('modal-overlay').style.display = 'none'; }
 window.closeDialog = closeDialog;
 $('modal-overlay').addEventListener('pointerdown', e => { if(e.target === $('modal-overlay')) closeDialog(); });
 
@@ -1890,9 +1955,9 @@ function openCompDialog(id) {
     <input type="text" id="dlg-label" value="${escapeXml(comp.label)}">
     <label for="dlg-value">Wert / Beschreibung (LaTeX: z. B. $10\\,\\Omega$)</label>
     <textarea id="dlg-value" rows="2">${escapeXml(comp.value)}</textarea>
-    ${comp.type === 'battery' || comp.type === 'polarized_capacitor' ? `
+    ${['battery', 'polarized_capacitor', 'dc_source'].includes(comp.type) ? `
     <label style="display:flex;align-items:center;gap:6px;margin-top:6px">
-      <input type="checkbox" id="dlg-polarity" ${comp.showPolarity ? 'checked' : ''}> Polarität anzeigen (+)
+      <input type="checkbox" id="dlg-polarity" ${comp.showPolarity ? 'checked' : ''}> Polarität anzeigen (+/−)
     </label>` : ''}
     ${['switch', 'button', 'relay'].includes(comp.type) ? `
     <label class="check"><input type="checkbox" id="dlg-closed" ${comp.closed ? 'checked' : ''}> Geschlossen zeichnen</label>` : ''}
@@ -1942,9 +2007,10 @@ function showHelp() {
       <tr><td><b>Export</b></td><td>PNG (mit Druckauflösung für Word), SVG, LaTeX (circuitikz) oder direkt „Als Bild kopieren“. Signatur abschaltbar. „Export-Bereich wählen“ exportiert nur einen Ausschnitt.</td></tr>
       <tr><td><b>Teilen</b></td><td>„Export → Teilen“ erzeugt einen Link und einen QR-Code. Die Schaltung steckt im Link – nichts wird hochgeladen.</td></tr>
       <tr><td><b>Als App</b></td><td>iPad: Teilen → „Zum Home-Bildschirm“. Chrome/Edge: Installieren-Symbol in der Adresszeile. Danach läuft Vectronix auch offline.</td></tr>
+      <tr><td><b>Karo</b></td><td>Ein Kästchen ist ein Einrastschritt. Bauteile, Anschlüsse und Leitungen liegen immer auf Kästchenlinien; kräftigere Linien alle 5 und 25 Kästchen. Ein-/ausblenden unter „Datei“.</td></tr>
       <tr><td><b>Ansicht</b></td><td>Zwei Finger verschieben und zoomen; Maus: Rad zoomt, leere Fläche ziehen verschiebt.</td></tr>
       <tr><td><b>Tastatur</b></td><td><kbd>V</kbd> Auswahl · <kbd>W</kbd> Leitung · <kbd>T</kbd> Text · <kbd>M</kbd> Rahmen · <kbd>Leertaste</kbd> Simulation · <kbd>R</kbd> drehen · <kbd>Entf</kbd> löschen · <kbd>Strg+C/X/V</kbd> kopieren/ausschneiden/einfügen · <kbd>Strg+A</kbd> alles · <kbd>Strg+D</kbd> duplizieren · <kbd>Strg+Z/Y</kbd> rückgängig/wiederholen · <kbd>Strg+E</kbd> exportieren · <kbd>Strg+Umschalt+C</kbd> als Bild kopieren · <kbd>Strg+S/O</kbd> speichern/laden</td></tr>
-      <tr><td><b>Datenschutz</b></td><td>Alles läuft lokal im Browser; der Stand wird automatisch im Browser gesichert.</td></tr>
+      <tr><td><b>Datenschutz</b></td><td>Keine Cookies, kein Tracking, keine Werbung, keine fremden Server: Die Seite lädt nur ihre eigenen Dateien (eine Sicherheitsrichtlinie blockiert alles andere). Gespeichert wird nur nach Zustimmung beim Start und nur in diesem Browser. Teilen-Links enthalten die Schaltung selbst. Beim Aufruf über GitHub Pages gelten für den Server die Datenschutzbestimmungen von GitHub.</td></tr>
     </table>
     <div class="btns"><button onclick="showIntro()">Einführung zeigen</button><button class="primary" onclick="closeDialog()">Schließen</button></div>`);
 }
@@ -1964,7 +2030,7 @@ function showIntro() {
     </div>`);
 }
 function closeIntro() {
-  try { localStorage.setItem(INTRO_KEY, '1'); } catch(e) {}
+  store.set(INTRO_KEY, '1');
   closeDialog();
 }
 
@@ -2103,11 +2169,57 @@ const TEMPLATES = [
   },
 ];
 
+
+// Netzformen nach DIN VDE 0100-100: Quelle links (Sternpunkt unten), Leiter waagrecht, Verbraucher darunter.
+// Kreuzungen ohne Verbindung bleiben ohne Punkt; Anschlüsse an Leiter sind T-Stücke mit Punkt.
+const LINE_END = 448;
+const netLine = (y, x0 = 16) => [[x0, y], [LINE_END, y]];
+const netText = (y, t) => [LINE_END + 8, y + 4, t, 11];
+const NET_SOURCE = [['grid3', 0, 0, 0, '', null, 'T1']];
+const L123 = [netLine(-24), netLine(-8), netLine(8)];
+const LOAD1 = [['load1', 176, 120, 0, '', { x: 0, y: 40 }]];
+const LOAD3 = [['load3', 320, 120, 0, '', { x: 0, y: 48 }]];
+const LOAD1_L = [[160, 96], [160, -24]], LOAD3_L = [[[296, 96], [296, -24]], [[312, 96], [312, -8]], [[328, 96], [328, 8]]];
+const TEMPLATES_NETS = [
+  {
+    name: 'TN-C-System', desc: 'Neutralleiter und Schutzleiter gemeinsam als PEN; Körper am PEN, Betriebserder am Sternpunkt',
+    comps: [...NET_SOURCE, ['gnd', -16, 88, 0, '', { x: 40, y: -2 }, 'RB'], ...LOAD1, ...LOAD3],
+    wires: [...L123, netLine(24, -16), [[-16, 24], [-16, 56]], LOAD1_L, [[176, 96], [176, 24]], [[192, 96], [192, 24]], ...LOAD3_L, [[344, 96], [344, 24]]],
+    texts: [netText(-24, 'L1'), netText(-8, 'L2'), netText(8, 'L3'), netText(24, 'PEN'), [-40, -56, 'TN-C-System', 14]],
+  },
+  {
+    name: 'TN-S-System', desc: 'Getrennter Neutralleiter N und Schutzleiter PE im ganzen Netz',
+    comps: [...NET_SOURCE, ['gnd', -16, 88, 0, '', { x: 40, y: -2 }, 'RB'], ...LOAD1, ...LOAD3],
+    wires: [...L123, netLine(24, -16), netLine(40, -16), [[-16, 24], [-16, 56]], LOAD1_L, [[176, 96], [176, 24]], [[192, 96], [192, 40]], ...LOAD3_L, [[344, 96], [344, 40]]],
+    texts: [netText(-24, 'L1'), netText(-8, 'L2'), netText(8, 'L3'), netText(24, 'N'), netText(40, 'PE'), [-40, -56, 'TN-S-System', 14]],
+  },
+  {
+    name: 'TN-C-S-System', desc: 'PEN bis zum Aufteilungspunkt (z. B. Hausanschluss), danach getrennt in N und PE',
+    comps: [...NET_SOURCE, ['gnd', -16, 88, 0, '', { x: 40, y: -2 }, 'RB'], ['gnd', 96, 88, 0, '', { x: 40, y: -2 }, 'RA'], ...LOAD1, ...LOAD3],
+    wires: [...L123, netLine(24, -16), [[96, 24], [96, 56]], netLine(40, 96), [[-16, 24], [-16, 56]], LOAD1_L, [[176, 96], [176, 24]], [[192, 96], [192, 40]], ...LOAD3_L, [[344, 96], [344, 40]]],
+    texts: [netText(-24, 'L1'), netText(-8, 'L2'), netText(8, 'L3'), netText(24, 'N'), netText(40, 'PE'), [32, 20, 'PEN', 11], [104, 70, 'Aufteilung', 10], [-40, -56, 'TN-C-S-System', 14]],
+  },
+  {
+    name: 'TT-System', desc: 'Sternpunkt am Betriebserder RB, Körper über eigenen Anlagenerder RA geerdet',
+    comps: [...NET_SOURCE, ['gnd', -16, 88, 0, '', { x: 40, y: -2 }, 'RB'], ['gnd', 416, 136, 0, '', { x: 40, y: -2 }, 'RA'], ...LOAD1, ...LOAD3],
+    wires: [...L123, netLine(24, -16), [[-16, 24], [-16, 56]], LOAD1_L, [[176, 96], [176, 24]], [[192, 96], [192, 72], [416, 72], [416, 104]], ...LOAD3_L, [[344, 96], [344, 72]]],
+    texts: [netText(-24, 'L1'), netText(-8, 'L2'), netText(8, 'L3'), netText(24, 'N'), [200, 66, 'PE', 11], [-40, -56, 'TT-System', 14]],
+  },
+  {
+    name: 'IT-System', desc: 'Sternpunkt isoliert oder hochohmig geerdet, Körper über Anlagenerder RA geerdet',
+    comps: [...NET_SOURCE, ['resistor', -16, 64, 90, 'hochohmig', { x: 44, y: -8 }, 'Z'], ['gnd', -16, 136, 0, '', { x: 40, y: -2 }, 'RB'], ['load3', 176, 120, 0, '', { x: 0, y: 48 }], ['gnd', 416, 136, 0, '', { x: 40, y: -2 }, 'RA'], ...LOAD3],
+    wires: [...L123, [[152, 96], [152, -24]], [[168, 96], [168, -8]], [[184, 96], [184, 8]], [[200, 96], [200, 72], [416, 72], [416, 104]], ...LOAD3_L, [[344, 96], [344, 72]]],
+    texts: [netText(-24, 'L1'), netText(-8, 'L2'), netText(8, 'L3'), [208, 66, 'PE', 11], [-40, -56, 'IT-System', 14]],
+  },
+].map(t => ({ ...t, group: 'Netzformen (Hausinstallation)', plainCrossings: true }));
+TEMPLATES.push(...TEMPLATES_NETS);
+
 function templateClip(t) {
   return {
-    components: t.comps.map(([type, x, y, angle, value, labelOff]) => ({ type, x, y, angle, value, label: C[type].prefix + '1', labelOff: labelOff || C[type].labelOff || { x: 0, y: 32 } })),
+    components: t.comps.map(([type, x, y, angle, value, labelOff, label]) => ({ ...(C[type].defaults || {}), type, x, y, angle, value, label: label || C[type].prefix + '1', labelOff: labelOff || C[type].labelOff || { x: 0, y: 32 } })),
     wires: t.wires.map(points => ({ points: points.map(([x, y]) => ({ x, y })) })),
-    labels: [],
+    labels: (t.texts || []).map(([x, y, text, size]) => ({ x, y, text, size })),
+    plainCrossings: !!t.plainCrossings,
   };
 }
 
@@ -2117,10 +2229,12 @@ function templatePreview(t) {
   const xs = [], ys = [];
   clip.components.forEach(c => { const d = C[c.type]; const r = Math.max(d.w, d.h) / 2; xs.push(c.x - r, c.x + r); ys.push(c.y - r, c.y + r); });
   clip.wires.forEach(w => w.points.forEach(p => { xs.push(p.x); ys.push(p.y); }));
+  clip.labels.forEach(l => { xs.push(l.x, l.x + l.text.length * l.size * 0.6); ys.push(l.y - l.size, l.y); });
   const x0 = Math.min(...xs) - 8, y0 = Math.min(...ys) - 8, w = Math.max(...xs) - x0 + 8, h = Math.max(...ys) - y0 + 8;
   let s = `<svg viewBox="${x0} ${y0} ${w} ${h}" xmlns="${SVG_NS}">`;
   clip.wires.forEach(wr => { s += `<polyline points="${wr.points.map(p => p.x + ',' + p.y).join(' ')}" fill="none" stroke="#000" stroke-width="1.5"/>`; });
   clip.components.forEach(c => { s += `<g transform="translate(${c.x},${c.y})${c.angle ? ` rotate(${c.angle})` : ''}">${compBodySVG(c)}</g>`; });
+  clip.labels.forEach(l => { s += `<text x="${l.x}" y="${l.y}" font-size="${l.size}" font-family="sans-serif">${escapeXml(l.text)}</text>`; });
   return s + '</svg>';
 }
 
@@ -2129,9 +2243,11 @@ function openTemplates() {
   openDialog(`
     <h2>Vorlagen</h2>
     <div class="hint" style="margin:0 0 10px">Die Vorlage wird in der Mitte der Ansicht eingefügt und ist danach ausgewählt – so lässt sie sich gleich verschieben.</div>
-    <div class="tpl-grid">${TEMPLATES.map((t, i) => `
+    ${[...new Set(TEMPLATES.map(t => t.group || 'Grundschaltungen'))].map(g => `
+    <h3 class="tpl-group">${escapeXml(g)}</h3>
+    <div class="tpl-grid">${TEMPLATES.map((t, i) => (t.group || 'Grundschaltungen') !== g ? '' : `
       <button class="tpl" onclick="insertTemplate(${i})">${templatePreview(t)}<b>${escapeXml(t.name)}</b><span>${escapeXml(t.desc)}</span></button>`).join('')}
-    </div>
+    </div>`).join('')}
     <div class="btns"><button onclick="closeDialog()">Schließen</button></div>`);
 }
 
@@ -2354,7 +2470,7 @@ function compactProject() {
     return o;
   });
   return {
-    version: 4,
+    version: 5,
     components: comps,
     wires: state.wires.map(w => ({ points: w.points, ...(w.blank ? { blank: true } : {}) })),
     labels: state.labels.map(l => ({ x: l.x, y: l.y, text: l.text, size: l.size })),
@@ -2537,7 +2653,7 @@ function solveLinear(A, b) {
   return x;
 }
 
-const SIM_UNSUPPORTED = { ac_source: 'Wechselspannungsquelle', transformer: 'Trafo', transformer_air: 'Trafo', opamp: 'Operationsverstärker', and_gate: 'Logikgatter', or_gate: 'Logikgatter', not_gate: 'Logikgatter' };
+const SIM_UNSUPPORTED = { grid3: 'Drehstromnetz', ac_source: 'Wechselspannungsquelle', transformer: 'Trafo', transformer_air: 'Trafo', opamp: 'Operationsverstärker', and_gate: 'Logikgatter', or_gate: 'Logikgatter', not_gate: 'Logikgatter' };
 const OPEN = 1e-9;
 
 function simulate() {
@@ -2728,8 +2844,8 @@ function runSim() {
     const def = C[c.type], a = c.angle || 0;
     const hh = (a % 180 ? def.w : def.h) / 2;
     if(o.glow > 0.02) {
-      if(c.type === 'lamp') el('circle', { cx: c.x, cy: c.y, r: 20, fill: '#facc15', opacity: (0.25 + 0.75 * o.glow).toFixed(2) }, under);
-      else el('polygon', { points: '14,0 -14,-16 -14,16', fill: '#ef4444', opacity: (0.3 + 0.7 * o.glow).toFixed(2), transform: `translate(${c.x},${c.y}) rotate(${a})` }, under);
+      if(c.type === 'lamp') el('circle', { cx: c.x, cy: c.y, r: 16, fill: '#facc15', opacity: (0.25 + 0.75 * o.glow).toFixed(2) }, under);
+      else el('polygon', { points: '16,0 -16,-16 -16,16', fill: '#ef4444', opacity: (0.3 + 0.7 * o.glow).toFixed(2), transform: `translate(${c.x},${c.y}) rotate(${a})` }, under);
     }
     const badge = (txt, warn) => {
       const g = el('g', { transform: `translate(${c.x},${c.y - hh - 12})` }, over);
@@ -2833,9 +2949,9 @@ const SIGNATURE = 'Vectronix by Tobias Schmidbauer';
 const EXPORT_KEY = 'vectronix-export-v1';
 function exportSettings() {
   const d = { format: 'png', task: false, signature: true, dpi: 300, transparent: false };
-  try { return { ...d, ...JSON.parse(localStorage.getItem(EXPORT_KEY) || '{}') }; } catch(e) { return d; }
+  try { return { ...d, ...(state.exportOpts || {}), ...JSON.parse(store.get(EXPORT_KEY) || '{}') }; } catch(e) { return d; }
 }
-function saveExportSettings(o) { try { localStorage.setItem(EXPORT_KEY, JSON.stringify(o)); } catch(e) {} }
+function saveExportSettings(o) { state.exportOpts = o; store.set(EXPORT_KEY, JSON.stringify(o)); }
 
 const hasBlanks = () => state.components.some(c => c.blank) || state.wires.some(w => w.blank);
 
@@ -3025,7 +3141,7 @@ const TIKZ_BIPOLE = {
 };
 
 // Zeichen aus Symbol-Texten nach LaTeX
-const TEX_SYM = { '+': '$+$', '−': '$-$', '∞': '$\\infty$', '&': '\\&', '≥1': '$\\geq 1$', '1': '1', '−ϑ': '$-\\vartheta$', 'M': 'M', 'V': 'V', 'A': 'A' };
+const TEX_SYM = { '3~': '3\\(\\sim\\)', '+': '$+$', '−': '$-$', '∞': '$\\infty$', '&': '\\&', '≥1': '$\\geq 1$', '1': '1', '−ϑ': '$-\\vartheta$', 'M': 'M', 'V': 'V', 'A': 'A' };
 
 // Bauteile ohne passendes circuitikz-Symbol: Linien, Rechtecke, Kreise, Polygone, Halbkreisbögen
 // und Texte des Symbols werden 1:1 als TikZ-Befehle ausgegeben (inkl. Drehung).
@@ -3225,7 +3341,7 @@ function latexToTexKeep(s) { return /^[A-Za-z]+_\{?\w+\}?$/.test(s) ? '$' + s + 
 
 function projectData() {
   return {
-    version: 4,
+    version: 5,
     components: state.components.map(({ _sim, ...c }) => c),
     wires: state.wires.map(w => ({ id: w.id, points: w.points, ...(w.blank ? { blank: true } : {}) })),
     labels: state.labels,
@@ -3297,6 +3413,7 @@ function loadData(data) {
     if(m && (state.counter[m[1]] || 0) < +m[2]) state.counter[m[1]] = +m[2];
   }
   if(!(data.version >= 4)) migratePins();
+  if(!(data.version >= 5)) state.components.forEach(c => { if(c.type === 'dc_source') c.showPolarity = true; });
   state.components.forEach(renderComp);
   state.wires.forEach(renderWire);
   state.labels.forEach(renderText);
@@ -3370,7 +3487,7 @@ function pushHistory() {
 }
 
 function autosave() {
-  try { localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(projectData())); } catch(e) { /* z. B. privater Modus */ }
+  store.set(AUTOSAVE_KEY, JSON.stringify(projectData()));
 }
 
 function updateUndoButtons() {
@@ -3526,36 +3643,87 @@ function init() {
   document.querySelectorAll('i[data-i]').forEach(n => { n.outerHTML = icon(n.dataset.i, n.dataset.i === 'chev' ? 'chev' : ''); });
   initPalette();
   applyGrid();
-  try { if(localStorage.getItem('vectronix-sidebar') === '0') toggleSidebar(false); } catch(e) {}
   new ResizeObserver(applyView).observe($('canvas-wrap'));
   resetView();
-  let restored = false;
-  try {
-    const saved = localStorage.getItem(AUTOSAVE_KEY);
-    if(saved) {
-      const data = JSON.parse(saved);
-      if(data && ((data.components || []).length || (data.wires || []).length || (data.labels || []).length)) {
-        loadData(data);
-        zoomFit();
-        restored = true;
-      }
-    }
-  } catch(e) { /* defekter Autosave wird ignoriert */ }
   pushHistory();
-  showToast(restored ? 'Letzte Sitzung wiederhergestellt' : 'Vectronix bereit – Bauteil in der Palette antippen oder auf die Fläche ziehen');
+  // Geteilte Schaltung aus dem Link öffnen (steht in der Adresse, nicht im Speicher)
   loadFromHash().then(shared => {
-    let seen = true;
-    try { seen = !!localStorage.getItem(INTRO_KEY); } catch(e) {}
-    if(!seen && !shared && !restored) showIntro();
+    state.fromLink = shared;
+    askConsent();
   });
   window.addEventListener('hashchange', loadFromHash);
 }
 
-window.addEventListener('load', init);
+// ============================================================
+// HINWEIS ZUR SPEICHERUNG (bei jedem Start)
+// ============================================================
 
-// Offline-Nutzung / Installation als App (nur über http/https, nicht bei file://)
-if('serviceWorker' in navigator && location.protocol.startsWith('http'))
-  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+function askConsent() {
+  openDialog(`
+    <h2>Arbeitsstand auf diesem Gerät speichern?</h2>
+    <p class="consent-text">Vectronix verwendet <b>keine Cookies</b> und sendet keine Daten an Dritte. Damit nach dem Neuladen nichts verloren geht, kann Vectronix Folgendes <b>nur lokal in diesem Browser</b> speichern:</p>
+    <ul class="consent-list">
+      <li>den aktuellen Schaltplan und Einstellungen (Palette, Export),</li>
+      <li>die Zwischenablage zum Kopieren zwischen Tabs,</li>
+      <li>die App-Dateien für die Nutzung ohne Internet.</li>
+    </ul>
+    <div class="hint">Bei „Ablehnen“ wird nichts gespeichert und bereits gespeicherte Vectronix-Daten werden gelöscht. Speichern als Datei (Strg+S), Export und Teilen per Link funktionieren trotzdem. Diese Frage erscheint bei jedem Start.</div>
+    <div class="btns">
+      <button onclick="decideConsent(false)">Ablehnen</button>
+      <button class="primary" onclick="decideConsent(true)">Speichern erlauben</button>
+    </div>
+    <div class="hint" style="background:none;padding:0;text-align:right"><a href="https://schmidbauer.io/impressum/" target="_blank" rel="noopener noreferrer">Impressum</a> · <a href="https://schmidbauer.io/datenschutz/" target="_blank" rel="noopener noreferrer">Datenschutzerklärung</a></div>`);
+  state.dialogLocked = true;
+}
+
+function decideConsent(ok) {
+  if(state.consentDecided) return;
+  state.consentDecided = true;
+  state.dialogLocked = false;
+  closeDialog();
+  if(ok) allowStorage(); else denyStorage();
+}
+
+function allowStorage() {
+  store.ok = true;
+  if(store.get('vectronix-sidebar') === '0') toggleSidebar(false);
+  let saved = null;
+  try { saved = JSON.parse(store.get(AUTOSAVE_KEY) || 'null'); } catch(e) { /* defekter Autosave wird ignoriert */ }
+  const hasContent = d => d && ((d.components || []).length || (d.wires || []).length || (d.labels || []).length);
+  if(hasContent(saved)) {
+    if(state.fromLink) {
+      // Geteilte Schaltung bleibt offen; der vorherige Stand liegt einen Schritt zurück im Verlauf
+      state.history.splice(state.historyIdx, 0, JSON.stringify(saved));
+      state.historyIdx++;
+      updateUndoButtons();
+      showToast('Geteilte Schaltung geöffnet – der vorherige Stand lässt sich mit „Rückgängig“ zurückholen');
+    } else {
+      loadData(saved);
+      zoomFit();
+      state.history = []; state.historyIdx = -1;
+      pushHistory();
+      showToast('Letzte Sitzung wiederhergestellt');
+    }
+  } else {
+    autosave();
+    if(!store.get(INTRO_KEY) && !state.fromLink) showIntro();
+  }
+  // Offline-Betrieb (nur über http/https, nicht bei file://)
+  if('serviceWorker' in navigator && location.protocol.startsWith('http'))
+    navigator.serviceWorker.register('sw.js').catch(() => { /* ohne Offline-Modus weiter */ });
+}
+
+function denyStorage() {
+  store.ok = false;
+  clearTimeout(autosaveTimer);
+  store.wipe();
+  if('serviceWorker' in navigator && navigator.serviceWorker.getRegistrations)
+    navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister())).catch(() => {});
+  if(window.caches) caches.keys().then(ks => ks.filter(k => k.startsWith('vectronix')).forEach(k => caches.delete(k))).catch(() => {});
+  showToast('Es wird nichts gespeichert – Projekt bei Bedarf mit Strg+S als Datei sichern');
+}
+
+window.addEventListener('load', init);
 </script>
 </body>
 </html>

@@ -1,116 +1,80 @@
-# ⚡ Vectronix – Schaltplandesigner ⚡
+# Vectronix
 
-![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+**Schaltpläne nach DIN EN 60617 für Unterricht und Arbeitsblätter. Läuft im Browser, ohne Anmeldung, ohne Server.**
 
-Willkommen bei **Vectronix**, dem innovativen, leichten und vollständig webbasierten Editor für elektronische Schaltpläne. Entworfen nach der offiziellen Norm **DIN EN 60617**, ist Vectronix das perfekte Werkzeug für Schule, Studium, Lehre und private Elektronik-Projekte! 🛠️🔌
+[**Vectronix im Browser öffnen**](https://tjrschmidbauer.github.io/Vectronix/) · [Impressum](https://schmidbauer.io/impressum/) · [Datenschutz](https://schmidbauer.io/datenschutz/)
 
-Egal ob Einsteiger oder Profi – mit Vectronix erstellst du im Handumdrehen professionelle Schaltpläne, speicherst deinen Fortschritt und exportierst die Ergebnisse in höchster Qualität. Und das Beste: **Alles läuft lokal in deinem Browser!** 🌍🔒
+![Vectronix mit einer Messschaltung für die Diodenkennlinie und dem passenden U-I-Diagramm](docs/images/kennlinie.png)
 
----
+Vectronix zeichnet Schaltpläne mit genormten Symbolen und liefert Bilder, die ohne Nacharbeit in ein Arbeitsblatt, eine Folie oder eine Prüfung passen. Linienstärke, Farbe und Beschriftung sind einstellbar, das Bild bekommt eine Breite in Zentimetern, und zu den Messschaltungen gibt es die passende Kennlinie im selben Bild.
 
-## 🚀 Warum Vectronix? (Vorteile)
+## Auf einen Blick
 
-* **Keine Installation, keine Cloud-Zwänge:** Lade einfach die `index.html` und leg los! Deine Daten verlassen niemals deinen Rechner. 🛡️
-* **Federleicht & Blitzschnell:** Das gesamte Programm besteht aus einer einzigen, hochoptimierten HTML-Datei. Kein Warten, keine Ladebalken. ⚡
-* **Normgerechtes Design:** Alle Bauteile sind strikt nach der **DIN EN 60617** gestaltet, perfekt für offizielle Dokumente und Abschlussarbeiten. 📐
-* **Wissenschaftlicher Export:** Nahtloser Export nach **LaTeX (TikZ)** und hochauflösendes **SVG**. Deine Dokumente sahen noch nie so gut aus! 🎓
+| Bereich | Was Vectronix kann |
+|---|---|
+| Zeichnen | 48 genormte Bauteile, Leitungen rasten am 8er-Karo ein, Knotenpunkte entstehen automatisch, Mehrfachauswahl mit Rahmen |
+| Vorlagen | 27 fertige Schaltungen: Reihe, Parallel, gemischt, mit Schalter, Kondensator, Widerstand, Messschaltungen, Netzformen |
+| Kennlinien | U-I-Diagramm für Draht, Glühlampe, Diode, LED, Z-Diode und Transistor, verschiebbar und Teil des Bildes |
+| Darstellung | Linienstärke für Leitungen und Symbole, Farbe, Schriftgröße, Schriftart |
+| Export | PNG (150 bis 600 dpi), SVG, LaTeX (circuitikz), Breite in cm, Vorschau, Signatur abschaltbar |
+| Unterricht | Gleichstrom-Simulation, Arbeitsblatt-Modus mit Lücken, Teilen per Link und QR-Code |
+| Geräte | Tablet-tauglich, als App installierbar, funktioniert offline |
 
----
+## Bilder, die in Dokumente passen
 
-## ✨ Features im Überblick
+Im Seitenfeld unter **Darstellung** stellst du Linienstärke, Farbe und Schrift ein. Die Einstellungen gelten für die Schaltung, das Diagramm und jeden Export.
 
-* **📱 Tablet-tauglich:** Große Schaltflächen, Zwei-Finger-Zoom, Bauteil antippen und setzen, Leitungen direkt vom Anschluss ziehen, Aktionsleiste für Bearbeiten, Drehen, Duplizieren und Löschen – ganz ohne Tastatur und Rechtsklick.
-* **🔌 Leitungen & Knoten:** Leitungen rasten an Anschlüssen ein, alle Anschlüsse liegen im 8er-Raster, Knotenpunkte entstehen automatisch.
-* **🔲 Mehrfachauswahl:** Werkzeug *Rahmen* (oder `Umschalt` + Ziehen) wählt ganze Schaltungsteile aus – gemeinsam verschieben, drehen, duplizieren, kopieren und einfügen (auch zwischen Projekten).
-* **📚 Vorlagen:** Reihen- und Parallelschaltung (auch mit Schalter, Kondensator und Widerstand), gemischte Schaltung, Wechselschaltung, Spannungsteiler, RC-Glied, LED mit Vorwiderstand, Einweggleichrichter, Transistor als Schalter sowie die Netzformen TN-C, TN-S, TN-C-S, TT und IT.
-* **📈 Kennlinien:** Messschaltungen mit passendem U-I-Diagramm für Draht, Glühlampe, Diode, LED, Z-Diode und das Ausgangskennlinienfeld eines Transistors, dazu spannungs- und stromrichtige Messung. Das Diagramm ist Teil des Bildes und wird mit der Schaltung exportiert.
-* **🎨 Darstellung:** Linienstärke von Leitungen und Symbolen, Farbe, Schriftgröße und Schriftart einstellbar; gilt für Zeichnung, Diagramm und Export. Das Bild bekommt eine Breite in cm, damit es ohne Skalieren ins Dokument passt.
-* **📐 Karo:** Ein Kästchen ist ein Einrastschritt; Bauteile, Anschlüsse und Leitungen liegen immer auf Kästchenlinien.
-* **➡️ Zählpfeile:** Spannungs- und Strompfeil mit Beschriftung wie `U_1` → U₁.
-* **📝 Arbeitsblatt-Modus:** Bauteile oder Leitungen als *Lücke* markieren. Export *Aufgabe* zeigt leere Kästen, *Lösung* die vollständige Schaltung.
-* **⚡ Simulation (Gleichstrom):** Lampen leuchten, LEDs glühen, Spannungs- und Strommesser zeigen Werte. Schalter, Taster, Fotowiderstand (hell/dunkel) und Heißleiter (kalt/warm) lassen sich antippen. Warnungen bei Kurzschluss, überlasteter LED und ausgelöster Sicherung.
-* **🖼️ Export:** PNG mit Druckauflösung (150/300/600 dpi, von Word korrekt erkannt), *Als Bild kopieren* zum direkten Einfügen, SVG und LaTeX (circuitikz). Signatur abschaltbar.
-* **🔗 Teilen per Link & QR-Code:** Die ganze Schaltung steckt im Link – nichts wird hochgeladen. Den QR-Code per Beamer zeigen, die Klasse öffnet die Schaltung auf ihren Tablets.
-* **📲 Als App installierbar:** Auf dem iPad *Zum Home-Bildschirm*, in Chrome/Edge über *Installieren*. Danach läuft Vectronix auch ohne Internet.
-* **🕰️ Undo & Redo, Autosave, Speichern & Laden** als `.vectronix`-Datei.
+![Darstellung: Transistor-Messschaltung in Ziegelbraun mit stärkeren Linien und dem Ausgangskennlinienfeld](docs/images/darstellung.png)
 
----
+Beim Exportieren legst du die Breite in Zentimetern fest. Die Vorschau zeigt das fertige Bild, darunter stehen Größe in cm und Pixeln. Bei LaTeX wird die Breite über `scale` gesetzt.
 
-## 🧩 Umfangreiche Bauteil-Bibliothek
+![Export-Dialog mit Vorschau von Schaltplan und Kennlinie, Breite in cm und Auflösung](docs/images/export.png)
 
-* 🔋 **Quellen:** Batterie (auch aus mehreren Zellen), Spannungsversorgung allgemein/Gleichspannung/Wechselspannung (wie im Schaltzeichenblatt des ISB Bayern), Gleichspannungsquelle nach DIN EN 60617-2, Netzgerät, Wechselspannungsquelle, Generator, Solarzelle, Solarmodul, Erde, Masse
-* 🕹️ **Schalter:** Schalter, Taster, Wechselschalter, Relais
-* 💡 **Verbraucher:** Lampe, Motor, Klingel, Lautsprecher
-* 🪫 **Passiv:** Widerstand, Potentiometer, Fotowiderstand (LDR), Heißleiter (NTC), Kondensator, Elko, Spule, Spule mit Eisenkern, Sicherung
-* 🔬 **Halbleiter:** Diode, LED, Z-Diode, Transistor npn/pnp
-* 📏 **Messen & Pfeile:** Spannungsmesser, Strommesser, Spannungspfeil, Strompfeil
-* 🏠 **Hausinstallation:** Drehstromquelle (Trafo in Sternschaltung), Verbraucher und Drehstromverbraucher mit Körper
-* 🧠 **Sonstige:** Transformator (mit/ohne Eisenkern), Operationsverstärker, UND/ODER/NICHT-Gatter
+## Vorlagen
 
----
+Unter **Vorlagen** liegen die gängigen Schaltungen aus dem Unterricht. Eine Vorlage wird in der Mitte der Ansicht eingefügt und ist danach ausgewählt, lässt sich also gleich verschieben. Die Kennlinien-Vorlagen bringen das Diagramm mit.
 
-## 🍎 Für Lehrkräfte
+![Vorlagen für Kennlinien: Draht, Glühlampe, Diode, LED, Z-Diode, Transistor und die spannungs- und stromrichtige Messung](docs/images/vorlagen.png)
 
-* **Arbeitsblatt in zwei Minuten:** Vorlage öffnen → Werte eintragen (Doppeltippen) → einzelne Bauteile als *Lücke* markieren → *Export* → PNG, Fassung *Aufgabe* und danach *Lösung*. Oder *Als Bild kopieren* und direkt in Word einfügen.
-* **Im Unterricht:** *Simulieren* starten und Schalter live umlegen. Mit *Export → Teilen* einen QR-Code an die Wand werfen; die Klasse arbeitet mit einer eigenen Kopie weiter.
-* **In mebis oder einer anderen Lernplattform:** Den Teilen-Link als *Link/URL* im Kurs anlegen. Wer ihn öffnet, bekommt genau diese Schaltung. Ohne Link genügt die Adresse `https://tjrschmidbauer.github.io/Vectronix/`.
-* **Datenschutz:** Keine Anmeldung, keine Cookies, keine fremden Server, Speichern nur nach Zustimmung (siehe unten).
+| Gruppe | Vorlagen |
+|---|---|
+| Grundschaltungen | Reihenschaltung, Parallelschaltung, Spannungsteiler, Wechselschaltung, RC-Glied, Einweggleichrichter, Transistor als Schalter |
+| Schalter, Kondensator, Widerstand | Reihe mit Schalter und Lampe, Parallel mit Schalter je Zweig, Widerstände in Reihe, Widerstände parallel, gemischte Schaltung, Kondensatoren in Reihe und parallel, LED mit Vorwiderstand |
+| Kennlinien | Draht oder Widerstand, Glühlampe, Diode, Leuchtdiode, Z-Diode, Transistor (Ausgangskennlinien), spannungsrichtige und stromrichtige Messung |
+| Netzformen | TN-C, TN-S, TN-C-S, TT, IT (DIN VDE 0100-100) |
 
----
+Die Kennlinien sind aus typischen Werten berechnet (zum Beispiel Silizium-Diode mit Knick bei etwa 0,7 V) und zeigen den Verlauf, keine Messwerte.
 
-## 🔒 Datenschutz
+## Für Lehrkräfte
 
-* **Keine Cookies**, kein Tracking, keine Analyse- oder Werbedienste, keine Anmeldung.
-* **Keine Daten an Dritte:** Vectronix lädt ausschließlich eigene Dateien. Eine Content-Security-Policy blockiert alle Verbindungen zu fremden Servern (keine CDNs, keine Google Fonts, keine eingebetteten Fremdinhalte). Links geben keine Herkunftsadresse (Referrer) weiter.
-* **Speichern nur mit Zustimmung:** Bei jedem Start fragt Vectronix, ob Schaltplan, Einstellungen, Zwischenablage (`localStorage`) und die App-Dateien für den Offline-Betrieb (Service-Worker-Cache) lokal im Browser gespeichert werden dürfen. Vor der Entscheidung wird nichts gelesen oder gespeichert. Bei „Ablehnen“ werden vorhandene Vectronix-Daten gelöscht und Vectronix arbeitet nur im Arbeitsspeicher; Speichern als Datei, Export und Teilen per Link funktionieren weiterhin.
-* **Teilen ohne Server:** Ein Teilen-Link enthält die Schaltung selbst (hinter dem `#`, das der Browser nicht an den Server schickt). Der QR-Code entsteht im Browser.
-* Beim Aufruf über GitHub Pages gelten für den Server die [Datenschutzbestimmungen von GitHub](https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement).
+* **Arbeitsblatt in zwei Minuten:** Vorlage öffnen, Werte eintragen (Doppeltippen), einzelne Bauteile als *Lücke* markieren, *Exportieren*, Fassung *Aufgabe* und danach *Lösung*. Oder *Als Bild kopieren* und direkt in Word einfügen.
+* **Im Unterricht:** *Simulieren* starten und Schalter live umlegen. Mit *Datei, Teilen* einen QR-Code an die Wand werfen. Die Klasse arbeitet mit einer eigenen Kopie weiter.
+* **In mebis oder einer anderen Lernplattform:** Den Teilen-Link als Link im Kurs anlegen. Wer ihn öffnet, bekommt genau diese Schaltung.
+* **Datenschutz:** keine Anmeldung, keine Cookies, keine fremden Server, Speichern nur nach Zustimmung.
 
----
+## Loslegen
 
-## 🛠️ Loslegen (Installation & Nutzung)
+**Online:** [tjrschmidbauer.github.io/Vectronix](https://tjrschmidbauer.github.io/Vectronix/) öffnen.
 
-Es könnte nicht einfacher sein:
+**Lokal:** Repository als ZIP laden oder klonen und `index.html` im Browser öffnen. Es gibt keinen Build-Schritt. Der Offline-Modus (Service Worker) braucht http oder https, zum Beispiel `python3 -m http.server 8080` im Projektordner.
 
-1. **Herunterladen:** Lade dieses Repository herunter (als `.zip`) oder klone es via Git. 📦
-2. **Entpacken:** Öffne den Ordner auf deinem PC. 📂
-3. **Starten:** Doppelklick auf die `index.html` – sie öffnet sich in deinem Standardbrowser (Chrome, Firefox, Edge, Safari). 🌐
-4. **Zeichnen:** Wähle links ein Bauteil, platziere es auf der Arbeitsfläche und verbinde die Pins mit dem Leitungs-Werkzeug (Taste `W`)! 🎉
+**Eigene Kopie auf GitHub Pages:** In *Settings, Pages* als Quelle *Deploy from a branch* wählen, Branch `master` und Ordner `/ (root)`. Nach ein bis zwei Minuten ist die Seite erreichbar. Die Datei `.nojekyll` sorgt dafür, dass GitHub die Dateien unverändert ausliefert.
 
-### 🌐 Online nutzen mit GitHub Pages
+### Der erste Schaltplan
 
-Vectronix besteht aus statischen Dateien (`index.html`, dazu `manifest.webmanifest`, `sw.js` und Icons für die App-Installation) und braucht weder Build noch Server. `index.html` funktioniert auch allein. So bringst du es online:
+1. **Bauteil setzen:** Im Seitenfeld unter *Bauteile* antippen und auf die Fläche tippen (mehrfach möglich, *Fertig* beendet) oder direkt auf die Fläche ziehen. Schneller Start: *Vorlagen*.
+2. **Leitungen ziehen:** Vom Anschluss eines Bauteils aus ziehen, oder das Werkzeug *Leitung* (`W`) nutzen.
+3. **Bearbeiten:** Antippen wählt aus, die Leiste unten bietet *Bearbeiten*, *Drehen*, *Duplizieren*, *Löschen*. Doppeltippen öffnet Bezeichnung und Wert, zum Beispiel `4,5 V`, `1 kΩ` oder `3,5 V; 0,2 A`. Diese Werte nutzt auch die Simulation.
+4. **Darstellung:** Im Seitenfeld Linienstärke, Farbe und Schrift einstellen.
+5. **Diagramm:** Im Reiter *Diagramm* eine Kennlinie wählen. Sie erscheint neben der Schaltung und ist Teil des Bildes.
+6. **Exportieren:** *Exportieren* für PNG, SVG oder LaTeX mit Breite in cm. *Export-Bereich wählen* (`Umschalt+R`) exportiert nur einen Ausschnitt.
 
-1. Öffne das Repository auf GitHub und gehe zu **Settings → Pages**.
-2. Wähle unter **Build and deployment → Source** den Eintrag **Deploy from a branch**.
-3. Wähle als Branch **`master`** (der Standard-Branch dieses Repositories) und als Ordner **`/ (root)`**. Klicke auf **Save**.
-4. Warte ein bis zwei Minuten. Oben auf der Pages-Seite erscheint dann der Link – bei diesem Repository:
-   **`https://tjrschmidbauer.github.io/Vectronix/`**
-5. Jede weitere Änderung im Branch `master` wird automatisch neu veröffentlicht.
-
-> 💡 Die Datei `.nojekyll` sorgt dafür, dass GitHub die Seite unverändert ausliefert. Deine Schaltpläne bleiben auch online **lokal in deinem Browser** – nichts wird hochgeladen.
-
-### 🧭 Kurzanleitung: Dein erster Schaltplan
-
-1. **Bauteil platzieren:** In der Palette antippen und auf die Fläche tippen (mehrfach möglich, *Fertig* beendet) – oder direkt auf die Fläche ziehen. Schneller Start: *Datei → Vorlagen*.
-2. **Leitungen ziehen:** Vom Anschluss eines Bauteils aus ziehen, oder Werkzeug *Leitung* (`W`): Start und Ziel antippen.
-3. **Bearbeiten:** Antippen wählt aus; die Leiste unten bietet *Bearbeiten*, *Drehen*, *Duplizieren*, *Löschen*. Doppeltippen öffnet den Dialog für Bezeichnung und Wert, z. B. `4,5 V`, `1 kΩ` oder `3,5 V; 0,2 A` (diese Werte nutzt auch die Simulation).
-4. **Knotenpunkte:** Entstehen automatisch. Antippen, um einen Punkt als „nicht verbunden“ zu markieren oder zu entfernen.
-5. **Simulieren:** *Simulieren* (Leertaste) startet die Gleichstrom-Simulation, *Beenden* stoppt sie.
-6. **Exportieren:** *Export → Exportieren …* (PNG, SVG, LaTeX), *Als Bild kopieren* oder *Teilen*. Mit *Export-Bereich wählen* (`Umschalt+R`) nur einen Ausschnitt.
-
-### 🛟 Häufige Fragen
-
-* **Mein Plan ist nach dem Neuladen weg?** Der Autosave nutzt den Browserspeicher. Im privaten Modus oder nach dem Löschen von Websitedaten geht er verloren – sichere wichtige Pläne zusätzlich als Datei.
-* **Die Seite zeigt auf GitHub Pages einen 404-Fehler?** Prüfe, ob in *Settings → Pages* der Branch `master` und `/ (root)` gewählt sind und ob `index.html` im Hauptordner liegt.
-* **Der LaTeX-Export kompiliert nicht?** Du brauchst das Paket `circuitikz`. Kontrolliere Polarität und Symbolgrößen im Ergebnis.
-
-### ⌨️ Tastenkürzel
+### Tastenkürzel
 
 | Taste | Funktion |
 |---|---|
 | `V` / `W` / `T` / `M` | Auswahl / Leitung / Text / Rahmen |
-| `Leertaste` | Simulation starten/beenden |
+| `Leertaste` | Simulation starten oder beenden |
 | `Umschalt+R` | Export-Bereich aufziehen |
 | `R` | Auswahl drehen |
 | `Entf` | Auswahl löschen |
@@ -122,16 +86,37 @@ Vectronix besteht aus statischen Dateien (`index.html`, dazu `manifest.webmanife
 | `F`, `+`, `-`, `0` | Alles anzeigen, Zoom |
 | `?` | Hilfe |
 
----
+### Häufige Fragen
 
-## 📤 Export-Möglichkeiten
+* **Mein Plan ist nach dem Neuladen weg?** Der Autosave nutzt den Browserspeicher und läuft nur nach Zustimmung. Im privaten Modus oder nach dem Löschen von Websitedaten geht er verloren. Wichtige Pläne zusätzlich als Datei (`.vectronix`) speichern.
+* **GitHub Pages zeigt einen 404-Fehler?** Prüfen, ob in *Settings, Pages* der Branch `master` und `/ (root)` gewählt sind und `index.html` im Hauptordner liegt.
+* **Der LaTeX-Export kompiliert nicht?** Es wird das Paket `circuitikz` gebraucht. Polarität und Symbolgrößen im Ergebnis kontrollieren.
 
-* 🖼️ **PNG:** Für Word, Pages, OneNote und Arbeitsblätter – mit eingebetteter Druckauflösung, optional transparent.
-* 📋 **Als Bild kopieren:** Direkt in die Zwischenablage (Chrome, Edge, Safari über https).
-* ✒️ **SVG:** Verlustfrei skalierbar für Präsentationen und Web.
-* 📜 **LaTeX (circuitikz):** Code zum Kopieren oder als `.tex`. Bauteile ohne circuitikz-Gegenstück werden originalgetreu aus Linien gezeichnet.
-* 📝 Jeweils als *Lösung* oder *Aufgabe* (Lücken leer), Signatur abschaltbar.
+## Bauteile
 
----
+| Gruppe | Bauteile |
+|---|---|
+| Quellen | Batterie (auch aus mehreren Zellen), Spannungsversorgung (allgemein, Gleich-, Wechselspannung, wie im Schaltzeichenblatt des ISB Bayern), Gleichspannungsquelle nach DIN EN 60617-2, Netzgerät, Wechselspannungsquelle, Generator, Solarzelle, Solarmodul, Erde, Masse |
+| Schalter | Schalter, Taster, Wechselschalter, Relais |
+| Verbraucher | Lampe, Motor, Klingel, Lautsprecher |
+| Passiv | Widerstand, Potentiometer, Fotowiderstand (LDR), Heißleiter (NTC), Kondensator, Elko, Spule, Spule mit Eisenkern, Sicherung |
+| Halbleiter | Diode, LED, Z-Diode, Transistor npn und pnp |
+| Messen und Pfeile | Spannungsmesser, Strommesser, Spannungspfeil, Strompfeil |
+| Hausinstallation | Drehstromquelle (Trafo in Sternschaltung), Verbraucher, Drehstromverbraucher mit Körper |
+| Sonstige | Transformator (mit und ohne Eisenkern), Operationsverstärker, UND-, ODER- und NICHT-Gatter |
 
-**Viel Spaß beim Planen, Entwickeln und Konstruieren mit Vectronix!** 💡👨‍💻👩‍💻
+## Datenschutz
+
+* Keine Cookies, kein Tracking, keine Analyse- oder Werbedienste, keine Anmeldung.
+* Keine Daten an Dritte: Vectronix lädt nur eigene Dateien. Eine Content-Security-Policy blockiert Verbindungen zu fremden Servern (keine CDNs, keine Google Fonts, keine eingebetteten Fremdinhalte). Links geben keine Herkunftsadresse weiter.
+* Speichern nur mit Zustimmung: Bei jedem Start fragt Vectronix, ob Schaltplan, Einstellungen, Zwischenablage (`localStorage`) und die App-Dateien für den Offline-Betrieb (Service-Worker-Cache) lokal im Browser gespeichert werden dürfen. Vor der Entscheidung wird nichts gelesen oder gespeichert. Bei „Ablehnen“ werden vorhandene Vectronix-Daten gelöscht, und Vectronix arbeitet nur im Arbeitsspeicher. Speichern als Datei, Export und Teilen per Link funktionieren weiterhin.
+* Teilen ohne Server: Ein Teilen-Link enthält die Schaltung selbst, hinter dem `#`, das der Browser nicht an den Server schickt. Der QR-Code entsteht im Browser.
+* Beim Aufruf über GitHub Pages gelten für den Server die [Datenschutzbestimmungen von GitHub](https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement).
+
+## Entstehung und KI
+
+Vectronix ist ein privates Projekt von Tobias Schmidbauer. Konzept, Anforderungen und didaktische Entscheidungen stammen von ihm. Code und Teile der Texte entstehen mit Unterstützung von KI-Assistenten (Claude von Anthropic), die auch in den Commits als Mitautor vermerkt sind. Änderungen gehen erst nach seiner Freigabe in den Hauptzweig. Die Screenshots in diesem README stammen aus der laufenden Anwendung.
+
+Die Farben folgen dem Markenhandbuch von [schmidbauer.io](https://schmidbauer.io/): Creme, Kohle, Apricot und Ziegelrot.
+
+Diese Seite ist ein privates Angebot und steht in keinem Zusammenhang mit meinem Dienstherrn oder einer Schule. Alle Inhalte, Einschätzungen und Meinungen sind ausschließlich meine persönliche, private Sicht.

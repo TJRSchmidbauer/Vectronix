@@ -22,7 +22,9 @@ Egal ob Einsteiger oder Profi – mit Vectronix erstellst du im Handumdrehen pro
 * **📱 Tablet-tauglich:** Große Schaltflächen, Zwei-Finger-Zoom, Bauteil antippen und setzen, Leitungen direkt vom Anschluss ziehen, Aktionsleiste für Bearbeiten, Drehen, Duplizieren und Löschen – ganz ohne Tastatur und Rechtsklick.
 * **🔌 Leitungen & Knoten:** Leitungen rasten an Anschlüssen ein, alle Anschlüsse liegen im 8er-Raster, Knotenpunkte entstehen automatisch.
 * **🔲 Mehrfachauswahl:** Werkzeug *Rahmen* (oder `Umschalt` + Ziehen) wählt ganze Schaltungsteile aus – gemeinsam verschieben, drehen, duplizieren, kopieren und einfügen (auch zwischen Projekten).
-* **📚 Vorlagen:** Reihen-, Parallel- und Wechselschaltung, Spannungsteiler, RC-Glied, Einweggleichrichter, Transistor als Schalter sowie die Netzformen TN-C, TN-S, TN-C-S, TT und IT.
+* **📚 Vorlagen:** Reihen- und Parallelschaltung (auch mit Schalter, Kondensator und Widerstand), gemischte Schaltung, Wechselschaltung, Spannungsteiler, RC-Glied, LED mit Vorwiderstand, Einweggleichrichter, Transistor als Schalter sowie die Netzformen TN-C, TN-S, TN-C-S, TT und IT.
+* **📈 Kennlinien:** Messschaltungen mit passendem U-I-Diagramm für Draht, Glühlampe, Diode, LED, Z-Diode und das Ausgangskennlinienfeld eines Transistors, dazu spannungs- und stromrichtige Messung. Das Diagramm ist Teil des Bildes und wird mit der Schaltung exportiert.
+* **🎨 Darstellung:** Linienstärke von Leitungen und Symbolen, Farbe, Schriftgröße und Schriftart einstellbar; gilt für Zeichnung, Diagramm und Export. Das Bild bekommt eine Breite in cm, damit es ohne Skalieren ins Dokument passt.
 * **📐 Karo:** Ein Kästchen ist ein Einrastschritt; Bauteile, Anschlüsse und Leitungen liegen immer auf Kästchenlinien.
 * **➡️ Zählpfeile:** Spannungs- und Strompfeil mit Beschriftung wie `U_1` → U₁.
 * **📝 Arbeitsblatt-Modus:** Bauteile oder Leitungen als *Lücke* markieren. Export *Aufgabe* zeigt leere Kästen, *Lösung* die vollständige Schaltung.

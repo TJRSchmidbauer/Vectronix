@@ -44,9 +44,9 @@ a{color:var(--accent)}
 @media (max-width:640px){.l3{display:none}}
 #main{display:flex;flex:1;overflow:hidden;min-height:0}
 #main.no-sidebar #sidebar{display:none}
-#sidebar{width:212px;background:var(--panel);border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0;padding:4px 8px 12px;overscroll-behavior:contain}
+#sidebar{width:300px;background:var(--panel);border-left:1px solid var(--border);flex-shrink:0;display:flex;flex-direction:column;min-height:0}
 #sidebar h3{font-size:11px;font-weight:600;text-transform:uppercase;color:#7A7068;margin:12px 2px 6px;letter-spacing:.5px}
-#sidebar .parts{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+#sidebar .parts{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 #sidebar .part-btn{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:6px 3px 5px;cursor:grab;text-align:center;font-size:11px;line-height:1.2;min-height:70px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;hyphens:manual;touch-action:pan-y;transition:background .12s,border-color .12s}
 @media (hover:hover){#sidebar .part-btn:hover{background:#FDF1E8;border-color:var(--accent)}}
 #sidebar .part-btn.active{background:#FBE3D3;border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-light)}
@@ -118,7 +118,7 @@ a{color:var(--accent)}
 .junction-dot:hover{fill:#f59e0b}
 .wire-hit{stroke:transparent}
 @media (pointer:coarse){.wire-hit{stroke-width:26px}}
-.wire-g.wire-sel .wire{stroke:var(--accent);stroke-width:1.6}
+.wire-g.wire-sel .wire{stroke:var(--accent);stroke-width:calc(var(--ww,1) * 1px + .6px)}
 .wire-handle{fill:#fff;stroke:var(--accent);stroke-width:1.2;pointer-events:none}
 .label-sel text{fill:var(--accent)}
 .pin-handle{cursor:crosshair}
@@ -130,43 +130,86 @@ a{color:var(--accent)}
 .toast.show{opacity:1}
 @media (max-width:760px){
   #main{flex-direction:column}
-  #sidebar{width:100%;height:98px;border-right:none;border-bottom:1px solid var(--border);display:flex;flex-direction:row;overflow-x:auto;overflow-y:hidden;padding:6px;gap:6px}
-  #sidebar h3{display:none}
-  #sidebar .parts{display:flex;gap:6px}
-  #sidebar .part-btn{width:84px;min-height:0;flex-shrink:0;touch-action:pan-x}
+  #sidebar{width:100%;height:42dvh;border-left:none;border-top:1px solid var(--border)}
+  #sidebar .parts{grid-template-columns:repeat(3,1fr)}
   #toolbar{padding:4px 6px;gap:4px}
   #statusbar .sb-brand{display:none}
 }
+
+/* ---- Bedienkonzept wie Plotoria: Kopfleiste, Werkzeugkapsel unten, Seitenfeld mit Reitern ---- */
+#toolbar{padding:6px 12px;gap:4px}
+#toolbar .brand{display:flex;align-items:center;gap:8px;font:700 15px/1 'Space Grotesk',Inter,sans-serif;letter-spacing:-.01em;margin-right:6px;flex-shrink:0}
+#toolbar .brand svg{width:26px;height:26px;border-radius:7px}
+@media (max-width:560px){#toolbar .bname,#toolbar .brand small{display:none}#toolbar{gap:2px}}
+#toolbar .brand small{font:400 11px/1 Inter,sans-serif;color:var(--muted);background:var(--bg);border-radius:999px;padding:3px 7px}
+.tb{border-radius:10px}
+#capsule{bottom:16px;padding:4px;gap:2px;border-radius:999px;background:var(--panel);box-shadow:none}
+#capsule .seg{display:flex;background:none;padding:0;gap:2px;flex-shrink:0}
+#capsule{flex-wrap:nowrap;align-items:center;white-space:nowrap}
+#capsule .tb{border-radius:999px;min-width:var(--tb);padding:0 12px}
+#capsule .sep{width:1px;align-self:stretch;background:var(--border);margin:6px 3px;flex-shrink:0}
+#selbar{bottom:76px}
+.ptabs{display:flex;gap:2px;background:var(--bg);border-radius:10px;padding:3px;margin:10px 10px 0;flex-shrink:0}
+.ptabs button{flex:1;border:none;background:none;border-radius:8px;padding:7px 4px;font:500 13px Inter,sans-serif;color:var(--muted);cursor:pointer}
+.ptabs button.on{background:var(--panel);color:var(--text);font-weight:700;box-shadow:0 0 0 1px var(--border)}
+.ptabs button:focus-visible{outline:2px solid var(--accent)}
+.ptab{overflow-y:auto;padding:0 12px 16px;flex:1;min-height:0;overscroll-behavior:contain}
+.ptab[hidden]{display:none}
+.ptab h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin:16px 2px 6px}
+.field{display:grid;grid-template-columns:1fr auto;align-items:center;gap:2px 8px;margin:8px 0;font-size:13px}
+.field label{font-weight:500}
+.field output{font-variant-numeric:tabular-nums;color:var(--muted);font-size:12px}
+.field input[type=range]{grid-column:1/-1;width:100%;accent-color:var(--accent);margin:0}
+.field select,.ptab select{grid-column:1/-1;width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--panel);color:var(--text);font:inherit;font-size:14px}
+.swatches{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:6px 0}
+.swatches button{width:30px;height:30px;border-radius:50%;border:2px solid var(--border);padding:0;cursor:pointer}
+.swatches button[aria-pressed=true]{outline:2px solid var(--accent);outline-offset:2px}
+.swatches input[type=color]{width:30px;height:30px;border:2px solid var(--border);border-radius:50%;padding:0;background:none;cursor:pointer;overflow:hidden}
+.pseg{display:flex;gap:4px;background:var(--bg);border-radius:10px;padding:3px;margin:6px 0}
+.pseg button{flex:1;border:none;background:none;border-radius:8px;padding:7px 4px;font-size:13px;color:var(--text);cursor:pointer}
+.pseg button[aria-pressed=true]{background:var(--accent-fill);color:var(--on-accent);font-weight:700}
+.pbtn{display:block;width:100%;margin:6px 0;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--panel);color:var(--text);font:inherit;font-size:14px;cursor:pointer;text-align:left}
+.pbtn:hover{background:var(--bg)} .pbtn.danger{color:var(--danger)}
+.phint{font-size:12px;color:var(--muted);margin:8px 2px;line-height:1.45}
+.dgm-hit{stroke:transparent}
+.dgm-root.dgm-sel .dgm-hit{stroke:var(--accent);stroke-width:1.2;stroke-dasharray:4,3}
+.dgm-handle{display:none;fill:#fff;stroke:var(--accent);stroke-width:1.5;cursor:nwse-resize}
+.dgm-root.dgm-sel .dgm-handle{display:block}
+.dgm-root{cursor:move}
+:where(#canvas) .comp-body [stroke="#000"],:where(#canvas) .dgm [stroke="#000"]{stroke:var(--ink,#000)}
+:where(#canvas) .comp-body [fill="#000"],:where(#canvas) .dgm [fill="#000"]{fill:var(--ink,#000)}
+:where(#canvas) .wire{stroke:var(--ink,#000)}
+:where(#canvas) .junction-dot{fill:var(--ink,#000)}
+:where(#canvas) .label-text,:where(#canvas) .txt{fill:var(--ink,#000)}
+:where(#canvas) .value-text{fill:var(--ink,#000);fill-opacity:.78}
+.exp-preview{background:#fff;border:1px solid var(--border);border-radius:8px;padding:6px;max-height:34vh;overflow:auto;margin-top:4px}
+.exp-preview svg{display:block;width:100%;height:auto;max-height:30vh}
+.exp-cm{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.exp-cm input[type=number]{width:96px!important}
+.exp-info{font-size:12px;color:var(--muted);margin-top:4px}
 </style>
 </head>
 <body>
 
 <div id="toolbar">
-  <button id="btn-parts" class="tb toggle on" onclick="toggleSidebar()" title="Bauteil-Palette ein-/ausblenden"><i data-i="parts"></i><span class="l1">Bauteile</span></button>
-  <div class="sep"></div>
-  <div class="seg" id="tool-group">
-    <button id="tool-select" class="tb active" onclick="setTool('select')" title="Auswählen / Verschieben (V)"><i data-i="select"></i><span class="l4">Auswahl</span></button>
-    <button id="tool-wire" class="tb" onclick="setTool('wire')" title="Leitung zeichnen (W)"><i data-i="wire"></i><span class="l4">Leitung</span></button>
-    <button id="tool-text" class="tb" onclick="setTool('text')" title="Text einfügen (T)"><i data-i="text"></i><span class="l4">Text</span></button>
-    <button id="tool-lasso" class="tb" onclick="setTool('lasso')" title="Mehrere Objekte mit einem Rahmen auswählen (M, oder Umschalt + Ziehen)"><i data-i="lasso"></i><span class="l3 l1">Rahmen</span></button>
-  </div>
-  <button id="btn-sim" class="tb" onclick="toggleSim()" title="Simulation starten/beenden (Leertaste)"><i data-i="play"></i><span class="l2">Simulieren</span></button>
+  <div class="brand"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#2E2A28"/><path d="M4 16h6l3-8 6 16 3-8h6" fill="none" stroke="#F6B48F" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg><span class="bname">Vectronix</span><small>DIN EN 60617</small></div>
+  <div class="spacer"></div>
+  <button class="tb" onclick="openTemplates()" title="Fertige Schaltungen und Kennlinien"><i data-i="template"></i><span class="l1">Vorlagen</span></button>
+  <button class="tb" onclick="openMenu('file', this)" title="Datei, Bearbeiten und Ansicht"><i data-i="file"></i><span class="l1">Datei</span><i data-i="chev"></i></button>
   <div class="sep"></div>
   <button id="btn-undo" class="tb icon" onclick="undo()" title="Rückgängig (Strg+Z)"><i data-i="undo"></i></button>
   <button id="btn-redo" class="tb icon" onclick="redo()" title="Wiederholen (Strg+Y)"><i data-i="redo"></i></button>
-  <div class="spacer"></div>
+  <div class="sep"></div>
   <button class="tb icon fine-only" onclick="zoomOut()" title="Verkleinern (−)"><i data-i="zoomout"></i></button>
   <button class="tb icon" onclick="zoomFit()" title="Alles anzeigen (F)"><i data-i="fit"></i></button>
   <button class="tb icon fine-only" onclick="zoomIn()" title="Vergrößern (+)"><i data-i="zoomin"></i></button>
   <div class="sep"></div>
-  <button class="tb" onclick="openMenu('export', this)" title="Exportieren"><i data-i="export"></i><span class="l1">Export</span><i data-i="chev"></i></button>
-  <button class="tb" onclick="openMenu('file', this)" title="Datei und Ansicht"><i data-i="file"></i><span class="l1">Datei</span><i data-i="chev"></i></button>
+  <button class="tb primary" onclick="openExportDialog()" title="Als Bild, SVG oder LaTeX exportieren (Strg+E)"><i data-i="export"></i><span class="l3">Exportieren</span></button>
   <button class="tb icon l2" onclick="showHelp()" title="Hilfe (?)"><i data-i="help"></i></button>
   <input type="file" id="load-input" accept=".vectronix,.json" style="display:none" onchange="loadJSON(event)">
 </div>
 
 <div id="main">
-  <div id="sidebar"></div>
   <div id="canvas-wrap">
     <svg id="canvas" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -188,6 +231,7 @@ a{color:var(--accent)}
         <rect id="grid-bg-minor" fill="url(#grid-minor)"/>
         <rect id="grid-bg-major" fill="url(#grid-major)"/>
       </g>
+      <g id="diagram-layer"></g>
       <g id="wires-layer"></g>
       <g id="junctions-layer"></g>
       <g id="sim-under" pointer-events="none"></g>
@@ -199,7 +243,61 @@ a{color:var(--accent)}
     </svg>
     <div id="hintbar" class="floatbar" hidden></div>
     <div id="selbar" class="floatbar" hidden></div>
+    <div id="capsule" class="floatbar" role="toolbar" aria-label="Werkzeuge">
+      <div class="seg" id="tool-group">
+        <button id="tool-select" class="tb active" onclick="setTool('select')" title="Auswählen / Verschieben (V)"><i data-i="select"></i><span class="l4">Auswahl</span></button>
+        <button id="tool-wire" class="tb" onclick="setTool('wire')" title="Leitung zeichnen (W)"><i data-i="wire"></i><span class="l4">Leitung</span></button>
+        <button id="tool-text" class="tb" onclick="setTool('text')" title="Text einfügen (T)"><i data-i="text"></i><span class="l4">Text</span></button>
+        <button id="tool-lasso" class="tb" onclick="setTool('lasso')" title="Mehrere Objekte mit einem Rahmen auswählen (M, oder Umschalt + Ziehen)"><i data-i="lasso"></i><span class="l3 l1">Rahmen</span></button>
+      </div>
+      <div class="sep"></div>
+      <button id="btn-sim" class="tb" onclick="toggleSim()" title="Simulation starten/beenden (Leertaste)"><i data-i="play"></i><span class="l2">Simulieren</span></button>
+      <div class="sep"></div>
+      <button id="btn-parts" class="tb icon toggle on" onclick="toggleSidebar()" title="Seitenfeld ein-/ausblenden"><i data-i="parts"></i></button>
+    </div>
   </div>
+  <aside id="sidebar" aria-label="Seitenfeld">
+    <div class="ptabs" role="tablist">
+      <button role="tab" data-tab="parts" class="on">Bauteile</button>
+      <button role="tab" data-tab="style">Darstellung</button>
+      <button role="tab" data-tab="diagram">Diagramm</button>
+    </div>
+    <div class="ptab" id="tab-parts"></div>
+    <div class="ptab" id="tab-style" hidden>
+      <h3>Linien</h3>
+      <div class="field"><label for="st-wireW">Leitungen</label><output id="o-wireW"></output><input type="range" id="st-wireW" min="0.5" max="3" step="0.25"></div>
+      <div class="field"><label for="st-symW">Symbole</label><output id="o-symW"></output><input type="range" id="st-symW" min="0.5" max="3" step="0.25"></div>
+      <div class="field"><label for="st-dot">Knotenpunkte</label><output id="o-dot"></output><input type="range" id="st-dot" min="2" max="5" step="0.5"></div>
+      <h3>Farbe</h3>
+      <div class="swatches" id="st-ink" role="group" aria-label="Farbe der Zeichnung">
+        <button data-v="#000000" style="background:#000000" title="Schwarz" aria-label="Schwarz"></button>
+        <button data-v="#2E2A28" style="background:#2E2A28" title="Kohle" aria-label="Kohle"></button>
+        <button data-v="#A0502C" style="background:#A0502C" title="Ziegelbraun" aria-label="Ziegelbraun"></button>
+        <button data-v="#E8836B" style="background:#E8836B" title="Ziegelrot" aria-label="Ziegelrot"></button>
+        <button data-v="#1F4E8C" style="background:#1F4E8C" title="Dunkelblau" aria-label="Dunkelblau"></button>
+        <input type="color" id="st-ink-custom" title="Eigene Farbe" aria-label="Eigene Farbe">
+      </div>
+      <h3>Beschriftung</h3>
+      <div class="field"><label for="st-fs">Schriftgröße</label><output id="o-fs"></output><input type="range" id="st-fs" min="8" max="18" step="1"></div>
+      <div class="pseg" id="st-font" role="group" aria-label="Schriftart">
+        <button data-v="sans">Serifenlos</button><button data-v="serif">Mit Serifen</button>
+      </div>
+      <button class="pbtn" id="st-reset">Zurücksetzen</button>
+      <p class="phint">Gilt für die Zeichnung, das Diagramm und alle Exporte (PNG, SVG, LaTeX).</p>
+    </div>
+    <div class="ptab" id="tab-diagram" hidden>
+      <h3>Kennlinie</h3>
+      <select id="dg-kind" aria-label="Kennlinie"></select>
+      <div id="dg-opts">
+        <h3>Anordnung</h3>
+        <button class="pbtn" id="dg-right">Rechts neben die Schaltung</button>
+        <button class="pbtn" id="dg-below">Unter die Schaltung</button>
+        <div class="field"><label for="dg-w">Breite</label><output id="o-dgw"></output><input type="range" id="dg-w" min="160" max="480" step="8"></div>
+        <button class="pbtn danger" id="dg-del">Diagramm entfernen</button>
+      </div>
+      <p class="phint">Das Diagramm gehört zum Bild: Es wird mit der Schaltung exportiert und hat dieselbe Linienstärke, Farbe und Schrift. Auf der Fläche lässt es sich verschieben, am Eckpunkt vergrößern.</p>
+    </div>
+  </aside>
 </div>
 
 <div id="statusbar">
@@ -241,6 +339,8 @@ const state = {
   clip: null,           // Zwischenablage (Fallback, falls localStorage fehlt)
   counter: { R:0, C:0, L:0, D:0, Q:0, T:0, S:0, K:0, M:0, G:0, V:0, F:0, N:0, IC:0, X:0, P:0, U:0, Y:0, B:0, H:0, A:0, E:0 },
   grid: true,
+  style: { wireW: 1, symW: 1, ink: '#000000', fs: 11, dot: 3, font: 'sans' },
+  diagram: null,        // {kind, x, y, w, h}: Kennlinien-Diagramm als Teil des Bildes
   diagonal: false,     // Leitungen schräg statt rechtwinklig (Schalter in der Hinweisleiste)
   wireStart: null,
   selStart: null,
@@ -1167,7 +1267,7 @@ function initPalette() {
     supply_dc: 'Spannungs\u00ADversorgung =', supply_ac: 'Spannungs\u00ADversorgung ~', supply: 'Spannungs\u00ADversorgung', battery2: 'Batterie (Zellen)', solar_module: 'Solar\u00ADmodul',
     switch2: 'Wechsel\u00ADschalter', grid3: 'Drehstrom\u00ADquelle (Stern)', load1: 'Verbraucher mit Körper', load3: 'Drehstrom\u00ADverbraucher', speaker: 'Laut\u00ADsprecher', varrow: 'Spannungs\u00ADpfeil', iarrow: 'Strom\u00ADpfeil',
   };
-  const sidebar = $('sidebar');
+  const sidebar = $('tab-parts');
   for(const [title, keys] of PALETTE) {
     const h = document.createElement('h3');
     h.textContent = title;
@@ -1183,7 +1283,7 @@ function initPalette() {
       btn.title = def.name + ' – antippen oder auf die Fläche ziehen';
       const w = Math.max(def.w, 60), h = Math.max(def.h, 40);
       const vb = `${-w/2 - 4} ${-h/2 - 4} ${w + 8} ${h + 8}`;
-      btn.innerHTML = `<svg viewBox="${vb}" xmlns="http://www.w3.org/2000/svg" stroke-linejoin="round">${compBodySVG({ type:key, showPolarity:true })}</svg><span>${short[key] || def.name}</span>`;
+      btn.innerHTML = `<svg viewBox="${vb}" xmlns="http://www.w3.org/2000/svg" stroke-linejoin="round">${compBodySVG({ type:key, showPolarity:true }, true)}</svg><span>${short[key] || def.name}</span>`;
       btn.addEventListener('pointerdown', e => { if(e.button === 0) startPlace(key, e); });
       container.appendChild(btn);
     }
@@ -1260,21 +1360,22 @@ function addComponent(type, x, y) {
 }
 
 // Markup des Symbols (ohne Beschriftung); identisch für Anzeige, Palette und Export
-function compBodySVG(comp) {
+function compBodySVG(comp, raw) {
   const svg = C[comp.type].svg;
   let s = typeof svg === 'function' ? svg(comp._sim ? { ...comp, ...comp._sim } : comp) : svg;
   // Schrift im Symbol (V, A, M, +, −, &, ≥1 …) bleibt beim Drehen aufrecht
   const a = comp.angle || 0;
   if(a) s = s.replace(/<text([^>]*?) x="(-?[\d.]+)" y="(-?[\d.]+)"/g, (m, pre, x, y) => `<text${pre} x="${x}" y="${y}" transform="rotate(${-a} ${x} ${y})"`);
   if(!comp.showPolarity) s = s.replace(/<text class="(?:bat-plus|cap-plus|pol)"[^>]*>[^<]*<\/text>/g, '');
-  return s;
+  return raw ? s : scaleStroke(s, state.style.symW);
 }
 
 function compLabelSVG(comp) {
   const lo = comp.labelOff || { x: 0, y: 32 };
+  const fs = state.style.fs, y1 = +(fs * 0.82).toFixed(2), y2 = +(y1 + fs * 1.25).toFixed(2);
   let s = `<g class="comp-label" transform="translate(${lo.x},${lo.y})" style="cursor:move">`;
-  s += `<text class="label-text" x="0" y="9" font-size="11" font-family="Inter,sans-serif" fill="#000" text-anchor="middle">${escapeXml(latexToUnicode(comp.label))}</text>`;
-  if(comp.value) s += `<text class="value-text" x="0" y="23" font-size="10" font-family="Inter,sans-serif" fill="#5A524C" text-anchor="middle">${escapeXml(latexToUnicode(comp.value))}</text>`;
+  s += `<text class="label-text" x="0" y="${y1}" font-size="${fs}" font-family="${fontFam()}" fill="#000" text-anchor="middle">${escapeXml(latexToUnicode(comp.label))}</text>`;
+  if(comp.value) s += `<text class="value-text" x="0" y="${y2}" font-size="${fs - 1}" font-family="${fontFam()}" fill="#5A524C" text-anchor="middle">${escapeXml(latexToUnicode(comp.value))}</text>`;
   return s + '</g>';
 }
 
@@ -1367,6 +1468,10 @@ const MENUS = {
     + menuItem('template', 'Vorlagen …', 'openTemplates()')
     + menuItem('open', 'Öffnen …', "$('load-input').click()", 'Strg+O')
     + menuItem('save', 'Speichern', 'saveJSON()', 'Strg+S')
+    + '<hr>' + menuItem('share', 'Teilen (Link / QR-Code) …', 'openShareDialog()')
+    + menuItem('copy', 'Als Bild kopieren', 'copyImage()', 'Strg+Umschalt+C')
+    + menuItem('area', state.selRect ? 'Export-Bereich neu wählen' : 'Export-Bereich wählen', "setTool('rect')", 'Umschalt+R')
+    + (state.selRect ? menuItem('close', 'Export-Bereich aufheben', 'clearArea()') : '')
     + '<hr>' + MENUS.edit()
     + '<hr>' + menuItem(state.grid ? 'check' : 'grid', state.grid ? 'Raster ausblenden' : 'Raster einblenden', 'toggleGrid()')
     + menuItem('fit', 'Ansicht 1:1', 'zoomReset()', '0')
@@ -1394,6 +1499,8 @@ function updateSelBar() {
     h = `<span class="selname">${escapeXml(latexToUnicode(comp.label))}</span>`
       + b('edit', 'Bearbeiten', `openCompDialog('${s.id}')`) + b('rotate', 'Drehen', 'rotateSelected()')
       + b('dup', 'Duplizieren', 'duplicateSelected()') + b('del', 'Löschen', 'deleteSelected()', 'danger');
+  } else if(s.type === 'd') {
+    h = `<span class="selname">Diagramm</span>` + b('edit', 'Einstellungen', "showPanelTab('diagram')") + b('del', 'Löschen', 'deleteSelected()', 'danger');
   } else if(s.type === 'l') {
     h = `<span class="selname">Text</span>` + b('edit', 'Bearbeiten', `openTextDialog('${s.id}')`)
       + b('dup', 'Duplizieren', 'duplicateSelected()') + b('del', 'Löschen', 'deleteSelected()', 'danger');
@@ -1459,11 +1566,13 @@ function applySelection() {
   document.querySelectorAll('.comp-selected').forEach(g => g.classList.remove('comp-selected'));
   document.querySelectorAll('.wire-sel').forEach(g => g.classList.remove('wire-sel'));
   document.querySelectorAll('.label-sel').forEach(g => g.classList.remove('label-sel'));
+  document.querySelectorAll('.dgm-sel').forEach(g => g.classList.remove('dgm-sel'));
   document.querySelectorAll('.wire-handle').forEach(h => h.remove());
   updateSelBar();
   for(const it of selectionItems()) {
     if(it.type === 'c') $('c-' + it.id)?.classList.add('comp-selected');
     else if(it.type === 'l') $('l-' + it.id)?.classList.add('label-sel');
+    else if(it.type === 'd') $('dgm-root')?.classList.add('dgm-sel');
     else $('w-' + it.id)?.classList.add('wire-sel');
   }
   // Eckpunkte zum Ziehen nur bei einer einzeln gewählten Leitung
@@ -1619,7 +1728,7 @@ function renderWire(wire) {
   for(let i = 1; i < pts.length; i++) d += ` L ${pts[i].x} ${pts[i].y}`;
   const g = el('g', { id: 'w-' + wire.id, class: 'wire-g' + (wire.blank ? ' wire-blank' : '') }, $('wires-layer'));
   el('path', { d, fill: 'none', stroke: 'transparent', 'stroke-width': 14, class: 'wire-hit' }, g);
-  el('path', { d, fill: 'none', stroke: '#000', 'stroke-width': 1, class: 'wire', 'stroke-linejoin': 'round', style: 'cursor:pointer' }, g);
+  el('path', { d, fill: 'none', stroke: '#000', 'stroke-width': state.style.wireW, class: 'wire', 'stroke-linejoin': 'round', style: 'cursor:pointer' }, g);
 
   g.addEventListener('pointerdown', e => {
     if(state.tool !== 'select') return;
@@ -1736,7 +1845,7 @@ function renderJunctions() {
     const g = el('g', { id: jId(j), transform: `translate(${j.x},${j.y})`, class: 'junction' }, layer);
     el('circle', { r: COARSE ? 13 : 8, fill: 'transparent', style: state.tool === 'select' ? 'cursor:pointer' : '' }, g);
     if(j.disconnected) el('path', { d: 'M-5,-3 Q0,5 5,-3', fill: 'none', stroke: '#dc2626', 'stroke-width': 1, 'pointer-events': 'none' }, g);
-    else el('circle', { r: 3, fill: '#000', class: 'junction-dot', 'pointer-events': 'none' }, g);
+    else el('circle', { r: state.style.dot, fill: '#000', class: 'junction-dot', 'pointer-events': 'none' }, g);
     g.addEventListener('pointerdown', e => { if(state.tool === 'select') e.stopPropagation(); });
     g.addEventListener('click', e => {
       if(state.tool !== 'select') return;
@@ -1784,6 +1893,7 @@ function deleteSelected() {
   state.components = state.components.filter(c => { if(ids.has(c.id)) { $('c-' + c.id)?.remove(); return false; } return true; });
   state.wires = state.wires.filter(w => { if(ids.has(w.id)) { $('w-' + w.id)?.remove(); return false; } return true; });
   state.labels = state.labels.filter(l => { if(ids.has(l.id)) { $('l-' + l.id)?.remove(); return false; } return true; });
+  if(ids.has('diagram')) { state.diagram = null; renderDiagram(); syncDiagramPanel(); }
   state.sel = null;
   state.multi = [];
   updateJunctions();
@@ -2055,11 +2165,14 @@ function showHelp() {
   openDialog(`
     <h2>Vectronix – Hilfe</h2>
     <table>
-      <tr><td><b>Bauteil setzen</b></td><td>In der Palette antippen, dann beliebig oft auf die Fläche tippen; „Fertig“ beendet. Oder direkt auf die Fläche ziehen.</td></tr>
+      <tr><td><b>Bauteil setzen</b></td><td>Im Seitenfeld unter „Bauteile“ antippen, dann beliebig oft auf die Fläche tippen; „Fertig“ beendet. Oder direkt auf die Fläche ziehen.</td></tr>
       <tr><td><b>Leitung</b></td><td>Vom Anschluss eines Bauteils aus ziehen – oder Werkzeug „Leitung“: Start und Ziel antippen. „Diagonal“ (oder <kbd>Umschalt</kbd>) erlaubt schräge Leitungen.</td></tr>
       <tr><td><b>Bearbeiten</b></td><td>Antippen wählt aus, die Leiste unten bietet Bearbeiten, Drehen, Duplizieren, Löschen. Doppeltippen öffnet den Dialog (Bezeichnung, Wert, Lücke, Schalterstellung).</td></tr>
       <tr><td><b>Mehrere Objekte</b></td><td>Werkzeug „Rahmen“ (oder <kbd>Umschalt</kbd> + Ziehen): alles im Rahmen wird ausgewählt und lässt sich gemeinsam verschieben, drehen, duplizieren, kopieren.</td></tr>
-      <tr><td><b>Vorlagen</b></td><td>„Datei → Vorlagen“: Reihen-, Parallel-, Wechselschaltung, Spannungsteiler, RC-Glied, Gleichrichter, Transistor als Schalter.</td></tr>
+      <tr><td><b>Vorlagen</b></td><td>„Vorlagen“ oben: Reihen- und Parallelschaltung (auch mit Schalter, Kondensator, Widerstand), Wechselschaltung, Spannungsteiler, RC-Glied, Gleichrichter, Transistor als Schalter, Messschaltungen mit U-I-Kennlinie (Draht, Lampe, Diode, LED, Z-Diode, Transistor) und die Netzformen.</td></tr>
+      <tr><td><b>Darstellung</b></td><td>Im Seitenfeld unter „Darstellung“: Linienstärke von Leitungen und Symbolen, Farbe, Schriftgröße und Schriftart. Das gilt für die Zeichnung und für alle Exporte.</td></tr>
+      <tr><td><b>Diagramm</b></td><td>Im Seitenfeld unter „Diagramm“ eine Kennlinie wählen. Sie ist Teil des Bildes, lässt sich verschieben und am Eckpunkt vergrößern und erscheint im Export neben der Schaltung.</td></tr>
+      <tr><td><b>Export</b></td><td>„Exportieren“: Format, Breite des Bildes in cm (damit es ohne Skalieren ins Dokument passt) und Auflösung, mit Vorschau.</td></tr>
       <tr><td><b>Zählpfeile</b></td><td>Spannungspfeil und Strompfeil in „Messen &amp; Pfeile“; Beschriftung wie U_1 wird zu U₁. Der Strompfeil zeigt in der Simulation den Strom an.</td></tr>
       <tr><td><b>Arbeitsblatt</b></td><td>Bauteile oder Leitungen als „Lücke“ markieren. Beim Export „Aufgabe“ erscheint an ihrer Stelle ein leerer Kasten, „Lösung“ zeigt alles.</td></tr>
       <tr><td><b>Simulieren</b></td><td>Gleichstrom: Lampen leuchten, LEDs glühen, Messgeräte zeigen Werte. Schalter, Taster, LDR (hell/dunkel), NTC (kalt/warm) und ausgelöste Sicherungen antippen. Werte stehen im Wertefeld, z. B. „4,5 V“, „1 kΩ“, „3,5 V; 0,2 A“.</td></tr>
@@ -2080,7 +2193,7 @@ function showIntro() {
   const step = (n, title, text) => `<div class="intro-step"><span>${n}</span><div><b>${title}</b><p>${text}</p></div></div>`;
   openDialog(`
     <h2>Willkommen bei Vectronix</h2>
-    ${step(1, 'Bauteil antippen, dann auf die Fläche tippen', 'Links in der Palette – oder gleich eine fertige Schaltung über „Datei → Vorlagen“.')}
+    ${step(1, 'Bauteil antippen, dann auf die Fläche tippen', 'Rechts im Seitenfeld unter „Bauteile“ – oder gleich eine fertige Schaltung über „Vorlagen“.')}
     ${step(2, 'Leitungen vom Anschluss aus ziehen', 'Anschlüsse rasten ein, Verbindungspunkte entstehen automatisch.')}
     ${step(3, 'Simulieren, exportieren, teilen', '„Simulieren“ lässt Lampen leuchten. „Export“ liefert PNG für Word, SVG, LaTeX oder einen QR-Code für die Klasse.')}
     <div class="btns">
@@ -2110,7 +2223,7 @@ function addText(x, y) {
 function textSVG(l, extra) {
   const lines = String(l.text).split('\n');
   const tspans = lines.map((t, i) => `<tspan x="0" dy="${i ? l.size * 1.2 : 0}">${escapeXml(latexToUnicode(t))}</tspan>`).join('');
-  return `<text${extra || ''} x="0" y="0" font-size="${l.size}" font-family="Inter,sans-serif" fill="#000">${tspans}</text>`;
+  return `<text${extra || ''} class="txt" x="0" y="0" font-size="${l.size}" font-family="${fontFam()}" fill="#000">${tspans}</text>`;
 }
 
 function renderText(label) {
@@ -2188,6 +2301,214 @@ function startTextDrag(id, e) {
 // ============================================================
 // Bauteil: [Typ, x, y, Winkel, Wert, Beschriftungsversatz?]; Leitung: Liste von Punkten.
 // Alle Koordinaten liegen im 8er-Raster; die Bezeichnungen (R1, G1 …) werden beim Einfügen vergeben.
+
+// ============================================================
+// DARSTELLUNG (Linienstärke, Farbe, Schrift) – gilt für Zeichnung und Export
+// ============================================================
+const DEFAULT_STYLE = { wireW: 1, symW: 1, ink: '#000000', fs: 11, dot: 3, font: 'sans' };
+const FONTS = {
+  sans: "Inter,'Segoe UI',Arial,sans-serif",
+  serif: "'Latin Modern Roman','CMU Serif','Times New Roman',Georgia,serif",
+};
+const fontFam = () => FONTS[state.style.font] || FONTS.sans;
+const styleIsDefault = () => Object.keys(DEFAULT_STYLE).every(k => state.style[k] === DEFAULT_STYLE[k]);
+function sanitizeStyle(st) {
+  const o = { ...DEFAULT_STYLE };
+  if(!st || typeof st !== 'object') return o;
+  const n = (v, lo, hi, d) => (num(v) ? Math.min(hi, Math.max(lo, v)) : d);
+  o.wireW = n(st.wireW, 0.25, 4, 1); o.symW = n(st.symW, 0.25, 4, 1); o.fs = n(st.fs, 6, 24, 11); o.dot = n(st.dot, 1, 8, 3);
+  if(/^#[0-9a-fA-F]{6}$/.test(st.ink)) o.ink = st.ink.toLowerCase();
+  if(st.font === 'serif') o.font = 'serif';
+  return o;
+}
+// Strichstärken der Symbole mit einem Faktor versehen
+function scaleStroke(str, k) {
+  return k === 1 ? str : str.replace(/stroke-width="([\d.]+)"/g, (m, v) => `stroke-width="${+(v * k).toFixed(2)}"`);
+}
+// Farbe der Zeichnung im Export (die Bildschirmanzeige nutzt eine CSS-Variable)
+function inkAll(svg, ink) {
+  if(ink === '#000000') return svg;
+  return svg.replace(/(stroke|fill)="#000"/g, `$1="${ink}"`).replace(/fill="#5A524C"/g, `fill="${ink}" fill-opacity=".78"`);
+}
+function applyStyle(rerender = true) {
+  const S = state.style;
+  canvas.style.setProperty('--ink', S.ink);
+  canvas.style.setProperty('--ww', S.wireW);
+  if(!rerender) return;
+  state.components.forEach(renderComp);
+  state.wires.forEach(renderWire);
+  state.labels.forEach(renderText);
+  renderJunctions();
+  renderDiagram();
+  applySelection();
+}
+const fmtDE = v => String(v).replace('.', ',');
+function syncStylePanel() {
+  const S = state.style;
+  for(const k of ['wireW', 'symW', 'dot', 'fs']) {
+    const i = $('st-' + k); if(!i) continue;
+    i.value = S[k]; $('o-' + k).textContent = k === 'fs' ? S[k] + ' pt' : fmtDE(S[k]);
+  }
+  document.querySelectorAll('#st-ink button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v.toLowerCase() === S.ink));
+  $('st-ink-custom').value = S.ink;
+  document.querySelectorAll('#st-font button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === S.font));
+}
+
+// ============================================================
+// KENNLINIEN-DIAGRAMM (Teil des Bildes: gleiche Linien, Farbe und Schrift wie die Schaltung)
+// ============================================================
+const shockley = (is, nut) => u => is * (Math.exp(Math.min(u / nut, 60)) - 1);
+const DIODE_F = shockley(3.6e-11, 0.0259);
+const DIAGRAMS = {
+  ohm:   { name: 'Draht / ohmscher Widerstand (100 Ω)', xl: 'U in V', yl: 'I in mA', x: [0, 6, 2], y: [0, 60, 20], f: u => 10 * u },
+  lamp:  { name: 'Glühlampe (6 V; 0,1 A)', xl: 'U in V', yl: 'I in mA', x: [0, 6, 2], y: [0, 120, 40], f: u => 100 * Math.pow(Math.max(u, 0) / 6, 0.58) },
+  diode: { name: 'Silizium-Diode', xl: 'U in V', yl: 'I in mA', x: [-1, 1, 0.5], y: [-10, 40, 10], f: DIODE_F },
+  led:   { name: 'Leuchtdiode (rot)', xl: 'U in V', yl: 'I in mA', x: [0, 3, 1], y: [0, 30, 10], f: shockley(1.9e-17, 0.0466) },
+  zener: { name: 'Z-Diode (5,6 V)', xl: 'U in V', yl: 'I in mA', x: [-8, 2, 2], y: [-40, 20, 20], f: u => u >= 0 ? DIODE_F(u) : -(0.01 + 20 * Math.exp((-u - 5.6) / 0.12)) },
+  npn:   { name: 'Transistor, Ausgangskennlinien', xl: 'U_CE in V', yl: 'I_C in mA', x: [0, 6, 2], y: [0, 20, 5], ibs: [20, 40, 60, 80],
+           f: (u, ib) => 200 * ib / 1000 * (1 - Math.exp(-Math.max(u, 0) / 0.3)) * (1 + u / 100) },
+};
+const DG_AR = 0.733;
+function sanitizeDiagram(d) {
+  if(!d || !DIAGRAMS[d.kind] || !num(d.x) || !num(d.y)) return null;
+  const w = num(d.w) ? Math.min(640, Math.max(120, d.w)) : 240;
+  return { kind: d.kind, x: d.x, y: d.y, w, h: num(d.h) ? Math.min(640, Math.max(90, d.h)) : Math.round(w * DG_AR) };
+}
+const dgNum = v => String(+v.toFixed(3)).replace('.', ',').replace('-', '−');
+const dgText = t => escapeXml(t).replace(/_([A-Za-z0-9]+)(.*)$/, '<tspan dy="2.5" font-size="0.72em">$1</tspan><tspan dy="-2.5">$2</tspan>');
+function diagramGeom(d, S = state.style) {
+  const D = DIAGRAMS[d.kind], fs = S.fs;
+  const ml = fs * 3 + 6, mr = fs * 1.6, mt = fs * 1.9, mb = fs * 2.8;
+  const pw = d.w - ml - mr, ph = d.h - mt - mb;
+  const [x0, x1, xs] = D.x, [y0, y1, ys] = D.y;
+  const X = v => ml + (v - x0) / (x1 - x0) * pw, Y = v => mt + ph - (v - y0) / (y1 - y0) * ph;
+  const curves = D.ibs ? D.ibs.map(ib => ({ ib, f: u => D.f(u, ib) })) : [{ f: D.f }];
+  const lines = curves.map(c => {
+    const pts = [], n = 160, lo = y0 - (y1 - y0), hi = y1 + (y1 - y0);
+    for(let i = 0; i <= n; i++) { const u = x0 + (x1 - x0) * i / n; pts.push([u, Math.min(hi, Math.max(lo, c.f(u)))]); }
+    return { ...c, pts };
+  });
+  return { D, fs, ml, mt, pw, ph, x0, x1, xs, y0, y1, ys, X, Y, lines };
+}
+const dgTicks = (a, b, st) => { const t = []; for(let v = a; v <= b + 1e-9; v += st) t.push(+v.toFixed(6)); return t; };
+function diagramSVG(d, S = state.style) {
+  const D = DIAGRAMS[d.kind]; if(!D) return '';
+  const g = diagramGeom(d, S), { fs, ml, mt, pw, ph, X, Y } = g;
+  const lw = +S.symW.toFixed(2), cw = +(S.symW * 1.6).toFixed(2);
+  const ax = X(0), ay = Y(0), id = `dgc-${d.kind}-${Math.round(pw)}-${Math.round(ph)}-${fs}`;
+  const xt = dgTicks(g.x0, g.x1, g.xs), yt = dgTicks(g.y0, g.y1, g.ys);
+  let o = `<g class="dgm" font-family="${fontFam()}" font-size="${fs}">`;
+  o += `<clipPath id="${id}"><rect x="${ml}" y="${mt}" width="${pw}" height="${ph}"/></clipPath>`;
+  o += `<g stroke="#000" stroke-opacity=".14" stroke-width="${Math.max(0.5, lw * 0.6).toFixed(2)}" fill="none">`;
+  xt.forEach(v => { o += `<path d="M${X(v).toFixed(2)} ${mt}V${mt + ph}"/>`; });
+  yt.forEach(v => { o += `<path d="M${ml} ${Y(v).toFixed(2)}H${ml + pw}"/>`; });
+  o += '</g>';
+  o += `<g stroke="#000" stroke-width="${lw}" fill="none" stroke-linecap="round"><path d="M${ml} ${ay.toFixed(2)}H${ml + pw + 6}M${ax.toFixed(2)} ${mt + ph}V${mt - 6}"/>`;
+  xt.forEach(v => { o += `<path d="M${X(v).toFixed(2)} ${(ay - 3).toFixed(2)}V${(ay + 3).toFixed(2)}"/>`; });
+  yt.forEach(v => { o += `<path d="M${(ax - 3).toFixed(2)} ${Y(v).toFixed(2)}H${(ax + 3).toFixed(2)}"/>`; });
+  o += '</g>';
+  o += `<polygon points="${ml + pw + 9},${ay.toFixed(2)} ${ml + pw + 3},${(ay - 2.6).toFixed(2)} ${ml + pw + 3},${(ay + 2.6).toFixed(2)}" fill="#000"/>`;
+  o += `<polygon points="${ax.toFixed(2)},${mt - 9} ${(ax - 2.6).toFixed(2)},${mt - 3} ${(ax + 2.6).toFixed(2)},${mt - 3}" fill="#000"/>`;
+  o += `<g fill="#000" font-size="${Math.max(7, fs - 1)}">`;
+  xt.forEach(v => { if(v !== 0) o += `<text x="${X(v).toFixed(2)}" y="${(ay + fs * 1.2 + 2).toFixed(2)}" text-anchor="middle">${dgNum(v)}</text>`; });
+  yt.forEach(v => { if(v !== 0) o += `<text x="${(ax - 6).toFixed(2)}" y="${(Y(v) + fs * 0.35).toFixed(2)}" text-anchor="end">${dgNum(v)}</text>`; });
+  o += `<text x="${(ax - 6).toFixed(2)}" y="${(ay + fs * 1.2 + 2).toFixed(2)}" text-anchor="end">0</text></g>`;
+  o += `<g fill="#000"><text x="${ml + pw}" y="${(ay + fs * 2.4 + 2).toFixed(2)}" text-anchor="end">${dgText(D.xl)}</text><text x="${(ax + 8).toFixed(2)}" y="${(mt - 5).toFixed(2)}">${dgText(D.yl)}</text></g>`;
+  o += `<g clip-path="url(#${id})" fill="none" stroke="#000" stroke-width="${cw}" stroke-linejoin="round" stroke-linecap="round">`;
+  g.lines.forEach(c => { o += `<path d="M${c.pts.map(p => X(p[0]).toFixed(2) + ' ' + Y(p[1]).toFixed(2)).join('L')}"/>`; });
+  o += '</g>';
+  g.lines.forEach(c => { if(c.ib) o += `<text fill="#000" font-size="${Math.max(7, fs - 2)}" x="${(X(g.x1) - 3).toFixed(2)}" y="${(Y(c.f(g.x1)) - 4).toFixed(2)}" text-anchor="end">${dgText('I_B = ' + c.ib + ' µA')}</text>`; });
+  return o + '</g>';
+}
+function renderDiagram() {
+  const layer = $('diagram-layer'); layer.innerHTML = '';
+  const d = state.diagram; if(!d || !DIAGRAMS[d.kind]) return;
+  const g = el('g', { id: 'dgm-root', class: 'dgm-root', transform: `translate(${d.x},${d.y})` }, layer);
+  g.innerHTML = `<rect class="dgm-hit" x="0" y="0" width="${d.w}" height="${d.h}" fill="transparent"/>${diagramSVG(d)}<circle class="dgm-handle" cx="${d.w}" cy="${d.h}" r="${COARSE ? 8 : 5}"/>`;
+  g.addEventListener('pointerdown', e => {
+    if(state.tool !== 'select' || e.button !== 0) return;
+    e.stopPropagation(); e.preventDefault(); closeMenu();
+    select('d', 'diagram');
+    if(e.target.closest('.dgm-handle')) startDiagramResize(e); else startDiagramDrag(e);
+  });
+  g.addEventListener('dblclick', e => { if(state.tool === 'select') { e.stopPropagation(); showPanelTab('diagram'); } });
+  if(state.sel && state.sel.type === 'd') g.classList.add('dgm-sel');
+}
+function startDiagramDrag(e) {
+  const d = state.diagram, pos = getSnappedPos(e), ofs = { x: d.x - pos.x, y: d.y - pos.y }, sx = e.clientX, sy = e.clientY;
+  let moved = false;
+  track(ev => {
+    if(!moved && Math.hypot(ev.clientX - sx, ev.clientY - sy) < dragDist(ev)) return;
+    moved = true;
+    const p = getSnappedPos(ev); d.x = p.x + ofs.x; d.y = p.y + ofs.y;
+    $('dgm-root')?.setAttribute('transform', `translate(${d.x},${d.y})`);
+  }, () => { if(moved) pushHistory(); }, e.pointerId);
+}
+function startDiagramResize(e) {
+  const d = state.diagram; let moved = false;
+  track(ev => {
+    const p = getSnappedPos(ev); const w = Math.min(640, Math.max(120, p.x - d.x));
+    if(w === d.w) return;
+    moved = true; d.w = w; d.h = Math.round(w * DG_AR);
+    renderDiagram(); syncDiagramPanel();
+  }, () => { if(moved) pushHistory(); }, e.pointerId);
+}
+function placeDiagram(where) {
+  const d = state.diagram; if(!d) return;
+  const b = contentBounds(true);
+  if(where === 'below') { d.x = snap(b.x); d.y = snap(b.y + b.h + 40); }
+  else { d.x = snap(b.x + b.w + 48); d.y = snap(b.y); }
+  renderDiagram(); pushHistory();
+}
+function setDiagramKind(kind) {
+  if(!kind) { state.diagram = null; }
+  else if(!state.diagram) {
+    state.diagram = { kind, x: 0, y: 0, w: 240, h: Math.round(240 * DG_AR) };
+    placeDiagram('right'); syncDiagramPanel(); zoomFit(); return;
+  } else state.diagram.kind = kind;
+  renderDiagram(); syncDiagramPanel(); applySelection(); pushHistory();
+}
+function syncDiagramPanel() {
+  const sel = $('dg-kind'); if(!sel) return;
+  const d = state.diagram;
+  sel.value = d ? d.kind : '';
+  $('dg-opts').hidden = !d;
+  if(d) { $('dg-w').value = d.w; $('o-dgw').textContent = Math.round(d.w / 32 * 10) / 10 + ' Einh.'; }
+}
+
+// ============================================================
+// SEITENFELD (Reiter: Bauteile · Darstellung · Diagramm)
+// ============================================================
+function showPanelTab(name) {
+  if($('main').classList.contains('no-sidebar')) toggleSidebar(true);
+  document.querySelectorAll('.ptabs button').forEach(b => { const on = b.dataset.tab === name; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); });
+  for(const t of ['parts', 'style', 'diagram']) $('tab-' + t).hidden = t !== name;
+  store.set('vectronix-tab', name);
+}
+function initPanel() {
+  document.querySelectorAll('.ptabs button').forEach(b => b.addEventListener('click', () => showPanelTab(b.dataset.tab)));
+  for(const k of ['wireW', 'symW', 'dot', 'fs']) {
+    const i = $('st-' + k);
+    i.addEventListener('input', () => { state.style[k] = +i.value; applyStyle(); syncStylePanel(); });
+    i.addEventListener('change', pushHistory);
+  }
+  const setInk = v => { state.style.ink = v.toLowerCase(); applyStyle(false); syncStylePanel(); pushHistory(); };
+  $('st-ink').addEventListener('click', e => { const b = e.target.closest('button'); if(b) setInk(b.dataset.v); });
+  $('st-ink-custom').addEventListener('change', e => setInk(e.target.value));
+  $('st-font').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; state.style.font = b.dataset.v; applyStyle(); syncStylePanel(); pushHistory(); });
+  $('st-reset').addEventListener('click', () => { state.style = { ...DEFAULT_STYLE }; applyStyle(); syncStylePanel(); pushHistory(); showToast('Darstellung zurückgesetzt'); });
+  const sel = $('dg-kind');
+  sel.innerHTML = '<option value="">Kein Diagramm</option>' + Object.entries(DIAGRAMS).map(([k, v]) => `<option value="${k}">${escapeXml(v.name)}</option>`).join('');
+  sel.addEventListener('change', () => setDiagramKind(sel.value));
+  $('dg-right').addEventListener('click', () => placeDiagram('right'));
+  $('dg-below').addEventListener('click', () => placeDiagram('below'));
+  $('dg-del').addEventListener('click', () => setDiagramKind(''));
+  const dw = $('dg-w');
+  dw.addEventListener('input', () => { const d = state.diagram; if(!d) return; d.w = +dw.value; d.h = Math.round(d.w * DG_AR); renderDiagram(); syncDiagramPanel(); });
+  dw.addEventListener('change', pushHistory);
+  syncStylePanel(); syncDiagramPanel();
+}
+
 const RIGHT = { x: 36, y: -8 };   // Beschriftung rechts neben senkrechten Bauteilen
 const LAMP_R = { x: 64, y: -8 };  // … neben senkrechten Lampen (breitere Werte wie „3,5 V; 0,2 A“)
 const TEMPLATES = [
@@ -2273,6 +2594,78 @@ const TEMPLATES_NETS = [
 ].map(t => ({ ...t, group: 'Netzformen (Hausinstallation)', plainCrossings: true }));
 TEMPLATES.push(...TEMPLATES_NETS);
 
+// ---- Weitere Vorlagen: Schalter, Kondensator, Widerstand und Kennlinien (mit Diagramm) ----
+const GRP_S = 'Schalter, Kondensator, Widerstand', GRP_K = 'Kennlinien (Messschaltung mit Diagramm)';
+const LEFT = { x: -44, y: -8 };
+// Messschaltung: Netzgerät links, Strommesser oben, Bauteil (senkrecht) und Spannungsmesser parallel dazu
+function measTemplate(name, desc, type, half, value, kind) {
+  return {
+    name, desc, group: GRP_K,
+    comps: [['psu', 0, 96, 90, '0 … 12 V', LEFT], ['ammeter', 128, 0, 0, ''], [type, 288, 96, 90, value, LEFT], ['meter', 416, 96, 90, '', RIGHT]],
+    wires: [[[0, 56], [0, 0], [96, 0]], [[160, 0], [416, 0], [416, 64]], [[288, 0], [288, 96 - half]], [[288, 96 + half], [288, 192]], [[416, 128], [416, 192]], [[0, 136], [0, 192], [416, 192]]],
+    diagram: { kind, x: 544, y: 8, w: 240, h: 176 },
+  };
+}
+TEMPLATES.push(
+  {
+    name: 'Reihenschaltung mit Schalter und Lampe', desc: 'Batterie, Schalter, Strommesser und Lampe hintereinander', group: GRP_S,
+    comps: [['battery', 0, 80, 0, '4,5 V', { x: -36, y: -8 }], ['switch', 96, 0, 0, ''], ['ammeter', 224, 0, 0, ''], ['lamp', 352, 0, 0, '3,5 V; 0,2 A']],
+    wires: [[[0, 48], [0, 0], [64, 0]], [[144, 0], [192, 0]], [[256, 0], [320, 0]], [[384, 0], [448, 0], [448, 160], [0, 160], [0, 112]]],
+  },
+  {
+    name: 'Parallelschaltung mit Schalter je Zweig', desc: 'Zwei Lampen, jede mit eigenem Schalter, an einer Batterie', group: GRP_S,
+    comps: [['battery', 0, 120, 0, '4,5 V', { x: -36, y: -8 }], ['switch', 160, 48, 90, '', RIGHT], ['lamp', 160, 160, 90, '3,5 V; 0,2 A', LAMP_R], ['switch', 320, 48, 90, '', RIGHT], ['lamp', 320, 160, 90, '3,5 V; 0,2 A', LAMP_R]],
+    wires: [[[0, 88], [0, 0], [320, 0]], [[160, 0], [160, 16]], [[160, 96], [160, 128]], [[160, 192], [160, 240]], [[320, 0], [320, 16]], [[320, 96], [320, 128]], [[320, 192], [320, 240]], [[0, 152], [0, 240], [320, 240]]],
+  },
+  {
+    name: 'Reihenschaltung von Widerständen', desc: 'Drei Widerstände hintereinander an einer Gleichspannungsquelle', group: GRP_S,
+    comps: [['dc_source', 0, 80, 90, '12 V', LEFT], ['resistor', 160, 0, 0, '100 Ω'], ['resistor', 320, 0, 0, '220 Ω'], ['resistor', 480, 0, 0, '330 Ω']],
+    wires: [[[0, 40], [0, 0], [120, 0]], [[200, 0], [280, 0]], [[360, 0], [440, 0]], [[520, 0], [584, 0], [584, 160], [0, 160], [0, 120]]],
+  },
+  {
+    name: 'Parallelschaltung von Widerständen', desc: 'Drei Widerstände nebeneinander an einer Gleichspannungsquelle', group: GRP_S,
+    comps: [['dc_source', 0, 96, 90, '12 V', LEFT], ['resistor', 160, 96, 90, '100 Ω', RIGHT], ['resistor', 288, 96, 90, '220 Ω', RIGHT], ['resistor', 416, 96, 90, '330 Ω', RIGHT]],
+    wires: [[[0, 56], [0, 0], [416, 0]], [[160, 0], [160, 56]], [[288, 0], [288, 56]], [[416, 0], [416, 56]], [[0, 136], [0, 192], [416, 192]], [[160, 136], [160, 192]], [[288, 136], [288, 192]], [[416, 136], [416, 192]]],
+  },
+  {
+    name: 'Gemischte Schaltung', desc: 'Ein Widerstand in Reihe zu zwei parallelen Widerständen', group: GRP_S,
+    comps: [['dc_source', 0, 96, 90, '12 V', LEFT], ['resistor', 112, 0, 0, '100 Ω'], ['resistor', 240, 96, 90, '220 Ω', RIGHT], ['resistor', 368, 96, 90, '330 Ω', RIGHT]],
+    wires: [[[0, 56], [0, 0], [72, 0]], [[152, 0], [368, 0], [368, 56]], [[240, 0], [240, 56]], [[0, 136], [0, 192], [368, 192]], [[240, 136], [240, 192]], [[368, 136], [368, 192]]],
+  },
+  {
+    name: 'Kondensatoren in Reihe und parallel', desc: 'Zwei Kondensatoren in Reihe, danach zwei parallel', group: GRP_S,
+    comps: [['dc_source', 0, 96, 90, '12 V', LEFT], ['capacitor', 144, 0, 90, '100 µF'], ['capacitor', 240, 0, 90, '100 µF'], ['capacitor', 368, 96, 0, '100 µF', RIGHT], ['capacitor', 464, 96, 0, '100 µF', RIGHT]],
+    wires: [[[0, 56], [0, 0], [120, 0]], [[168, 0], [216, 0]], [[264, 0], [464, 0], [464, 72]], [[368, 0], [368, 72]], [[0, 136], [0, 192], [464, 192]], [[368, 120], [368, 192]], [[464, 120], [464, 192]]],
+  },
+  {
+    name: 'LED mit Vorwiderstand', desc: 'Der Vorwiderstand begrenzt den Strom durch die Leuchtdiode', group: GRP_S,
+    comps: [['battery', 0, 80, 0, '4,5 V', { x: -36, y: -8 }], ['resistor', 128, 0, 0, '220 Ω'], ['led', 256, 0, 0, 'rot']],
+    wires: [[[0, 48], [0, 0], [88, 0]], [[168, 0], [224, 0]], [[288, 0], [352, 0], [352, 160], [0, 160], [0, 112]]],
+  },
+  measTemplate('Kennlinie: Draht / Widerstand', 'U-I-Messung an einem ohmschen Widerstand, die Kennlinie ist eine Gerade', 'resistor', 40, '100 Ω', 'ohm'),
+  measTemplate('Kennlinie: Glühlampe', 'U-I-Messung an einer Glühlampe, die Kennlinie krümmt sich', 'lamp', 32, '6 V; 0,1 A', 'lamp'),
+  measTemplate('Kennlinie: Diode', 'U-I-Messung an einer Silizium-Diode in Durchlassrichtung', 'diode', 32, '', 'diode'),
+  measTemplate('Kennlinie: Leuchtdiode', 'U-I-Messung an einer roten LED, Schwellspannung bei etwa 1,8 V', 'led', 32, 'rot', 'led'),
+  measTemplate('Kennlinie: Z-Diode', 'U-I-Messung an einer Z-Diode, Durchbruch bei etwa 5,6 V in Sperrrichtung', 'zener', 32, '5,6 V', 'zener'),
+  {
+    name: 'Kennlinie: Transistor (Ausgang)', desc: 'Ausgangskennlinienfeld I_C(U_CE) für vier Basisströme', group: GRP_K,
+    comps: [['npn', 240, 96, 0, '', { x: 56, y: 8 }], ['psu', 0, 176, 90, '0 … 2 V', LEFT], ['ammeter', 112, 96, 0, '', { x: 0, y: -48 }], ['psu', 448, 96, 90, '0 … 12 V', RIGHT], ['ammeter', 336, 0, 0, '', { x: 0, y: -48 }], ['meter', 360, 128, 90, '', RIGHT]],
+    wires: [[[0, 136], [0, 96], [80, 96]], [[144, 96], [208, 96]], [[256, 64], [256, 0], [304, 0]], [[368, 0], [448, 0], [448, 56]], [[256, 32], [360, 32], [360, 96]], [[256, 128], [256, 232]], [[360, 160], [360, 232]], [[448, 136], [448, 232]], [[0, 216], [0, 232], [448, 232]]],
+    diagram: { kind: 'npn', x: 560, y: 8, w: 264, h: 194 },
+  },
+  {
+    name: 'Spannungsrichtige Messung', desc: 'Der Spannungsmesser liegt direkt am Widerstand – geeignet für kleine Widerstände', group: GRP_K,
+    comps: [['psu', 0, 96, 90, '0 … 12 V', LEFT], ['ammeter', 128, 0, 0, ''], ['resistor', 288, 96, 90, '10 Ω', LEFT], ['meter', 416, 96, 90, '', RIGHT]],
+    wires: [[[0, 56], [0, 0], [96, 0]], [[160, 0], [416, 0], [416, 64]], [[288, 0], [288, 56]], [[288, 136], [288, 192]], [[416, 128], [416, 192]], [[0, 136], [0, 192], [416, 192]]],
+  },
+  {
+    name: 'Stromrichtige Messung', desc: 'Der Spannungsmesser liegt über Strommesser und Widerstand – geeignet für große Widerstände', group: GRP_K,
+    comps: [['psu', 0, 96, 90, '0 … 12 V', LEFT], ['meter', 64, 96, 90, '', { x: 36, y: 56 }], ['ammeter', 160, 0, 0, ''], ['resistor', 320, 96, 90, '10 kΩ', RIGHT]],
+    wires: [[[0, 56], [0, 0], [128, 0]], [[64, 0], [64, 64]], [[192, 0], [320, 0], [320, 56]], [[320, 136], [320, 192]], [[64, 128], [64, 192]], [[0, 136], [0, 192], [320, 192]]],
+  }
+);
+
+
 function templateClip(t) {
   return {
     components: t.comps.map(([type, x, y, angle, value, labelOff, label]) => ({ ...(C[type].defaults || {}), type, x, y, angle, value, label: label || C[type].prefix + '1', labelOff: labelOff || C[type].labelOff || { x: 0, y: 32 } })),
@@ -2289,20 +2682,23 @@ function templatePreview(t) {
   clip.components.forEach(c => { const d = C[c.type]; const r = Math.max(d.w, d.h) / 2; xs.push(c.x - r, c.x + r); ys.push(c.y - r, c.y + r); });
   clip.wires.forEach(w => w.points.forEach(p => { xs.push(p.x); ys.push(p.y); }));
   clip.labels.forEach(l => { xs.push(l.x, l.x + l.text.length * l.size * 0.6); ys.push(l.y - l.size, l.y); });
+  if(t.diagram) xs.push(t.diagram.x, t.diagram.x + t.diagram.w), ys.push(t.diagram.y, t.diagram.y + t.diagram.h);
   const x0 = Math.min(...xs) - 8, y0 = Math.min(...ys) - 8, w = Math.max(...xs) - x0 + 8, h = Math.max(...ys) - y0 + 8;
   let s = `<svg viewBox="${x0} ${y0} ${w} ${h}" xmlns="${SVG_NS}">`;
   clip.wires.forEach(wr => { s += `<polyline points="${wr.points.map(p => p.x + ',' + p.y).join(' ')}" fill="none" stroke="#000" stroke-width="1.5"/>`; });
-  clip.components.forEach(c => { s += `<g transform="translate(${c.x},${c.y})${c.angle ? ` rotate(${c.angle})` : ''}">${compBodySVG(c)}</g>`; });
+  clip.components.forEach(c => { s += `<g transform="translate(${c.x},${c.y})${c.angle ? ` rotate(${c.angle})` : ''}">${compBodySVG(c, true)}</g>`; });
   clip.labels.forEach(l => { s += `<text x="${l.x}" y="${l.y}" font-size="${l.size}" font-family="sans-serif">${escapeXml(l.text)}</text>`; });
+  if(t.diagram) s += `<g transform="translate(${t.diagram.x},${t.diagram.y})">${diagramSVG({ ...t.diagram, h: t.diagram.h }, { ...DEFAULT_STYLE, fs: 12, symW: 1.5 })}</g>`;
   return s + '</svg>';
 }
 
+const TPL_ORDER = ['Grundschaltungen', GRP_S, GRP_K, 'Netzformen (Hausinstallation)'];
 function openTemplates() {
   closeMenu();
   openDialog(`
     <h2>Vorlagen</h2>
     <div class="hint" style="margin:0 0 10px">Die Vorlage wird in der Mitte der Ansicht eingefügt und ist danach ausgewählt – so lässt sie sich gleich verschieben.</div>
-    ${[...new Set(TEMPLATES.map(t => t.group || 'Grundschaltungen'))].map(g => `
+    ${[...new Set(TEMPLATES.map(t => t.group || 'Grundschaltungen'))].sort((a, b) => TPL_ORDER.indexOf(a) - TPL_ORDER.indexOf(b)).map(g => `
     <h3 class="tpl-group">${escapeXml(g)}</h3>
     <div class="tpl-grid">${TEMPLATES.map((t, i) => (t.group || 'Grundschaltungen') !== g ? '' : `
       <button class="tpl" onclick="insertTemplate(${i})">${templatePreview(t)}<b>${escapeXml(t.name)}</b><span>${escapeXml(t.desc)}</span></button>`).join('')}
@@ -2316,11 +2712,17 @@ function insertTemplate(i) {
   setTool('select');
   const clip = templateClip(t);
   const xs = clip.wires.flatMap(w => w.points.map(p => p.x)), ys = clip.wires.flatMap(w => w.points.map(p => p.y));
+  if(t.diagram) xs.push(t.diagram.x + t.diagram.w), ys.push(t.diagram.y + t.diagram.h);
   const r = $('canvas-wrap').getBoundingClientRect(), v = state.view;
   const cx = v.x + r.width / 2 / v.k, cy = v.y + r.height / 2 / v.k;
-  const wasEmpty = !state.components.length && !state.wires.length && !state.labels.length;
-  pasteClip(clip, snap(cx - (Math.min(...xs) + Math.max(...xs)) / 2), snap(cy - (Math.min(...ys) + Math.max(...ys)) / 2));
-  if(wasEmpty) zoomFit();
+  const wasEmpty = !state.components.length && !state.wires.length && !state.labels.length && !state.diagram;
+  const dx = snap(cx - (Math.min(...xs) + Math.max(...xs)) / 2), dy = snap(cy - (Math.min(...ys) + Math.max(...ys)) / 2);
+  pasteClip(clip, dx, dy);
+  if(t.diagram) {
+    state.diagram = sanitizeDiagram({ ...t.diagram, x: t.diagram.x + dx, y: t.diagram.y + dy });
+    renderDiagram(); syncDiagramPanel(); pushHistory();
+  }
+  if(wasEmpty || t.diagram) zoomFit();
   showToast(`Vorlage „${t.name}“ eingefügt`);
 }
 
@@ -2529,7 +2931,9 @@ function compactProject() {
     return o;
   });
   return {
-    version: 5,
+    version: 6,
+    ...(styleIsDefault() ? {} : { style: { ...state.style } }),
+    ...(state.diagram ? { diagram: { ...state.diagram } } : {}),
     components: comps,
     wires: state.wires.map(w => ({ points: w.points, ...(w.blank ? { blank: true } : {}) })),
     labels: state.labels.map(l => ({ x: l.x, y: l.y, text: l.text, size: l.size })),
@@ -2943,7 +3347,7 @@ function simInteract(comp, e) {
 // EXPORT-BEREICH
 // ============================================================
 
-function contentBounds() {
+function contentBounds(noDiagram) {
   let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
   const ext = (x1, y1, x2, y2) => { minX = Math.min(minX, x1); minY = Math.min(minY, y1); maxX = Math.max(maxX, x2); maxY = Math.max(maxY, y2); };
   for(const c of state.components) {
@@ -2951,7 +3355,7 @@ function contentBounds() {
     const r = Math.max(d.w, d.h) / 2 + 4;
     ext(c.x - r, c.y - r, c.x + r, c.y + r);
     const lo = c.labelOff || { x: 0, y: 32 };
-    const w = Math.max(String(c.label).length, String(c.value).length) * 3.5 + 4;
+    const w = Math.max(String(c.label).length, String(c.value).length) * 3.5 * (state.style.fs / 11) + 4;
     ext(c.x + lo.x - w, c.y + lo.y, c.x + lo.x + w, c.y + lo.y + (c.value ? 28 : 14));
   }
   for(const w of state.wires) for(const p of w.points) ext(p.x - 4, p.y - 4, p.x + 4, p.y + 4);
@@ -2960,6 +3364,8 @@ function contentBounds() {
     const longest = Math.max(...lines.map(t => t.length));
     ext(l.x - 2, l.y - l.size, l.x + longest * l.size * 0.6 + 4, l.y + (lines.length - 1) * l.size * 1.2 + 4);
   }
+  const dg = state.diagram;
+  if(dg && !noDiagram && DIAGRAMS[dg.kind]) ext(dg.x, dg.y, dg.x + dg.w, dg.y + dg.h);
   if(!isFinite(minX)) return { x: 0, y: 0, w: 200, h: 200 };
   return { x: minX, y: minY, w: maxX - minX, h: maxY - minY };
 }
@@ -3008,7 +3414,7 @@ const SIGNATURE = 'Vectronix by Tobias Schmidbauer';
 // Export-Einstellungen bleiben im Browser gespeichert
 const EXPORT_KEY = 'vectronix-export-v1';
 function exportSettings() {
-  const d = { format: 'png', task: false, signature: true, dpi: 300, transparent: false };
+  const d = { format: 'png', task: false, signature: true, dpi: 300, transparent: false, widthCm: 0 };
   try { return { ...d, ...(state.exportOpts || {}), ...JSON.parse(store.get(EXPORT_KEY) || '{}') }; } catch(e) { return d; }
 }
 function saveExportSettings(o) { state.exportOpts = o; store.set(EXPORT_KEY, JSON.stringify(o)); }
@@ -3030,39 +3436,41 @@ function blankBox(c) {
 
 // Erzeugt das Export-SVG. task = Aufgabenfassung (Lücken leer), signature = Signatur unten links
 function buildSVG(o = {}) {
-  const b = getBounds();
+  const b = getBounds(), S = state.style;
   const r = v => Math.round(v * 100) / 100;
-  let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${r(b.w)}" height="${r(b.h)}" viewBox="${r(b.x)} ${r(b.y)} ${r(b.w)} ${r(b.h)}" font-family="Inter,Arial,sans-serif">\n`;
+  const sw = o.widthCm ? `${r(o.widthCm)}cm` : r(b.w), sh = o.widthCm ? `${r(o.widthCm * b.h / b.w)}cm` : r(b.h);
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${sw}" height="${sh}" viewBox="${r(b.x)} ${r(b.y)} ${r(b.w)} ${r(b.h)}" font-family="${fontFam()}">\n`;
   svg += `<clipPath id="crop"><rect x="${r(b.x)}" y="${r(b.y)}" width="${r(b.w)}" height="${r(b.h)}"/></clipPath><g clip-path="url(#crop)">\n`;
   if(o.background) svg += `<rect x="${r(b.x)}" y="${r(b.y)}" width="${r(b.w)}" height="${r(b.h)}" fill="${o.background}"/>\n`;
 
+  if(state.diagram && DIAGRAMS[state.diagram.kind]) svg += `<g transform="translate(${state.diagram.x},${state.diagram.y})">${diagramSVG(state.diagram)}</g>\n`;
   for(const w of state.wires) {
     if(o.task && w.blank) continue;
     const pts = w.points;
     let d = `M ${pts[0].x} ${pts[0].y}`;
     for(let i = 1; i < pts.length; i++) d += ` L ${pts[i].x} ${pts[i].y}`;
-    svg += `<path d="${d}" fill="none" stroke="#000" stroke-width="1" stroke-linejoin="round"/>\n`;
+    svg += `<path d="${d}" fill="none" stroke="#000" stroke-width="${S.wireW}" stroke-linejoin="round"/>\n`;
   }
   for(const c of state.components) {
     if(!C[c.type]) continue;
     const rotAttr = c.angle ? ` transform="rotate(${c.angle})"` : '';
     if(o.task && c.blank) {
       const bb = blankBox(c);
-      svg += `<g transform="translate(${c.x},${c.y})"><g${rotAttr}><rect x="${bb.x}" y="${bb.y}" width="${bb.w}" height="${bb.h}" fill="#fff" stroke="#000" stroke-width="1"/></g></g>\n`;
+      svg += `<g transform="translate(${c.x},${c.y})"><g${rotAttr}><rect x="${bb.x}" y="${bb.y}" width="${bb.w}" height="${bb.h}" fill="#fff" stroke="#000" stroke-width="${S.symW}"/></g></g>\n`;
     } else {
       svg += `<g transform="translate(${c.x},${c.y})"><g${rotAttr}>${compBodySVG(c)}</g>${compLabelSVG(c).replace(' style="cursor:move"', '')}</g>\n`;
     }
   }
   for(const j of state.junctions) {
     if(j.removed) continue;
-    if(j.disconnected) svg += `<path d="M ${j.x - 5} ${j.y - 3} Q ${j.x} ${j.y + 5} ${j.x + 5} ${j.y - 3}" fill="none" stroke="#dc2626" stroke-width="1"/>\n`;
-    else svg += `<circle cx="${j.x}" cy="${j.y}" r="3" fill="#000"/>\n`;
+    if(j.disconnected) svg += `<path d="M ${j.x - 5} ${j.y - 3} Q ${j.x} ${j.y + 5} ${j.x + 5} ${j.y - 3}" fill="none" stroke="#dc2626" stroke-width="${S.wireW}"/>\n`;
+    else svg += `<circle cx="${j.x}" cy="${j.y}" r="${S.dot}" fill="#000"/>\n`;
   }
-  for(const l of state.labels) svg += `<g transform="translate(${l.x},${l.y})">${textSVG(l)}</g>\n`;
+  for(const l of state.labels) svg += `<g transform="translate(${l.x},${l.y})">${textSVG(l).replace(' class="txt"', '')}</g>\n`;
 
   if(o.signature !== false) svg += `<text x="${r(b.x + 6)}" y="${r(b.y + b.h - 6)}" font-family="'Old Standard TT','Times New Roman',Georgia,serif" font-style="italic" font-size="10" fill="#000">${escapeXml(SIGNATURE)}</text>\n`;
   svg += '</g>\n</svg>\n';
-  return { svg, b };
+  return { svg: inkAll(svg, S.ink), b };
 }
 
 // ---------- PNG ----------
@@ -3088,7 +3496,7 @@ async function pngWithDpi(blob, dpi) {
 
 async function buildPNG(o) {
   const { svg, b } = buildSVG({ ...o, background: o.transparent ? null : '#fff' });
-  const scale = (o.dpi || 300) / 96;
+  const scale = o.widthCm ? (o.widthCm / 2.54 * (o.dpi || 300)) / b.w : (o.dpi || 300) / 96;
   const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
   try {
     const img = new Image();
@@ -3125,7 +3533,7 @@ function copyImage(o = exportSettings()) {
 function exportSVG(o = exportSettings()) {
   const { svg, b } = buildSVG(o);
   download(svg, o.task ? 'schaltplan-aufgabe.svg' : 'schaltplan.svg', 'image/svg+xml');
-  showToast('SVG exportiert (' + Math.round(b.w) + '×' + Math.round(b.h) + ' px)');
+  showToast('SVG exportiert' + (o.widthCm ? ` (${o.widthCm} cm breit)` : ' (' + Math.round(b.w) + '×' + Math.round(b.h) + ' px)'));
 }
 
 // ---------- Export-Dialog ----------
@@ -3136,9 +3544,16 @@ function openExportDialog() {
   const seg = (name, val, label) => `<label class="seg-opt"><input type="radio" name="${name}" value="${val}"${String(o[name]) === String(val) ? ' checked' : ''}><span>${label}</span></label>`;
   openDialog(`
     <h2>Exportieren</h2>
-    <div class="hint" style="margin:0 0 4px">${state.selRect ? 'Exportiert wird der markierte Export-Bereich.' : 'Exportiert wird der gesamte Schaltplan.'}</div>
+    <div class="hint" style="margin:0 0 4px">${state.selRect ? 'Exportiert wird der markierte Export-Bereich.' : 'Exportiert wird der gesamte Schaltplan' + (state.diagram ? ' mit Diagramm' : '') + '.'}</div>
+    <div class="exp-preview" id="exp-preview" aria-label="Vorschau"></div>
+    <div class="exp-info" id="exp-info"></div>
     <label>Format</label>
     <div class="segctl">${seg('format', 'png', 'PNG (Word, Pages)')}${seg('format', 'svg', 'SVG (Vektor)')}${seg('format', 'tex', 'LaTeX')}</div>
+    <label for="exp-cm">Breite des Bildes</label>
+    <div class="exp-cm">
+      <div class="segctl" id="exp-cm-presets">${[0, 8, 12, 16].map(v => `<button type="button" class="seg-opt" data-v="${v}" style="margin:0;border:0;background:none;padding:0"><span>${v ? v + ' cm' : 'automatisch'}</span></button>`).join('')}</div>
+      <input type="number" id="exp-cm" min="2" max="40" step="0.5" placeholder="cm" value="${o.widthCm || ''}">
+    </div>
     <div id="exp-task-row" ${hasBlanks() ? '' : 'hidden'}>
       <label>Fassung</label>
       <div class="segctl">${seg('task', 'false', 'Lösung')}${seg('task', 'true', 'Aufgabe (Lücken leer)')}</div>
@@ -3149,6 +3564,7 @@ function openExportDialog() {
       <label class="check"><input type="checkbox" id="exp-transparent"${o.transparent ? ' checked' : ''}> Transparenter Hintergrund</label>
     </div>
     <label class="check"><input type="checkbox" id="exp-signature"${o.signature ? ' checked' : ''}> Signatur „${SIGNATURE}“</label>
+    <div class="hint">Linienstärke, Farbe und Schrift stellst du im Seitenfeld unter „Darstellung“ ein.</div>
     <div class="btns">
       <button onclick="closeDialog()">Abbrechen</button>
       <button id="exp-copy" onclick="runExport('copy')">Als Bild kopieren</button>
@@ -3159,18 +3575,28 @@ function openExportDialog() {
     $('exp-png-row').hidden = f !== 'png';
     $('exp-copy').hidden = f !== 'png';
     $('exp-go').textContent = f === 'tex' ? 'Code anzeigen' : 'Herunterladen';
+    const cur = readExportDialog(false);
+    const { svg, b } = buildSVG({ ...cur, widthCm: 0, background: '#fff' });
+    $('exp-preview').innerHTML = svg.replace(/ width="[^"]*" height="[^"]*"/, '');
+    const cm = cur.widthCm || b.w / 96 * 2.54, hcm = cm * b.h / b.w;
+    $('exp-info').textContent = `Bild: ${fmtDE(+cm.toFixed(1))} × ${fmtDE(+hcm.toFixed(1))} cm` + (f === 'png' ? ` · ${Math.round(cm / 2.54 * cur.dpi)} × ${Math.round(hcm / 2.54 * cur.dpi)} px bei ${cur.dpi} dpi` : '');
+    document.querySelectorAll('#exp-cm-presets button').forEach(p => p.firstChild.style.cssText = (+p.dataset.v === (cur.widthCm || 0)) ? 'background:#fff;box-shadow:0 1px 3px #0002;font-weight:600' : '');
   };
-  document.querySelectorAll('input[name=format]').forEach(i => i.addEventListener('change', sync));
+  document.querySelectorAll('#exp-cm-presets button').forEach(p => p.addEventListener('click', () => { $('exp-cm').value = +p.dataset.v || ''; sync(); }));
+  document.querySelectorAll('#modal-content input').forEach(i => i.addEventListener('input', sync));
+  document.querySelectorAll('#modal-content input').forEach(i => i.addEventListener('change', sync));
   sync();
 }
 
-function readExportDialog() {
+function readExportDialog(save = true) {
   const v = n => document.querySelector(`input[name=${n}]:checked`)?.value;
+  const cm = parseFloat($('exp-cm').value);
   const o = {
     format: v('format'), task: v('task') === 'true' && hasBlanks(), dpi: +(v('dpi') || 300),
     transparent: $('exp-transparent').checked, signature: $('exp-signature').checked,
+    widthCm: cm > 0 ? Math.min(40, Math.max(2, cm)) : 0,
   };
-  saveExportSettings(o);
+  if(save) saveExportSettings(o);
   return o;
 }
 
@@ -3279,9 +3705,9 @@ function exportTikZ(o = exportSettings()) {
 \\documentclass[border=2mm]{standalone}
 \\usepackage[european]{circuitikz}
 \\ctikzset{logic ports=european}
-
+${tikzStyleSetup(o, b)}
 \\begin{document}
-\\begin{circuitikz}[every node/.style={font=\\small}]
+\\begin{circuitikz}[${tikzOptions(o, b)}]
 \\useasboundingbox ${P({ x: b.x, y: b.y })} rectangle ${P({ x: b.x + b.w, y: b.y + b.h })};
 \\begin{scope}
 \\clip ${P({ x: b.x, y: b.y })} rectangle ${P({ x: b.x + b.w, y: b.y + b.h })};
@@ -3358,10 +3784,53 @@ function exportTikZ(o = exportSettings()) {
     t += `\\node[anchor=south west, align=left] at ${P(l)} {${String(l.text).split('\n').map(texText).join('\\\\')}};\n`;
   }
 
+  if(state.diagram && DIAGRAMS[state.diagram.kind]) t += '\n% Kennlinien-Diagramm\n' + diagramTikz(state.diagram, P, f);
+
   t += `\\end{scope}\n`;
   if(o.signature !== false) t += `\\node[anchor=south west, inner sep=2pt, font=\\rmfamily\\itshape\\footnotesize] at ${P({ x: b.x, y: b.y + b.h })} {${SIGNATURE}};\n`;
   t += `\\end{circuitikz}\n\\end{document}\n`;
   showTikZDialog(t);
+}
+
+
+// LaTeX: Farbe, Linienstärke, Schrift und Breite aus der Darstellung
+function tikzOptions(o, b) {
+  const S = state.style, hex = S.ink.slice(1).toUpperCase();
+  let opt = `every node/.style={font=\\${S.fs >= 14 ? 'normalsize' : S.fs <= 9 ? 'footnotesize' : 'small'}${S.font === 'serif' ? '\\rmfamily' : '\\sffamily'}}`;
+  if(hex !== '000000') opt += ', color=vxink';
+  opt += `, line width=${+(0.4 * S.wireW).toFixed(2)}pt`;
+  if(o.widthCm) opt += `, scale=${+(o.widthCm / (b.w / 32)).toFixed(3)}, transform shape`;
+  return opt;
+}
+function tikzStyleSetup(o, b) {
+  const S = state.style, hex = S.ink.slice(1).toUpperCase();
+  let t = '';
+  if(hex !== '000000') t += `\\definecolor{vxink}{HTML}{${hex}}\n`;
+  t += `\\ctikzset{bipoles/thickness=${+(2 * S.symW).toFixed(2)}}`;
+  return t;
+}
+function diagramTikz(d, P, f) {
+  const g = diagramGeom(d), S = state.style, { D, ml, mt, pw, ph, X, Y } = g;
+  const pt = (u, v) => P({ x: d.x + u, y: d.y + v });
+  const tx = t => String(t).replace(/_([A-Za-z0-9]+)/g, '$_{$1}$').replace(/µ/g, '$\\mu$').replace(/%/g, '\\%');
+  const nm = v => String(+v.toFixed(3)).replace('-', '$-$');
+  const lw = +(0.4 * S.symW).toFixed(2), cw = +(0.4 * S.symW * 1.6).toFixed(2);
+  const ax = X(0), ay = Y(0), tickFont = '\\footnotesize';
+  let t = `\\begin{scope}[font=${tickFont}]\n`;
+  t += `\\clip ${pt(ml - 40, mt - 30)} rectangle ${pt(ml + pw + 40, mt + ph + 40)};\n`;
+  const xt = dgTicks(g.x0, g.x1, g.xs), yt = dgTicks(g.y0, g.y1, g.ys);
+  const gl = `\\draw[black!15, line width=${+(lw * 0.6).toFixed(2)}pt]`;
+  xt.forEach(v => { t += `${gl} ${pt(X(v), mt)} -- ${pt(X(v), mt + ph)};\n`; });
+  yt.forEach(v => { t += `${gl} ${pt(ml, Y(v))} -- ${pt(ml + pw, Y(v))};\n`; });
+  t += `\\draw[-latex, line width=${lw}pt] ${pt(ml, ay)} -- ${pt(ml + pw + 8, ay)} node[below left] {${tx(D.xl)}};\n`;
+  t += `\\draw[-latex, line width=${lw}pt] ${pt(ax, mt + ph)} -- ${pt(ax, mt - 8)} node[right] {${tx(D.yl)}};\n`;
+  xt.forEach(v => { if(v !== 0) t += `\\draw[line width=${lw}pt] ${pt(X(v), ay - 3)} -- ${pt(X(v), ay + 3)} node[below=2pt, pos=0] {${nm(v)}};\n`; });
+  yt.forEach(v => { if(v !== 0) t += `\\draw[line width=${lw}pt] ${pt(ax - 3, Y(v))} -- ${pt(ax + 3, Y(v))} node[left=2pt, pos=0] {${nm(v)}};\n`; });
+  g.lines.forEach(c => {
+    t += `\\draw[line width=${cw}pt, line join=round] ${c.pts.map(p => pt(X(p[0]), Y(p[1]))).filter((_, i) => i % 2 === 0 || i === c.pts.length - 1).join(' -- ')};\n`;
+    if(c.ib) t += `\\node[anchor=south east, inner sep=1pt] at ${pt(X(g.x1) - 3, Y(c.f(g.x1)))} {${tx('I_B = ' + c.ib + ' µA')}};\n`;
+  });
+  return t + '\\end{scope}\n';
 }
 
 let tikzCode = '';
@@ -3401,7 +3870,9 @@ function latexToTexKeep(s) { return /^[A-Za-z]+_\{?\w+\}?$/.test(s) ? '$' + s + 
 
 function projectData() {
   return {
-    version: 5,
+    version: 6,
+    ...(styleIsDefault() ? {} : { style: { ...state.style } }),
+    ...(state.diagram ? { diagram: { ...state.diagram } } : {}),
     components: state.components.map(({ _sim, ...c }) => c),
     wires: state.wires.map(w => ({ id: w.id, points: w.points, ...(w.blank ? { blank: true } : {}) })),
     labels: state.labels,
@@ -3445,6 +3916,9 @@ function migratePins() {
 
 function loadData(data) {
   clearAll();
+  state.style = sanitizeStyle(data.style);
+  state.diagram = sanitizeDiagram(data.diagram);
+  applyStyle(false);
   for(const c of (data.components || [])) {
     if(!c || !C[c.type] || !num(c.x) || !num(c.y)) continue;
     const comp = newComp(c.type, c.x, c.y, {
@@ -3478,6 +3952,9 @@ function loadData(data) {
   state.wires.forEach(renderWire);
   state.labels.forEach(renderText);
   updateJunctions();
+  renderDiagram();
+  syncStylePanel();
+  syncDiagramPanel();
   clearSelection();
 }
 
@@ -3508,6 +3985,8 @@ function clearAll() {
   state.wires = [];
   state.labels = [];
   state.junctions = [];
+  state.diagram = null;
+  $('diagram-layer').innerHTML = '';
   state.sel = null;
   state.multi = [];
   cancelTransient();
@@ -3518,10 +3997,14 @@ function freshCounter() {
 }
 
 function newProject() {
-  if(state.components.length || state.wires.length || state.labels.length) {
+  if(state.components.length || state.wires.length || state.labels.length || state.diagram) {
     if(!confirm('Wirklich neu beginnen? Ungespeicherte Änderungen gehen verloren.')) return;
   }
   clearAll();
+  state.style = { ...DEFAULT_STYLE };
+  applyStyle(true);
+  syncStylePanel();
+  syncDiagramPanel();
   state.counter = freshCounter();
   setTool('select');
   pushHistory();
@@ -3702,6 +4185,8 @@ document.addEventListener('keydown', e => {
 function init() {
   document.querySelectorAll('i[data-i]').forEach(n => { n.outerHTML = icon(n.dataset.i, n.dataset.i === 'chev' ? 'chev' : ''); });
   initPalette();
+  initPanel();
+  applyStyle(false);
   applyGrid();
   new ResizeObserver(applyView).observe($('canvas-wrap'));
   resetView();

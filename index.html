@@ -2473,7 +2473,7 @@ function syncDiagramPanel() {
   const d = state.diagram;
   sel.value = d ? d.kind : '';
   $('dg-opts').hidden = !d;
-  if(d) { $('dg-w').value = d.w; $('o-dgw').textContent = Math.round(d.w / 32 * 10) / 10 + ' Einh.'; }
+  if(d) { $('dg-w').value = d.w; $('o-dgw').textContent = Math.round(d.w / 8) + ' Kästchen'; }
 }
 
 // ============================================================
@@ -2649,7 +2649,7 @@ TEMPLATES.push(
   measTemplate('Kennlinie: Z-Diode', 'U-I-Messung an einer Z-Diode, Durchbruch bei etwa 5,6 V in Sperrrichtung', 'zener', 32, '5,6 V', 'zener'),
   {
     name: 'Kennlinie: Transistor (Ausgang)', desc: 'Ausgangskennlinienfeld I_C(U_CE) für vier Basisströme', group: GRP_K,
-    comps: [['npn', 240, 96, 0, '', { x: 56, y: 8 }], ['psu', 0, 176, 90, '0 … 2 V', LEFT], ['ammeter', 112, 96, 0, '', { x: 0, y: -48 }], ['psu', 448, 96, 90, '0 … 12 V', RIGHT], ['ammeter', 336, 0, 0, '', { x: 0, y: -48 }], ['meter', 360, 128, 90, '', RIGHT]],
+    comps: [['npn', 240, 96, 0, '', { x: 56, y: 8 }], ['psu', 0, 176, 90, '0 … 2 V', LEFT], ['ammeter', 112, 96, 0, '', { x: 0, y: -48 }], ['psu', 448, 96, 90, '0 … 12 V', { x: 68, y: -8 }], ['ammeter', 336, 0, 0, '', { x: 0, y: -48 }], ['meter', 360, 128, 90, '', RIGHT]],
     wires: [[[0, 136], [0, 96], [80, 96]], [[144, 96], [208, 96]], [[256, 64], [256, 0], [304, 0]], [[368, 0], [448, 0], [448, 56]], [[256, 32], [360, 32], [360, 96]], [[256, 128], [256, 232]], [[360, 160], [360, 232]], [[448, 136], [448, 232]], [[0, 216], [0, 232], [448, 232]]],
     diagram: { kind: 'npn', x: 560, y: 8, w: 264, h: 194 },
   },
